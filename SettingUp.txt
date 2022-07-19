@@ -1,0 +1,105 @@
+Step by step procedure to setup development environment..
+
+CMD with Admin Privilege
+Goto D:\htdocs\InventoryProject
+laravel New <ProjName>
+Ex: laravel New RayaFir
+
+Open file C:\Windows\System32\drivers\etc\hosts
+Add a line
+	127.0.0.1       raya<name>
+Ex:
+	127.0.0.1       rayafir
+Save file
+
+Open file C:\Program Files\Apache24\conf\extra\httpd-vhosts.conf
+Add following lines
+<VirtualHost *:80>
+	ServerName raya<name>
+    DocumentRoot "D:/htdocs/InventoryProject/<ProjName>/public"
+</VirtualHost>
+Ex:
+<VirtualHost *:80>
+	ServerName rayafir
+    DocumentRoot "D:/htdocs/InventoryProject/RayaFir/public"
+</VirtualHost>
+
+restart apache server
+httpd -k restart
+
+visit http://raya<name> using browser, Ex: http://rayafir
+If laravel page views properly, Laravel setup is completed..
+
+=====================================================
+
+Using cmd
+Get into the laravel project folder
+Ex: D:\htdocs\InventoryProject\RayaFir
+create folder milestone, and get into it, then clone project files from repository
+mkdir milestone
+cd milestone
+git clone https://github.com/MilestoneInnovativeTechnologies/rayacom.git
+
+Add to laravel root composer.json
+autoload
+	"files": ["milestone/rayacom/helpers.php"]
+autoload > psr-4
+	"Milestone\\Rayacom\\": "milestone/rayacom/src/"
+
+Add to config > app > providers
+	\Milestone\Rayacom\RayacomServiceProvider::class,
+
+Correct config > app > timezone Ex: Asia/Kolkata
+Create Database and set details in env file
+Run from root laravel project folder
+composer dump-autoload
+php artisan migrate:fresh
+
+
+If need dummy data, then copy data files to storage > app, then run
+php artisan db:seed --class=Milestone\Rayacom\Seeders\DatabaseSeeder
+
+=====================================================
+
+run
+php artisan vendor:publish --force
+then enter number corresponding to RayacomServiceProvider from the list
+
+run
+npm install
+for installing node modules
+
+npm run dev
+for starting dev server. Please note the port number from console. Set this port number in env file as
+DEV_PORT=<port>
+Ex: DEV_PORT=9000
+If env have these variable set, then application will be in developer mode, else it will be in production mode
+
+for building assets (production), run
+npm run build
+
+=====================================================
+
+Publishing Assets - Different methods
+php artisan vendor:publish --force
+rayacom-assets: All javascript,stylesheets,fonts. No need to publish this frequently
+rayacom-install: All required files for starting development using quasar.. Quasar source files and package.json files.. No need to do publish frequently.
+rayacom-resources: All required files for starting development using quasar.. Quasar source files and package.json files..  No need to do publish frequently. Publish only when github updated and needed the source codes changes, but not compiled assets
+rayacom-updates: All assets and resource files.. This need to be published when github updated, and starting development from it.
+
+=====================================================
+
+Shifting between development and production..
+When appending the browser url with port number, it will be shifted to development
+Please note, development will be available only if npm run dev should be called and its running..
+If no port appended, or serving on port 80, then production assets will be used and served...
+
+=====================================================
+
+When building,All the source files of package will be updated..
+Initially deleted every files and folders from package's public/assets and all files from public
+Then copies every files from dist/spa to package's public folder (except index.html)[Which is not required there as index page serves from laravel view]
+After that, quasar src folder files will be copied to package's install/src..
+Once this done, extracts js and css file names from dist/spa/index.html and stores as assets.json in packages public/assets
+Finally, package's public folder will be copied to laravel's public folder
+
