@@ -50,9 +50,11 @@ function MastersFetched(){
   doFetchMasterDataProperties(0)
 }
 function PropertiesFetched(){
-  self.postMessage({ payload:STORE_MASTER,type:'data' })
-  self.postMessage({ payload:PROPERTIES,type:'property' })
-  self.postMessage({ payload:MASTERS,type:'master' })
+  setTimeout((wn) => {
+    wn.postMessage({ payload:STORE_MASTER,type:'data' })
+    wn.postMessage({ payload:PROPERTIES,type:'property' })
+    wn.postMessage({ payload:MASTERS,type:'master' })
+  },2500,self)
 }
 
 function handleMasterDataResponse(idx,MAry){
