@@ -1,0 +1,28 @@
+{
+    "name": "milestone/rayacom",
+    "description": "eCom portal from Rayaheen",
+    "type": "laravel-package",
+    "require": {
+        "laravel/laravel": "^9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Milestone\\Rayacom\\": "milestone/rayacom/src/"
+        },
+        "files": ["milestone/rayacom/helpers.php"],
+    },
+    "authors": [
+        {
+            "name": "Milestone Innovative Technologies",
+            "email": "milestoneit.net@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Milestone\\Rayacom\\RayacomServiceProvider::class,"
+            ]
+        }
+    }
+}
