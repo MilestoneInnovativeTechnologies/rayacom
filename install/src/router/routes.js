@@ -1,10 +1,13 @@
+import routes_firose from './routes_firose'
+
 
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
+      ...routes_firose
     ]
   },
 

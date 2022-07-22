@@ -31,6 +31,7 @@ class RayacomServiceProvider extends ServiceProvider
             $this->publishes([__DIR__ . '/../install/src' => base_path('src')],'rayacom-resources');
             $this->publishes([__DIR__ . '/../public' => public_path(),__DIR__ . '/../install/src' => base_path('src')],'rayacom-updates');
             $this->publishes([__DIR__ . '/../config/rayacom.php' => config_path('rayacom.php')],'rayacom-config');
+            $this->publishes([__DIR__ . '/../install/storage/app' => storage_path('app')],'rayacom-data');
         } else {
             Route::pattern('rayacom_segments', '.*');
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');

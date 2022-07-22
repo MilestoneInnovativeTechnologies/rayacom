@@ -20,24 +20,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MasterSeeder::class,
             PropertySeeder::class,
+            AreaSeeder::class,
+            CustomerSeeder::class,
+            AreaCustomerSeeder::class,
+            SalesExecutiveSeeder::class,
+            ExecutiveAreaSeeder::class,
             ItemSeeder::class,
-            UnitSeeder::class,
-            CategorySeeder::class,
-            BrandSeeder::class,
-            DepartmentSeeder::class,
-            DivisionSeeder::class,
-            GroupSeeder::class,
-            ItemUnitsSeeder::class,
-            TaxSeeder::class,
-            BarcodeSeeder::class,
-            PriceListSeeder::class,
-            PricesSeeder::class,
         ]);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
