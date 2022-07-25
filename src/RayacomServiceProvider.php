@@ -26,12 +26,11 @@ class RayacomServiceProvider extends ServiceProvider
     {
         if($this->app->runningInConsole()){
             $this->loadMigrationsFrom(__DIR__.'/../migrations');
-            $this->publishes([__DIR__ . '/../public' => public_path()],'rayacom-assets');
-            $this->publishes([__DIR__ . '/../install' => base_path()],'rayacom-install');
-            $this->publishes([__DIR__ . '/../install/src' => base_path('src')],'rayacom-resources');
-            $this->publishes([__DIR__ . '/../public' => public_path(),__DIR__ . '/../install/src' => base_path('src')],'rayacom-updates');
-            $this->publishes([__DIR__ . '/../config/rayacom.php' => config_path('rayacom.php')],'rayacom-config');
-            $this->publishes([__DIR__ . '/../install/storage/app' => storage_path('app')],'rayacom-data');
+            $this->publishes([__DIR__ . '/../public' => public_path()],['rayacom-updates','rayacom-dev-updates']);
+            $this->publishes([__DIR__ . '/../install' => base_path()],['rayacom-install']);
+            $this->publishes([__DIR__ . '/../install/src' => base_path('src')],['rayacom-resources','rayacom-dev-updates']);
+            $this->publishes([__DIR__ . '/../config/rayacom.php' => config_path('rayacom.php')],['rayacom-config']);
+            $this->publishes([__DIR__ . '/../install/storage/app' => storage_path('app')],['rayacom-data','rayacom-dev-updates']);
         } else {
             Route::pattern('rayacom_segments', '.*');
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
