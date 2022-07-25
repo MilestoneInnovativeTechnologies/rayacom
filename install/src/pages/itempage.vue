@@ -1,6 +1,6 @@
 <template>
 
-  <div class="q-pa-md" style="fullwidth">
+  <div class="q-pa-md" style="fullwidth;">
     <div class="q-gutter-md">
       <div>
 <!--        <q-badge color="teal">Model: "{{ search }}"</q-badge>-->
