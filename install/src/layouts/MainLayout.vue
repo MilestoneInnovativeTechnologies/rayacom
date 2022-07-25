@@ -27,7 +27,7 @@ import EssentialLink from 'components/EssentialLink.vue'
 const linksList = [
   {title: 'Home', caption: 'Back to main, Home Page', icon: 'home', route: 'home'},
   {title: 'Firose', caption: 'A test page created by Firose Hussain', icon: 'beach_access', route: 'firose'},
-  {title: 'Items', caption: 'Back to main, Item Page', icon: 'item', route: 'itempage'},
+  {title: 'Item', caption: 'Products', icon: 'shopping_basket', route: 'ITEM'},
 ]
 
 export default defineComponent({

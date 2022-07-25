@@ -3,7 +3,7 @@
   <div class="q-pa-md" style="fullwidth">
     <div class="q-gutter-md">
       <div>
-        <!--        <q-badge color="teal">Model: "{{ search }}"</q-badge>-->
+<!--        <q-badge color="teal">Model: "{{ search }}"</q-badge>-->
       </div>
 
       <q-input
@@ -31,9 +31,9 @@
     </q-card>
   </div>
 
-  <!--  <div class="q-mt-sm">-->
-  <!--    {{myproducts}}-->
-  <!--  </div>-->
+<!--  <div class="q-mt-sm">-->
+<!--    {{myproducts}}-->
+<!--  </div>-->
 
   <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
     <q-pagination
@@ -75,15 +75,27 @@ export default {
     let MYITEMS = ref(ITEMS)
     const search = ref('')
 
-    let myitemsLength = computed(()=>{
-      if(search.value === '')
-        return Object.keys(MYITEMS.value).length
-      else
-        return searchResult.length
+    const searchResult = computed(()=>{
+      if(search.value === ''){
+        return Object.values(MYITEMS.value)
+      }else{
+        let keyword = search.value.toLowerCase();
+        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+      }
     })
 
-    const selection =  computed(() => {
-      return  myproducts;
+    const myitemsLength = computed(()=>{
+      return searchResult.value.length
+    })
+
+    const getData =  computed(() => {
+      num1 = (page.value-1)*totalPages.value;
+      num2 = (page.value-1)*totalPages.value+totalPages.value;
+      let MYKEYS = searchResult.value.slice(num1,num2)
+      let newArr = MYKEYS.map((e) => {
+        return e
+      })
+      return newArr
     })
 
     const selectedProducts = function(id, item ){
@@ -109,24 +121,6 @@ export default {
         timeout:800
       })
     }
-    let keyword
-    let searchResult =  []
-
-    const getData =  computed(() => {
-      if (search.value === ""){
-        searchResult = Object.values(MYITEMS.value)
-      }else{
-        keyword = search.value.toLowerCase();
-        searchResult = Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
-      }
-      num1 = (page.value-1)*totalPages.value;
-      num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = searchResult.slice(num1,num2)
-      let newArr = MYKEYS.map((e) => {
-        return e
-      })
-      return newArr
-    })
 
     const order = function (){
       router.push({
@@ -142,16 +136,16 @@ export default {
     return {
       MYITEMS,
       search,
+      searchResult,
       myitemsLength,
-      positivemsg,
-      myproducts,
-      selection,
-      selectedProducts,
       page,
       currentPage,
       nextPage,
       totalPages,
       getData,
+      positivemsg,
+      myproducts,
+      selectedProducts,
       order,
     }
   },
