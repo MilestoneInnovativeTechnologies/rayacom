@@ -82,10 +82,10 @@ npm run build
 
 Publishing Assets - Different methods
 php artisan vendor:publish --force
-rayacom-assets: All javascript,stylesheets,fonts. No need to publish this frequently
 rayacom-install: All required files for starting development using quasar.. Quasar source files and package.json files and dummy data files.. No need to do publish frequently.
 rayacom-resources: All required files for starting development using quasar.. Quasar source files and package.json files..  No need to do publish frequently. Publish only when github updated and needed the source codes changes, but not compiled assets
-rayacom-updates: All assets and resource files.. This need to be published when github updated, and starting development from it.
+rayacom-updates: All assets and public files.. This need to be published when github updated, or whenever new updates published.
+rayacom-dev-updates: All assets, public, data and resource files.. This need to be published whenever any updates pushed by any developer.
 rayacom-data: Wherever there is a change in dummy data, this need to be run.
 
 =====================================================
