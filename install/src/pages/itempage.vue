@@ -47,6 +47,7 @@
       icon-last="skip_next"
       icon-prev="fast_rewind"
       icon-next="fast_forward"
+      active-color="deep-orange-10"
     />
   </div>
 
