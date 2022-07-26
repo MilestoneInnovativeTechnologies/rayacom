@@ -1,1 +1,0 @@
-import{Q as e}from"./QPage.1508905e.js";import{_ as s,K as a,L as t,M as o,R as r}from"./index.61e57dae.js";const c={name:"FirosePage"},n=r(" Firose Hussain ");function i(_,f,p,d,l,x){return a(),t(e,{padding:"",class:"flex flex-center"},{default:o(()=>[n]),_:1})}var $=s(c,[["render",i]]);export{$ as default};

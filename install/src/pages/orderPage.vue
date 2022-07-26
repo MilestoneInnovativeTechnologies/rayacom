@@ -9,14 +9,23 @@
         <q-item-section>Quantity</q-item-section>
         <q-item-section>Remove</q-item-section>
       </q-item>
+
+
       <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
         <q-item-section>{{index + 1}}</q-item-section>
          <q-item-section>{{ i.item }}</q-item-section>
         <q-item-section>
-          <q-input outlined
-                   v-model.number="myproducts[index].qty"
-                   type="number"
-                   style="max-width: 100px"
+          <q-input
+            outlined
+            style="max-width: 120px"
+            v-model.number="myproducts[index].qty"
+            mask="#"
+            fill-mask="0"
+            reverse-fill-mask
+            :rules="[
+                    val => (val !== null && val !== '' && parseInt(val)!=NaN)|| 'Please type a number',
+                    val => val > 0  || 'Please type a real number'
+                    ]"
           />
         </q-item-section>
 
@@ -84,7 +93,6 @@ export default {
       confirm.value = true
       myindex.value = index
     }
-
     const confirmOrder = function (){
       router.push({
         name: 'SUMMARY', params: { myproducts : JSON.stringify( myproducts.value) }
