@@ -5,7 +5,10 @@ self.onmessage = function(e){
   self[type](payload)
 }
 
+const latest_fetch_interval = 10 * 1000;
+let latest_timeOut = null;
 let PROPERTIES = {}, PROP_SET = {}, MASTERS = [], STORE_MASTER = {};
+let latest_date = '';
 
 function init({ property_time,masters,master_time }){
   for(let id in masters) MASTERS.push([id,masters[id],master_time[id]||0])
@@ -51,10 +54,13 @@ function MastersFetched(){
 }
 function PropertiesFetched(){
   setTimeout((wn) => {
-    wn.postMessage({ payload:STORE_MASTER,type:'data' })
-    wn.postMessage({ payload:PROPERTIES,type:'property' })
-    wn.postMessage({ payload:MASTERS,type:'master' })
-  },2500,self)
+    wn.postMessage({ payload:STORE_MASTER,action:'data',store:'master' })
+    wn.postMessage({ payload:PROPERTIES,action:'property',store:'master' })
+    wn.postMessage({ payload:MASTERS,action:'master',store:'master' })
+    wn.postMessage({ payload:PROP_SET,action:'property_set',store:'master' })
+    STORE_MASTER = null; PROPERTIES = null; PROP_SET = null; MASTERS = _(MASTERS).mapKeys(Ary => Ary[0]).mapValues(Ary => Ary[1]).value()
+    latest_timeOut = setInterval(wn['latest'],latest_fetch_interval);
+  },1000,self)
 }
 
 function handleMasterDataResponse(idx,MAry){
@@ -137,4 +143,33 @@ function handleDataPropertiesResponse(idx,PAry){
     _.merge(STORE_MASTER[mName],SMI)
   })
   doFetchMasterDataProperties(idx+1)
+}
+
+function interfere_latest(){
+  clearInterval(latest_timeOut);
+  latest();
+  latest_timeOut = setInterval(latest,latest_fetch_interval);
+}
+
+function latest(){
+  fetch(url('latest'),{ method:'post',headers:{ 'latest-date':latest_date, 'Auth-Data': 10001, 'Auth-Master': 2 }})
+    .then(r => r.json()).then(process_latest_response)
+}
+
+function process_latest_response({ _next,data,master_properties,property_masters }){
+  latest_date = _next
+  const masters = {}, others = {};
+  _.forEach(data,function(records,mName){
+    if(records && records.length){
+      if(records[0].master){
+        masters[mName] = {}
+        _.forEach(records,function({ id,name }){
+          masters[mName][id] = name
+        })
+      } else {
+        self.postMessage({ store:_.toLower(mName),action:'store',payload:records })
+      }
+    }
+  })
+  self.postMessage({ store:'master',action:'recursive',payload:masters })
 }

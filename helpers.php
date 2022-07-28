@@ -24,7 +24,7 @@ if(!function_exists('db_masters')){
 }
 if(!function_exists('db_master_data_time')) {
     function db_master_data_time(){
-        return Cache::rememberForever(rayacom_config('cache_key.db_master_data_max'), fn() => DB::table('_master_data')->select(['master', DB::raw('max(updated_at) as `max`')])->groupBy('master')->pluck('max', 'master')->toArray());
+        return Cache::rememberForever(rayacom_config('cache_key.db_master_data_max_times'), fn() => DB::table('_master_data')->select(['master', DB::raw('max(updated_at) as `max`')])->groupBy('master')->pluck('max', 'master')->toArray());
     }
 }
 if(!function_exists('db_master_data')) {
@@ -34,6 +34,6 @@ if(!function_exists('db_master_data')) {
 }
 if(!function_exists('db_properties_last_updated')) {
     function db_properties_last_updated() {
-        return Cache::rememberForever(rayacom_config('cache_key.db_properties_last_updated_time'),fn() => max(Carbon::parse(DB::table('_property_masters')->max('updated_at'))->unix(),Carbon::parse(DB::table('_properties')->max('updated_at'))->unix()));
+        return Cache::rememberForever(rayacom_config('cache_key.db_properties_last_updated_time'),fn() => max(Carbon::parse(DB::table('_property_masters')->max('updated_at') ?: '2000-01-01 00:00:01')->unix(),Carbon::parse(DB::table('_properties')->max('updated_at') ?: '2000-01-01 00:00:01')->unix(),Carbon::parse(DB::table('_master_properties')->max('updated_at') ?: '2000-01-01 00:00:01')->unix()));
     }
 }

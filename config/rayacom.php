@@ -18,6 +18,7 @@ return [
         'db_properties'  =>  'DB_PROPERTIES',
         'db_master_data'  =>  'DB_MASTER_DATA',
         'db_properties_last_updated_time'  =>  'DB_PROPERTIES_LAST_UPDATED_TIME',
+        'db_orders_last_updated_time'  =>  'DB_ORDERS_LAST_UPDATED_TIME',
     ],
 
     'brand_colors' => [
