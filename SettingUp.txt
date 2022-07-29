@@ -54,16 +54,13 @@ Create Database and set details in env file
 Run from root laravel project folder
 composer dump-autoload
 php artisan migrate:fresh
+php artisan rayacom:install
 
 
 If need dummy data, then run
 php artisan db:seed --class=Milestone\Rayacom\Seeders\DatabaseSeeder
 
 =====================================================
-
-run
-php artisan rayacom:install
-for installing rayacom
 
 run
 npm install

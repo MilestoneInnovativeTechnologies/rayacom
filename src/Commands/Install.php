@@ -39,8 +39,8 @@ class Install extends Command
             $bar->advance();
         }
         foreach(["jsconfig.json","package.json","postcss.config.js","quasar.config.js","index.html"] as $file){
-            exec(self::sps('mklink','/H',base_path($file),self::rp('install',$file)));
-            $bar->advance();
+            exec(self::sps('del',base_path($file))); $bar->advance();
+            exec(self::sps('mklink','/H',base_path($file),self::rp('install',$file))); $bar->advance();
         }
         $this->newLine();
         $this->info('Installation Completed..');
