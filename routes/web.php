@@ -27,8 +27,8 @@ Route::get('init.js',[AssetController::class,'init']);
 Route::get('clear_cache',function(){
   foreach (rayacom_config('cache_key') as $cache_key){
     \Illuminate\Support\Facades\Cache::forget($cache_key);
-    return 'done!!';
   }
+  return 'done!!';
 });
 Route::view('/','Rayacom::home');
 Route::post('latest.json',[PostController::class,'latest']);
