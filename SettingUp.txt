@@ -56,14 +56,14 @@ composer dump-autoload
 php artisan migrate:fresh
 
 
-If need dummy data, then copy data files to storage > app, then run
+If need dummy data, then run
 php artisan db:seed --class=Milestone\Rayacom\Seeders\DatabaseSeeder
 
 =====================================================
 
 run
-php artisan vendor:publish --force
-then enter number corresponding to RayacomServiceProvider from the list
+php artisan rayacom:install
+for installing rayacom
 
 run
 npm install
@@ -80,13 +80,9 @@ npm run build
 
 =====================================================
 
-Publishing Assets - Different methods
+Publishing Assets required only on deployment
 php artisan vendor:publish --force
-rayacom-install: All required files for starting development using quasar.. Quasar source files and package.json files and dummy data files.. No need to do publish frequently.
-rayacom-resources: All required files for starting development using quasar.. Quasar source files and package.json files..  No need to do publish frequently. Publish only when github updated and needed the source codes changes, but not compiled assets
 rayacom-updates: All assets and public files.. This need to be published when github updated, or whenever new updates published.
-rayacom-dev-updates: All assets, public, data and resource files.. This need to be published whenever any updates pushed by any developer.
-rayacom-data: Wherever there is a change in dummy data, this need to be run.
 
 =====================================================
 
@@ -97,10 +93,8 @@ If no port appended, or serving on port 80, then production assets will be used 
 
 =====================================================
 
-When building,All the source files of package will be updated..
-Initially deleted every files and folders from package's public/assets and all files from public
-Then copies every files from dist/spa to package's public folder (except index.html)[Which is not required there as index page serves from laravel view]
-After that, quasar src folder files will be copied to package's install/src..
-Once this done, extracts js and css file names from dist/spa/index.html and stores as assets.json in packages public/assets
-Finally, package's public folder will be copied to laravel's public folder
+When building, All the source files of package will be updated..
+Initially deleted every asset files from package's public/assets,
+Then copies every files from dist/spa to package's public folder
+Later, extracts js and css file names from dist/spa/index.html and stores as assets.json in packages public/static/assets
 

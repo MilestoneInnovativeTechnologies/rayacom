@@ -1,4 +1,4 @@
-self.importScripts("/lodash.min.js");
+self.importScripts("/static/lodash.min.js");
 
 self.onmessage = function(e){
   const { type,payload } = e.data

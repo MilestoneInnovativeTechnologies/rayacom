@@ -17,7 +17,7 @@ class AssetController extends Controller
         $master_time = json_encode(Arr::map(db_master_data_time(),fn($max) => Carbon::parse($max)->unix()));
         $script = <<<SCRIPT
 const MASTERS = $masters;
-AssetWorker = new Worker('AssetWorker.js');
+AssetWorker = new Worker('static/AssetWorker.js');
 AssetWorker.postMessage({ type:'init',payload:{ masters:$masters,property_time:$prop_time,master_time:$master_time } });
 SCRIPT;
         return response($script)->withHeaders(["Cache-Control" => "no-cache, must-revalidate, no-store, max-age=0, private","Content-Type" => "application/javascript"]);
