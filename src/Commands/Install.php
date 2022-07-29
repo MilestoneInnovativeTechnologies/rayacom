@@ -28,7 +28,7 @@ class Install extends Command
     public function handle()
     {
         $this->info('Rayacom Installation!!');
-        $bar = $this->output->createProgressBar(15);
+        $bar = $this->output->createProgressBar(17);
         exec(self::sps('mklink','/D',public_path('assets'),self::rp('public','assets'))); $bar->advance();
         exec(self::sps('mklink','/D',public_path('icons'),self::rp('public','icons'))); $bar->advance();
         exec(self::sps('mklink','/D',public_path('static'),self::rp('public','static'))); $bar->advance();
@@ -38,8 +38,8 @@ class Install extends Command
             exec(self::sps('mklink','/H',storage_path(self::ps('app',$file . '.txt')),self::rp('install','storage','app',$file.'.txt')));
             $bar->advance();
         }
+        exec(self::sps('del',base_path('package.json'))); $bar->advance();
         foreach(["jsconfig.json","package.json","postcss.config.js","quasar.config.js","index.html"] as $file){
-            exec(self::sps('del',base_path($file))); $bar->advance();
             exec(self::sps('mklink','/H',base_path($file),self::rp('install',$file))); $bar->advance();
         }
         $this->newLine();
