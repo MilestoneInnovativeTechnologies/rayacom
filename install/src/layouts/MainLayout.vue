@@ -30,6 +30,7 @@ const linksList = [
   {title: 'Item', caption: 'Products', icon: 'shopping_basket', route: 'ITEM'},
   {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
   {title: 'DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'DASHBOARD'},
+  {title: 'profile', caption: 'my profile', icon: 'edit', route: 'editprofile'},
 ]
 
 export default defineComponent({
