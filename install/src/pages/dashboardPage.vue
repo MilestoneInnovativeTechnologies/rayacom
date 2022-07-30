@@ -18,13 +18,13 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-badge color="blue"  v-if="i.status == 'New'" >{{ i.status }}</q-badge>
-          <q-badge color="secondary"  v-else-if="i.status == 'Viewed'" >{{ i.status }}</q-badge>
-          <q-badge color="accent"  v-else-if="i.status == 'Accepted'" >{{ i.status }}</q-badge>
-          <q-badge color="info"  v-else-if="i.status == 'Packed'" >{{ i.status }}</q-badge>
-          <q-badge color="blue-grey"  v-else-if="i.status == 'Dispatched'" >{{ i.status }}</q-badge>
-          <q-badge color="positive"  v-else-if="i.status == 'Delivered'" >{{ i.status }}</q-badge>
-          <q-badge color="negative"  v-else-if="i.status == 'Cancelled'" >{{ i.status }}</q-badge>
+          <q-badge color="blue"  v-if="i.status === 'New'" >{{ i.status }}</q-badge>
+          <q-badge color="secondary"  v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
+          <q-badge color="accent"  v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
+          <q-badge color="info"  v-else-if="i.status === 'Packed'" >{{ i.status }}</q-badge>
+          <q-badge color="blue-grey"  v-else-if="i.status === 'Dispatched'" >{{ i.status }}</q-badge>
+          <q-badge color="positive"  v-else-if="i.status === 'Delivered'" >{{ i.status }}</q-badge>
+          <q-badge color="negative"  v-else-if="i.status === 'Cancelled'" >{{ i.status }}</q-badge>
         </q-item-section>
       </q-item>
     </q-list>
