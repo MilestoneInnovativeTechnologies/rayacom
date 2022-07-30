@@ -16,6 +16,15 @@ class OrderController extends Controller
         return $request->store()->store_items()->order;
     }
 
+    public function status(){
+        $order = request('order');
+        $status = request('status');
+        $Order = Order::find($order);
+        $Order->status = $status;
+        $Order->save();
+        return $Order;
+    }
+
     public static function orders(){
         $latest_date = request()->header('Latest-Date','2000-01-01 00:00:01') ?: '2000-01-01 00:00:01';
         if(Carbon::parse($latest_date)->lessThan(Carbon::parse(Cache::get(rayacom_config('cache_key.db_orders_last_updated_time'))))){
