@@ -1,4 +1,5 @@
 import routes_firose from './routes_firose'
+import routes_sona from './routes_sona'
 import routes_anju from './routes_anju'
 
 
@@ -9,6 +10,7 @@ const routes = [
     children: [
       { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
       ...routes_firose,
+      ...routes_sona,
         ...routes_anju
     ]
   },

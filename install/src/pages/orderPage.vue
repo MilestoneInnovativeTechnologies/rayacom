@@ -13,12 +13,12 @@
 
       <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
         <q-item-section>{{index + 1}}</q-item-section>
-         <q-item-section>{{ i.item }}</q-item-section>
+         <q-item-section>{{ i.itemname }}</q-item-section>
         <q-item-section>
           <q-input
             outlined
             style="max-width: 120px"
-            v-model.number="myproducts[index].qty"
+            v-model.number="myproducts[index].quantity"
             mask="#"
             fill-mask="0"
             reverse-fill-mask
@@ -39,7 +39,7 @@
       <q-item clickable class="text-subtitle2">
         <q-item-section>Notes</q-item-section>
         <q-item-section> <q-input
-          v-model="text"
+          v-model="notes"
           type="textarea"
         /></q-item-section>
       </q-item>
@@ -60,9 +60,9 @@
     </q-card>
   </q-dialog>
 
-    <div class="q-mt-sm">
-      {{myproducts}}
-    </div>
+<!--    <div class="q-mt-sm">-->
+<!--      {{myproducts}}-->
+<!--    </div>-->
 
   <div class="q-pa-md q-gutter-sm" v-if="myproducts.length">
     <q-btn unelevated rounded color="positive" label="Submit"  class="full-width"
@@ -73,12 +73,19 @@
 
 <script>
 import { computed, ref, reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { date } from 'quasar'
+import { useRoute, useRouter } from 'vue-router'
+import { useOrderStore} from 'stores/order'
+import {post} from "boot/axios";
+const orderStore = useOrderStore()
 
 export default {
   setup (props) {
     const $route = useRoute()
-    const myproducts= ref(JSON.parse($route.params.myproducts))
+    const router = useRouter()
+    const myproducts = ref(JSON.parse($route.params.myproducts))
+    const customer = 10001
+    const notes = ref('')
 
     const removeItem = function(){
       var index = myindex.value;
@@ -93,10 +100,23 @@ export default {
       confirm.value = true
       myindex.value = index
     }
+
+    let timeStamp
+    let formattedString
+
     const confirmOrder = function (){
-      router.push({
-        name: 'SUMMARY', params: { myproducts : JSON.stringify( myproducts.value) }
-      })
+      timeStamp = Date.now()
+      formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD HH:mm:ss')
+      var check = myproducts.value.some(function(field) {
+        return field.quantity === 0;
+      });
+      if (!check) {
+        post('order','store',{ customer:customer, date:formattedString, narration:notes.value, items:myproducts.value })
+          // .then(console.log)
+        router.push({
+          name: 'DASHBOARD'
+        })
+      }
     }
 
     return{
@@ -104,7 +124,8 @@ export default {
       removeItem,
       confirm,
       confirmBox,
-      confirmOrder
+      confirmOrder,
+      notes
     }
   }
 

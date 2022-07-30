@@ -9,7 +9,9 @@
 <script setup>
 import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
+import { useOrderStore} from 'stores/order'
 const masterStore = useMasterStore()
+const orderStore = useOrderStore()
 function doPost(){
   console.log(masterStore.AREA)
   post('order','store',{ customer:10001,date:'2022-07-28 14:52:00',items:[{ item: 1000006, quantity: 5 },{ item: 1000016, quantity: 3 }] })
