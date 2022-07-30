@@ -8,6 +8,10 @@
           <q-item-section>{{ ITEM }}</q-item-section>
           <q-item-section side class="text-secondary text-bold">{{ size(master[ITEM]) }}</q-item-section>
         </q-item>
+        <q-item>
+          <q-item-section>ORDERS</q-item-section>
+          <q-item-section side class="text-secondary text-bold">{{ size(orders) }}</q-item-section>
+        </q-item>
       </q-list>
     </q-card>
   </q-page>
@@ -16,6 +20,9 @@
 <script setup>
 import { useMasterStore } from 'stores/master'
 const master = useMasterStore()
+import { useOrderStore } from 'stores/order'
+const orderStore = useOrderStore()
 const master_master = _.map(MASTERS);
 const size = _.size
+const orders = orderStore.data
 </script>
