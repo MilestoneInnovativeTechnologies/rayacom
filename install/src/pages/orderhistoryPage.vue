@@ -1,171 +1,93 @@
 <template>
-  <div class="q-pa-md">
-    <q-table
-      style="height: 400px"
-      title="Treats"
-      :rows="rows"
-      :columns="columns"
-      row-key="index"
-      virtual-scroll
-      v-model:pagination="pagination"
-      :rows-per-page-options="[0]"
+  <div class="q-pa-md q-gutter-md">
+    <q-list bordered padding class="rounded-borders" style="max-width: 350px"
+            v-if="totalcount">
+<!--      <q-item-label header>{{ i.date }}</q-item-label>-->
+      <q-item-label header>Order History</q-item-label>
+      <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id" >
+        <q-item-section avatar top>
+          <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label lines="1">{{ i.id }}</q-item-label>
+          <q-item-label caption>{{ i.date }}</q-item-label>
+        </q-item-section>
+        <q-item-section>
+<!--          <q-item-label lines="1"></q-item-label>-->
+          <q-item-label caption>{{ i.narration }}</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
+          <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
+          <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
+          <q-badge color="info" v-else-if="i.status === 'Packed'" >{{ i.status }}</q-badge>
+          <q-badge color="blue-grey" v-else-if="i.status === 'Dispatched'" >{{ i.status }}</q-badge>
+          <q-badge color="positive" v-else-if="i.status === 'Delivered'" >{{ i.status }}</q-badge>
+          <q-badge color="negative" v-else-if="i.status === 'Cancelled'" >{{ i.status }}</q-badge>
+          <q-badge color="primary" v-else>Unknown</q-badge>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </div>
+  <div class="q-pa-lg flex flex-center" v-if="totalcount">
+    <q-pagination
+      v-model="page"
+      :min="currentPage"
+      :max="Math.ceil(totalcount/totalPages)"
+      :max-pages="7"
+      direction-links
+      boundary-links
+      icon-first="skip_previous"
+      icon-last="skip_next"
+      icon-prev="fast_rewind"
+      icon-next="fast_forward"
+      active-color="deep-orange-10"
     />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useOrderStore} from 'stores/order'
 const orderStore = useOrderStore()
-const ORDERS = orderStore.all
-
-const columns = [
-  {
-    name: 'index',
-    label: '#',
-    field: 'index'
-  },
-  {
-    name: 'name',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-]
-
-const seed = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
-  }
-]
-
-// we generate lots of rows here
-let rows = []
-for (let i = 0; i < 1000; i++) {
-  rows = rows.concat(seed.slice(0).map(r => ({ ...r })))
-}
-rows.forEach((row, index) => {
-  row.index = index
-})
+const ORDERS = orderStore.all.reverse()
+import { date } from 'quasar'
+const { formatDate } = date
 
 export default {
-  setup () {
+  setup() {
+    let num1
+    let num2
     let MYORDERS = ref(ORDERS)
-    return {
-      columns,
-      rows,
+    let totalcount = Object.values(MYORDERS.value).length
 
-      pagination: ref({
-        rowsPerPage: 100
+    const getOrders =  computed(() => {
+      num1 = (page.value-1)*totalPages.value;
+      num2 = (page.value-1)*totalPages.value+totalPages.value;
+      let MYKEYS = MYORDERS.value.slice(num1,num2)
+      let newArr = MYKEYS.map((e) => {
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration, status:e.status }
       })
+      console.log(newArr);
+      return newArr
+    })
+    let page = ref(1)
+    let currentPage= ref(1)
+    let nextPage= ref(null)
+    const totalPages= ref(5)
+
+    return {
+      MYORDERS,
+      totalcount,
+      page,
+      currentPage,
+      nextPage,
+      totalPages,
+      getOrders,
     }
+
   }
 }
+
 </script>

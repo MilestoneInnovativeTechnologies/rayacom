@@ -3,7 +3,7 @@
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-      <q-item-label header>Order History</q-item-label>
+      <q-item-label header>Dashboard</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id" >
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
@@ -23,8 +23,6 @@
           <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
           <q-badge color="info" v-else-if="i.status === 'Packed'" >{{ i.status }}</q-badge>
           <q-badge color="blue-grey" v-else-if="i.status === 'Dispatched'" >{{ i.status }}</q-badge>
-          <q-badge color="positive" v-else-if="i.status === 'Delivered'" >{{ i.status }}</q-badge>
-          <q-badge color="negative" v-else-if="i.status === 'Cancelled'" >{{ i.status }}</q-badge>
           <q-badge color="primary" v-else>Unknown</q-badge>
         </q-item-section>
       </q-item>
@@ -54,22 +52,35 @@ const orderStore = useOrderStore()
 const ORDERS = orderStore.all.reverse()
 import { date } from 'quasar'
 const { formatDate } = date
+const EXTRACTEDORDERS= {}
+let checkstatus
+let customer
+
+for( let n in ORDERS){
+  checkstatus = ORDERS[n]['status']
+  if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
+    EXTRACTEDORDERS[n] = { id: ORDERS[n]['id'],  date: ORDERS[n]['date'], status: ORDERS[n]['status'],  narration: ORDERS[n]['narration'] }
+  }
+}
 
 export default {
   setup() {
     let num1
     let num2
-    let MYORDERS = ref(ORDERS)
-    let totalcount = Object.values(MYORDERS.value).length
+    let MYORDERS = ref(EXTRACTEDORDERS)
+    let totalcount = Object.keys(MYORDERS.value).length
+    let MYKEYS
+    let newArr
+    let status
 
     const getOrders =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
-      num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = MYORDERS.value.slice(num1,num2)
-      let newArr = MYKEYS.map((e) => {
+      num2 = num1+totalPages.value;
+      MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
+      newArr = MYKEYS.map((e) => {
+        status = e.status
         return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration, status:e.status }
       })
-      console.log(newArr);
       return newArr
     })
     let page = ref(1)
