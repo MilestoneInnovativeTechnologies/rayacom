@@ -156,10 +156,10 @@ function latest(){
     .then(r => r.json()).then(process_latest_response)
 }
 
-function process_latest_response({ _next,data,master_properties,property_masters }){
-  latest_date = _next
-  const masters = {}, others = {};
+function process_latest_response(data){
+  const masters = {};
   _.forEach(data,function(records,mName){
+    if(mName === '_next') return latest_date = records;
     if(records && records.length){
       if(records[0].master){
         masters[mName] = {}
@@ -171,5 +171,5 @@ function process_latest_response({ _next,data,master_properties,property_masters
       }
     }
   })
-  self.postMessage({ store:'master',action:'recursive',payload:masters })
+  if(Object.keys(masters).length > 0) self.postMessage({ store:'master',action:'recursive',payload:masters })
 }

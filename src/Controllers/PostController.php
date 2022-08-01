@@ -21,8 +21,8 @@ class PostController extends Controller
     }
 
     public function latest(){
-        $data['_next'] = now()->toDateTimeString();
-        $data['data']['ORDER'] = OrderController::orders();
+        $data = ['_next' => now()->toDateTimeString()];
+        $data['ORDER'] = OrderController::orders();
         if(request()->header('Latest-Date')){
             $latest_date = request()->header('Latest-Date',now()->toDateTimeString()) ?: now()->toDateTimeString();
             $data = array_merge($data,$this->latest_masters($latest_date));
@@ -38,10 +38,11 @@ class PostController extends Controller
                 $data = array_merge($data,$this->get_latest_master($master_id,$latest_date));
             }
         }
-        if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_properties_last_updated()))){
+        /*if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_properties_last_updated()))){
             $master_properties = $this->get_master_properties($latest_date);
             $property_masters = $this->get_property_masters($latest_date);
-        }
+        }*/
+        return $data;
         return compact('data','master_properties','property_masters');
     }
 
