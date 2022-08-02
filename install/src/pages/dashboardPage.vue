@@ -14,7 +14,8 @@
             v-if="totalcount">
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
       <q-item-label header>Dashboard</q-item-label>
-      <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id" >
+      <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
+              @click="showDialog(i.id, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
@@ -54,10 +55,6 @@
     />
   </div>
 
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Show HTML Dialog" color="primary" @click="showDialog" />
-  </div>
-
 </template>
 
 <script>
@@ -73,11 +70,21 @@ const { formatDate } = date
 const EXTRACTEDORDERS= {}
 let checkstatus
 let customer
+let itemarray
+let itemObj
 
 for( let n in ORDERS){
   checkstatus = ORDERS[n]['status']
   if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
-    EXTRACTEDORDERS[n] = { id: ORDERS[n]['id'],  date: ORDERS[n]['date'], status: ORDERS[n]['status'],  narration: ORDERS[n]['narration'] }
+    itemarray = ORDERS[n]['items']
+    let newArray = []
+    for( let i in itemarray) {
+      itemObj = { id:itemarray[i]['item']['id'], name:itemarray[i]['item']['name'],
+        quantity:itemarray[i]['quantity'] }
+      newArray.push(itemObj)
+    }
+    EXTRACTEDORDERS[n] = { id: ORDERS[n]['id'],  date: ORDERS[n]['date'], status: ORDERS[n]['status'],
+      narration: ORDERS[n]['narration'], items: newArray }
   }
 }
 
@@ -88,6 +95,7 @@ export default {
     let num1
     let num2
     let MYORDERS = ref(EXTRACTEDORDERS)
+    // console.log(MYORDERS.value)
     let totalcount = Object.keys(MYORDERS.value).length
     let MYKEYS
     let newArr
@@ -99,7 +107,8 @@ export default {
       MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
       newArr = MYKEYS.map((e) => {
         status = e.status
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration, status:e.status }
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration,
+          status:e.status, items:e.items }
       })
       return newArr
     })
@@ -109,10 +118,26 @@ export default {
           name: 'ITEM'
         })
     }
-    const showDialog = function () {
+
+    let html
+    let totalitems
+    const showDialog = function (id, items) {
+      html = '<q-item class="text-subtitle2 bg-deep-orange-10 text-white"><q-item-section>#</q-item-section>\n' +
+        '        <q-item-section>Item</q-item-section><q-item-section>Quantity</q-item-section></q-item><br> <q-separator />'
+      totalitems=0
+      for( let j in items){
+        totalitems = parseInt(j)+1
+        let qty = items[j]['quantity']
+        html += '<q-item"><q-item-section>'+ parseInt(j)+1+'</q-item-section>\n' +
+          '        <q-item-section>'+ items[j]['name']+'</q-item-section><q-item-section>' +
+          items[j]['quantity'] +'</q-item-section></q-item><br>'
+        // console.log( parseInt(j)+1+ '-----' +items[j]['id'] + items[j]['name'] +items[j]['quantity'])
+      }
+      html += 'Total items: ' + totalitems
+
       $q.dialog({
-        title: 'Alert<em>!</em>',
-        message: '<em>I can</em> <span class="text-red">use</span> <strong>HTML</strong>',
+        title: 'Items',
+        message: html,
         html: true
       }).onOk(() => {
         // console.log('OK')
