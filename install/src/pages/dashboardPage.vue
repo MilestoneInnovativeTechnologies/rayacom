@@ -1,5 +1,15 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
+  <div class="q-pa-md q-gutter-md left">
+
+
+    <div class="row justify-end">
+      <q-btn color="secondary" no-caps @click="gotoItempage()">
+        <q-icon left size="3em" name="open_in_new" />
+        NEW<br>ORDER
+      </q-btn>
+    </div>
+
+
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
@@ -43,10 +53,18 @@
       active-color="deep-orange-10"
     />
   </div>
+
+  <div class="q-pa-md q-gutter-sm">
+    <q-btn label="Show HTML Dialog" color="primary" @click="showDialog" />
+  </div>
+
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
 import { useOrderStore} from 'stores/order'
 const orderStore = useOrderStore()
 const ORDERS = orderStore.all.reverse()
@@ -65,6 +83,8 @@ for( let n in ORDERS){
 
 export default {
   setup() {
+    const router = useRouter()
+    const $q = useQuasar()
     let num1
     let num2
     let MYORDERS = ref(EXTRACTEDORDERS)
@@ -83,6 +103,26 @@ export default {
       })
       return newArr
     })
+
+    const gotoItempage = function (){
+        router.push({
+          name: 'ITEM'
+        })
+    }
+    const showDialog = function () {
+      $q.dialog({
+        title: 'Alert<em>!</em>',
+        message: '<em>I can</em> <span class="text-red">use</span> <strong>HTML</strong>',
+        html: true
+      }).onOk(() => {
+        // console.log('OK')
+      }).onCancel(() => {
+        // console.log('Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    }
+
     let page = ref(1)
     let currentPage= ref(1)
     let nextPage= ref(null)
@@ -96,6 +136,8 @@ export default {
       nextPage,
       totalPages,
       getOrders,
+      gotoItempage,
+      showDialog
     }
 
   }
