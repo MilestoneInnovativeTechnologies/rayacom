@@ -13,7 +13,7 @@ class Order extends Model
 
     protected static function booted() {
         parent::booted();
-        static::created(function(){
+        static::saved(function(){
             $max = DB::table('orders')->select(DB::raw('max(updated_at) max'))->value('max');
             Cache::forever(rayacom_config('cache_key.db_orders_last_updated_time'),$max);
         });
