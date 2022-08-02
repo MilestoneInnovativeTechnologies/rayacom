@@ -32,18 +32,17 @@ class PostController extends Controller
 
     public function latest_masters($latest_date){
         $latest_master = db_master_data_time();
-        $data = $master_properties = $property_masters = [];
+        $data = [];
         foreach ($latest_master as $master_id => $master_max){
             if(Carbon::parse($latest_date)->lessThan(Carbon::parse($master_max))){
                 $data = array_merge($data,$this->get_latest_master($master_id,$latest_date));
             }
         }
-        /*if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_properties_last_updated()))){
-            $master_properties = $this->get_master_properties($latest_date);
-            $property_masters = $this->get_property_masters($latest_date);
-        }*/
+        if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_properties_last_updated()))){
+            $data['mp'] = $this->get_master_properties($latest_date);
+            $data['pm'] = $this->get_property_masters($latest_date);
+        }
         return $data;
-        return compact('data','master_properties','property_masters');
     }
 
     public function get_latest_master($master_id,$after_date){

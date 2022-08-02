@@ -13,7 +13,7 @@ class MasterProperty extends Model
     protected static function booted() {
         parent::booted();
         static::saved(function(){
-            Cache::forever(rayacom_config('cache_key.db_properties_last_updated_time'),Carbon::parse(DB::table('_master_properties')->max('updated_at') ?: '2000-01-01 00:00:01')->unix());
+            Cache::forever(rayacom_config('cache_key.db_master_prop_max_time'),DB::table('_master_properties')->max('updated_at') ?: '2000-01-01 00:00:01');
         });
 
     }

@@ -18,17 +18,24 @@ Route::group([
     "middleware" => 'cache.headers:public;max_age=2628000;etag',
     "controller" => AssetController::class,
     ],function(){
-        Route::get('asset/properties/{id}/{name}.json','master_properties');
+        Route::get('properties/{time}/{id}/{name}.json','master_properties');
         Route::get('asset/{time}/properties.json','properties');
         Route::get('asset/{time}/{id}/{name}.json','master');
 });
 
-Route::get('init.js',[AssetController::class,'init']);
+Route::get('{master}/{data}/init.js',[AssetController::class,'init']);
 Route::get('clear_cache',function(){
   foreach (rayacom_config('cache_key') as $cache_key){
     \Illuminate\Support\Facades\Cache::forget($cache_key);
   }
-  return 'done!!';
+  return redirect('/caches');
+});
+Route::get('caches',function(){
+    $caches = [];
+    foreach (rayacom_config('cache_key') as $cache_key){
+        $caches[$cache_key] = \Illuminate\Support\Facades\Cache::get($cache_key);
+    }
+    dd($caches);
 });
 Route::view('/','Rayacom::home');
 Route::post('latest.json',[PostController::class,'latest']);

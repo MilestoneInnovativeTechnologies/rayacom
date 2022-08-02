@@ -5,12 +5,13 @@ self.onmessage = function(e){
   self[type](payload)
 }
 
+const Auth = { Master:"",Data:""}
 const latest_fetch_interval = 10 * 1000;
-let latest_timeOut = null;
+let latest_timeOut = null, latest_date = '', master_prop_time = '';
 let PROPERTIES = {}, PROP_SET = {}, MASTERS = [], STORE_MASTER = {};
-let latest_date = '';
 
-function init({ property_time,masters,master_time }){
+function init({ property_time,masters,master_time,master_property_time,auth_data,auth_master }){
+  Auth.Data = auth_data || 10001; Auth.Master = auth_master || 2; master_prop_time = master_property_time;
   for(let id in masters) MASTERS.push([id,masters[id],master_time[id]||0])
   if(property_time) fetch(url('asset',property_time,'properties')).then(handlePropertiesResponse)
 }
@@ -46,7 +47,7 @@ function doFetchMasterData(idx){
 
 function doFetchMasterDataProperties(idx){
   if(MASTERS.length <= idx) return PropertiesFetched(); let master = MASTERS[idx];
-  fetch(url('asset','properties',master[1],master[0])).then(response => response.json()).then(PAry => handleDataPropertiesResponse(idx,PAry))
+  fetch(url('properties',master_prop_time,master[1],master[0])).then(response => response.json()).then(PAry => handleDataPropertiesResponse(idx,PAry))
 }
 
 function MastersFetched(){
@@ -59,6 +60,7 @@ function PropertiesFetched(){
     wn.postMessage({ payload:MASTERS,action:'master',store:'master' })
     wn.postMessage({ payload:PROP_SET,action:'property_set',store:'master' })
     STORE_MASTER = null; PROPERTIES = null; PROP_SET = null; MASTERS = _(MASTERS).mapKeys(Ary => Ary[0]).mapValues(Ary => Ary[1]).value()
+    wn['latest']();
     latest_timeOut = setInterval(wn['latest'],latest_fetch_interval);
   },1000,self)
 }
@@ -152,7 +154,7 @@ function interfere_latest(){
 }
 
 function latest(){
-  fetch(url('latest'),{ method:'post',headers:{ 'latest-date':latest_date, 'Auth-Data': 10001, 'Auth-Master': 2 }})
+  fetch(url('latest'),{ method:'post',headers:{ 'latest-date':latest_date, 'Auth-Data': Auth.Data, 'Auth-Master': Auth.Master }})
     .then(r => r.json()).then(process_latest_response)
 }
 
