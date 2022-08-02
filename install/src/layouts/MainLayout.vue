@@ -27,9 +27,10 @@ import EssentialLink from 'components/EssentialLink.vue'
 const linksList = [
   {title: 'Home', caption: 'Back to main, Home Page', icon: 'home', route: 'home'},
   {title: 'Firose', caption: 'A test page created by Firose Hussain', icon: 'beach_access', route: 'firose'},
-  {title: 'Item', caption: 'Products', icon: 'shopping_basket', route: 'ITEM'},
-  {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
   {title: 'DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'DASHBOARD'},
+  {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
+  {title: 'sales excutive profile', caption: 'sales executive profile', icon: 'edit', route: 'editprofile'},
+  {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
 ]
 
 export default defineComponent({
