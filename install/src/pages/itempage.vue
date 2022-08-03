@@ -117,6 +117,7 @@ export default {
     const positivemsg = function (msg){
       $q.notify({
         type: 'positive',
+        icon: 'cloud_done',
         message: msg,
         position:'top-right',
         timeout:800

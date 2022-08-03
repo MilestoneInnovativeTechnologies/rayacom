@@ -15,7 +15,7 @@
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
       <q-item-label header>Dashboard</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.items)">
+              @click="showDialog(i.id, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
@@ -58,17 +58,20 @@
 
 
   <div class="q-pa-md q-gutter-sm">
+    <q-btn label="Card" color="primary" @click="card = true" />
     <q-dialog v-model="card">
       <q-card class="my-card">
         <q-item>
-          <q-item-section avatar top>
-            <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+          <q-item-section avatar>
+            <q-avatar>
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar>
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>{{ specificDate }}</q-item-label>
+            <q-item-label>Ordered Items</q-item-label>
             <q-item-label caption>
-              {{ specificId }}
+              Subhead
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -79,15 +82,13 @@
           <div class="text-caption col q-ma-sm text-grey">Quantity</div>
         </q-card-section>
         <q-separator />
-
-        <q-card-section horizontal class="row q-ma-md" v-for="(j, ind) in specificItems">
+        <q-card-section horizontal class="row q-ma-md">
           <div>
-          <div class="text-caption col text-grey">{{ ind +1 }}</div>
-          <div class="text-caption col q-ma-md text-grey">{{ j.name }}</div>
-          <div class="text-caption col text-grey">{{ j.quantity }}</div>
+          <div class="text-caption col text-grey">1</div>
+          <div class="text-caption col q-ma-md text-grey">Degreaser Item name here it comes</div>
+          <div class="text-caption col text-grey">10</div>
           </div>
         </q-card-section>
-
         <q-separator />
         <q-card-actions align="right">
           <q-btn flat label="Close" color="primary" v-close-popup />
@@ -160,17 +161,35 @@ export default {
         })
     }
 
+    let html
+    let qty
+    let slno
+    const showDialog = function (id, items) {
+      html = '<div class="q-pa-md q-gutter-md full-width"><q-item class="text-subtitle2 bg-deep-orange-10 text-white"><q-item-section>#</q-item-section>\n' +
+        '        <q-item-section>Item</q-item-section><q-item-section>Quantity</q-item-section></q-item><br> <q-separator />'
+      slno = 0
+      for( let j in items){
 
-    let card = ref(false)
-    let specificItems = ref('')
-    let specificId = ref('')
-    let specificDate = ref('')
-    const showitems = function (id, adate, items){
-      specificId.value = id
-      specificItems.value = items
-      specificDate.value = adate
-      // console.log(specificItems)
-      card.value = true
+        qty = items[j]['quantity']
+        slno = parseInt(j) + parseInt(1)
+        html += '<q-item"><q-item-section>'+ slno+'</q-item-section>\n' +
+          '        <q-item-section>'+ items[j]['name']+'</q-item-section><q-item-section>' +
+          items[j]['quantity'] +'</q-item-section></q-item><br>'
+      }
+      html +='</div>'
+        // html += 'Total items: ' + slno
+
+      $q.dialog({
+        title: 'Items',
+        message: html,
+        html: true
+      }).onOk(() => {
+        // console.log('OK')
+      }).onCancel(() => {
+        // console.log('Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
     }
 
     let page = ref(1)
@@ -187,11 +206,8 @@ export default {
       totalPages,
       getOrders,
       gotoItempage,
-      showitems,
-      specificItems,
-      specificId,
-      specificDate,
-      card,
+      showDialog,
+      card: ref(false),
     }
 
   }
