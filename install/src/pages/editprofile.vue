@@ -22,14 +22,9 @@ export default {
       icon: 'cloud_done',
       message: 'Submitted',
         position:'top-right',
+
     })
   }
-
-
-
-
-
-
 
 
 
@@ -61,7 +56,7 @@ export default {
              v-model="name"
              type="text"
              hint="Full Name"
-             :rules="[ val => val && val.length > 0 || 'field is required']" >
+             :rules="[ val => val && val.length > 0 || 'Please type your name']" >
       <template v-slot:append>
         <q-icon name="account_box" />
       </template>
@@ -96,7 +91,7 @@ export default {
              v-model="phone"
              hint="Contact Number"
              type="text"
-             :rules="[ val => val && val.length > 0 || 'field is required']">
+             :rules="[ val => val && val.length > 0 || 'please enter your PH no']">
       <template v-slot:append>
 
         <q-icon name="phone" />
@@ -106,6 +101,7 @@ export default {
     </div>
 
       <div class="row justify-center full-width">
+
         <q-btn
           type="submit"
           :loading="submitting"
