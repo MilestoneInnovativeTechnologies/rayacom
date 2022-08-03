@@ -16,8 +16,10 @@ return [
         'db_masters'  =>  'DB_MASTERS',
         'db_master_data_max_times'  =>  'DB_MASTER_DATA_MAX_TIME',
         'db_properties'  =>  'DB_PROPERTIES',
-        'db_master_data'  =>  'DB_MASTER_DATA',
         'db_properties_last_updated_time'  =>  'DB_PROPERTIES_LAST_UPDATED_TIME',
+        'db_master_data'  =>  'DB_MASTER_DATA',
+        'db_master_prop_max_time'  =>  'DB_MASTER_PROP_MAX_TIME',
+        'db_prop_master_max_time'  =>  'DB_PROP_MASTER_MAX_TIME',
         'db_orders_last_updated_time'  =>  'DB_ORDERS_LAST_UPDATED_TIME',
     ],
 

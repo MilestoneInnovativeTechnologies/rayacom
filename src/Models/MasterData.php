@@ -7,7 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterData extends Model
 {
-    use HasFactory;
-
     protected $table = '_masters';
 }
