@@ -3,5 +3,5 @@ export default [
   { name: 'ORDER', path: '/order', props: true, component: () => import('pages/orderPage.vue'), meta:{title:'Order'} },
   { name: 'PROFILE', path: '/profile', props: true, component: () => import('pages/myprofilePage.vue'), meta:{title:'Profile'} },
   { name: 'DASHBOARD', path: '/dashboard', props: true, component: () => import('pages/dashboardPage.vue'), meta:{title:'Dashboard'} },
-  { name: 'ORDERHISTORY', path: '/orderhistory', props: true, component: () => import('pages/orderhistoryPage.vue'), meta:{title:'ORDER HISTORY'} },
+  { name: 'ORDERHISTORY', path: '/orderhistory', props: true, component: () => import('pages/orderhistoryPage.vue'), meta:{title:'Order History'} },
 ]
