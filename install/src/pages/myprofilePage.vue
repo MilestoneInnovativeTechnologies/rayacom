@@ -1,8 +1,6 @@
 <template>
   <div class="q-pa-lg column full-width">
 
-
-
     <div class="q-gutter-lg row items-start">
 
       <q-input outlined v-model="customer.name" type="text"
@@ -57,8 +55,8 @@
     </div>
 
 
-
   </div>
+
 </template>
 
 <script>
@@ -66,14 +64,16 @@ import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
 import {computed, ref} from "vue";
 import {useQuasar} from "quasar";
+import { useRouter } from 'vue-router'
 const masterStore = useMasterStore()
 
 
 export default {
   setup () {
     const $q = useQuasar()
+    const router = useRouter()
     const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-
+    const myForm = ref(null)
     const ID = ref(10001)    //must change with login id
     const customer = computed(() => masterStore.CUSTOMER[ID.value])
 
@@ -82,7 +82,8 @@ export default {
     }
 
     const updateMyself = function() {
-      if(isValidEmail){
+      if( (customer.value.name != '') && (customer.value.password != '')  && (customer.value.phone != '')
+        && (emailPattern.test(customer.value.email)) && (customer.value.address != '')){
         console.warn(customer.value);
         let cus = _.omit(customer.value, ['area'])
         post('master', 'update', cus)

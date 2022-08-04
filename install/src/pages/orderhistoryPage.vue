@@ -4,7 +4,8 @@
             v-if="totalcount">
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
       <q-item-label header>Order History</q-item-label>
-      <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id" >
+      <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
+              @click="showitems(i.id, i.date, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
@@ -45,6 +46,50 @@
       active-color="deep-orange-10"
     />
   </div>
+
+
+  <div class="q-pa-md q-gutter-sm">
+    <q-dialog v-model="card">
+      <q-card class="my-card" style="width: 500px">
+        <q-item>
+          <q-item-section avatar top>
+            <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ specificDate }}</q-item-label>
+            <q-item-label caption>
+              {{ specificId }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-card-section class="row q-ma-sm">
+          <div class="text-caption header" style="min-width: 50px">#</div>
+          <div class="text-caption header" style="width: 300px">Item</div>
+          <div class="text-caption header" style="min-width: 50px">Quantity</div>
+        </q-card-section>
+        <q-separator />
+
+        <q-card-section horizontal  class="row q-ma-sm" v-for="(j, ind) in specificItems">
+          <div class="text-caption text-grey" style="min-width: 50px">{{ ind +1 }}</div>
+          <div class="text-caption text-grey" style="width: 300px">{{ j['item']['name'] }}</div>
+          <div class="text-caption text-grey" style="min-width: 50px; padding-left: 10px;">
+            {{ j.quantity }}</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section horizontal class="row q-ma-sm">
+          <div class="text-caption header" style="min-width: 50px"></div>
+          <div class="text-caption header" style="width: 300px">Total Items:</div>
+          <div class="text-caption header" style="min-width: 50px; padding-left: 10px;">{{ specificItems.length }}</div>
+        </q-card-section>
+
+        <q-separator />
+        <q-card-actions align="right">
+          <q-btn flat label="Close" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
@@ -67,11 +112,26 @@ export default {
       num2 = (page.value-1)*totalPages.value+totalPages.value;
       let MYKEYS = MYORDERS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration, status:e.status }
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '),
+          narration:e.narration, status:e.status, items:e.items }
       })
       console.log(newArr);
       return newArr
     })
+
+    let card = ref(false)
+    let specificItems = ref('')
+    let specificId = ref('')
+    let specificDate = ref('')
+
+    const showitems = function (id, adate, items){
+      specificId.value = id
+      specificItems.value = items
+      specificDate.value = adate
+      // console.log(specificItems)
+      card.value = true
+    }
+
     let page = ref(1)
     let currentPage= ref(1)
     let nextPage= ref(null)
@@ -85,6 +145,11 @@ export default {
       nextPage,
       totalPages,
       getOrders,
+      showitems,
+      specificItems,
+      specificId,
+      specificDate,
+      card,
     }
 
   }
