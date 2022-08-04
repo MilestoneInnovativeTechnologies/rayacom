@@ -73,7 +73,7 @@
 
 <script>
 import { computed, ref, reactive } from 'vue'
-import { date } from 'quasar'
+import {date, useQuasar} from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { useOrderStore} from 'stores/order'
 import {post} from "boot/axios";
@@ -81,6 +81,7 @@ const orderStore = useOrderStore()
 
 export default {
   setup (props) {
+    const $q = useQuasar()
     const $route = useRoute()
     const router = useRouter()
     const myproducts = ref(JSON.parse($route.params.myproducts))
@@ -113,10 +114,22 @@ export default {
       if (!check) {
         post('order','store',{ customer:customer, date:formattedString, narration:notes.value, items:myproducts.value })
           // .then(console.log)
+        myproducts.length = 0
+        positivemsg('Order saved Succesfully')
         router.push({
           name: 'DASHBOARD'
         })
       }
+    }
+
+    const positivemsg = function (msg){
+      $q.notify({
+        type: 'positive',
+        message: msg,
+        icon: 'cloud_done',
+        position:'top-right',
+        timeout:1000
+      })
     }
 
     return{
@@ -125,7 +138,8 @@ export default {
       confirm,
       confirmBox,
       confirmOrder,
-      notes
+      notes,
+      positivemsg
     }
   }
 
