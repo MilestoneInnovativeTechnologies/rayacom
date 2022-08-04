@@ -3,20 +3,28 @@ import { useQuasar } from 'quasar'
 import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
 import {computed, ref} from "vue"
+import {useRouter} from "vue-router/dist/vue-router";
 const $q = useQuasar()
+const router = useRouter()
 const masterStore = useMasterStore(), ID = ref(100001)
 const salesexecutive = computed(() => masterStore.SALES_EXECUTIVE[ID.value])
 const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-const isValidEmail = function (val) {
-  return emailPattern.test(val)|| 'Invalid email';
+const isValidEmail = function () {
+  return emailPattern.test(salesexecutive.value.email)|| 'Invalid email';
 }
 
 
 
- function update() {
+ const myProfile = function () {
+   if( (salesexecutive.value.name != '') && (salesexecutive.value.password != '')  && (salesexecutive.value.phone != '')
+     && (emailPattern.test(salesexecutive.value.email))){
+
    console.warn(salesexecutive.value);
    let cus = _.omit(salesexecutive.value, ['areas'])
    post('master', 'update', cus)
+
+   }
+
 
 
  }
@@ -37,11 +45,9 @@ const onSubmit = function(message)
  return{
 
    onSubmit,
-   email:"",
    isValidEmail,
-
-
-   //myProfile,
+   myProfile,
+   salesexecutive,
 
 
 
@@ -89,7 +95,7 @@ const onSubmit = function(message)
              v-model="salesexecutive.email"
              hint="E-Mail"
              type="text"
-             :rules="[ val => !!val ||  'Email is missing', isValidEmail(),]">
+             :rules="[ val => !!val ||  'Email is missing', isValidEmail ]">
       <template v-slot:append>
         <q-icon name="mail" />
       </template>
@@ -117,7 +123,7 @@ const onSubmit = function(message)
                label="Submit"
                class="q-mt-md full-width"
                color="purple"
-               @click="update"/>
+               @click="myProfile"/>
       </div>
     </div>
   </q-form>
