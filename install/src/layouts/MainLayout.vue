@@ -31,6 +31,8 @@ const linksList = [
   {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
   {title: 'sales excutive profile', caption: 'sales executive profile', icon: 'edit', route: 'editprofile'},
   {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
+  {title: 'anju', caption: 'test', icon: 'history', route: 'anju'},
+
 ]
 
 export default defineComponent({
