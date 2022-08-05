@@ -59,8 +59,8 @@
 
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="card">
-      <q-card class="my-card">
-      <q-list bordered class="rounded-borders" style="min-width: 400px">
+      <q-card class="my-card" style="width: 400px">
+        <q-list bordered class="rounded-borders" style="min-width: 350px">
         <q-item>
           <q-item-section avatar>
             <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
@@ -71,10 +71,9 @@
               <span class="text-weight-bold">{{ specificId }}</span>
             </q-item-label>
           </q-item-section>
-
         </q-item>
         <q-item>
-          <q-item-section top class="col-2 gt-sm">
+          <q-item-section top class="col-1 gt-sm">
             <q-item-label class="q-mt-sm text-weight-medium">#</q-item-label>
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
@@ -86,7 +85,7 @@
         </q-item>
         <q-separator/>
         <q-item v-for="(j, ind) in specificItems">
-          <q-item-section top class="col-2 gt-sm">
+          <q-item-section top class="col-1 gt-sm">
             <q-item-label class="q-mt-sm">{{ ind + 1 }}</q-item-label>
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
@@ -98,7 +97,7 @@
         </q-item>
         <q-separator/>
         <q-item>
-          <q-item-section top class="col-2 gt-sm">
+          <q-item-section top class="col-1 gt-sm">
             <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
