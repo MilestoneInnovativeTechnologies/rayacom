@@ -40,7 +40,8 @@
         <q-item-section>Notes</q-item-section>
         <q-item-section> <q-input
           v-model="notes"
-          type="textarea"
+          type="text"
+          autogrow
         /></q-item-section>
       </q-item>
     </q-list>
