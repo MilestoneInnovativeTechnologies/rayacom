@@ -116,7 +116,7 @@ export default {
         post('order','store',{ customer:customer, date:formattedString, narration:notes.value, items:myproducts.value })
           // .then(console.log)
         myproducts.length = 0
-        positivemsg('Order saved Succesfully')
+        positivemsg('Order saved Successfully')
         router.push({
           name: 'DASHBOARD'
         })

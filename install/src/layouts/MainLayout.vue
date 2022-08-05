@@ -29,6 +29,7 @@ const linksList = [
   {title: 'Firose', caption: 'A test page created by Firose Hussain', icon: 'beach_access', route: 'firose'},
   {title: 'DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'DASHBOARD'},
   {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
+  {title: 'SALESEXECIVEDASHBOARD', caption: 'Dashboard', icon: 'account_circle', route: 'SALESEXECIVEDASHBOARD'},
   {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
   {title: 'sales excutive profile', caption: 'sales executive profile', icon: 'edit', route: 'editprofile'},
   {title: 'anju', caption: 'test', icon: 'history', route: 'anju'},
