@@ -15,20 +15,16 @@
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
       <q-item-label header>Dashboard</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.items)">
+              @click="showitems(i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
         <q-item-section>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
-        </q-item-section>
-        <q-item-section>
-<!--          <q-item-label lines="1"></q-item-label>-->
           <q-item-label caption>{{ i.narration }}</q-item-label>
         </q-item-section>
-
-        <q-item-section side>
+        <q-item-section side top>
           <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
           <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
           <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
@@ -69,6 +65,16 @@
             <q-item-label lines="1">{{ specificDate }}</q-item-label>
             <q-item-label caption lines="2">
               <span class="text-weight-bold">{{ specificId }}</span>
+            </q-item-label>
+            <q-item-label caption lines="1">
+              <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
+              <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
+              <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
+              <q-badge color="info" v-else-if="specificStatus === 'Packed'" >{{ specificStatus }}</q-badge>
+              <q-badge color="blue-grey" v-else-if="model === 'Dispatched'" >{{ specificStatus }}</q-badge>
+              <q-badge color="positive" v-else-if="specificStatus === 'Delivered'" >{{ specificStatus }}</q-badge>
+              <q-badge color="negative" v-else-if="specificStatus === 'Cancelled'" >{{ specificStatus }}</q-badge>
+              <q-badge color="primary" v-else>Unknown</q-badge>
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -181,10 +187,12 @@ export default {
     let specificItems = ref('')
     let specificId = ref('')
     let specificDate = ref('')
-    const showitems = function (id, adate, items){
+    let specificStatus = ref('')
+    const showitems = function (id, adate, status, items){
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
+      specificStatus.value = status
       // console.log(specificItems)
       card.value = true
     }
@@ -195,6 +203,7 @@ export default {
     const totalPages= ref(5)
 
     return {
+      ORDERS,
       MYORDERS,
       totalcount: totalcount.value,
       page,
@@ -207,6 +216,7 @@ export default {
       specificItems,
       specificId,
       specificDate,
+      specificStatus,
       card,
     }
 

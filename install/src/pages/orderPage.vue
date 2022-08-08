@@ -1,23 +1,20 @@
 <template>
-
-  <div class="q-pa-md q-gutter-md full-width">
+  <q-page padding class="flex flex-center column q-gutter-y-lg">
 
     <q-list bordered separator>
       <q-item clickable class="text-subtitle2 bg-deep-orange-10 text-white">
-        <q-item-section>#</q-item-section>
-        <q-item-section>Item</q-item-section>
-        <q-item-section>Quantity</q-item-section>
-        <q-item-section>Remove</q-item-section>
+        <q-item-section class="text-white" side left>#</q-item-section>
+        <q-item-section class="col-6 gt-sm">Item</q-item-section>
+        <q-item-section class="col-2 gt-sm">Quantity</q-item-section>
+        <q-item-section class="text-white" side>Remove</q-item-section>
       </q-item>
-
-
       <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
-        <q-item-section>{{index + 1}}</q-item-section>
-         <q-item-section>{{ i.itemname }}</q-item-section>
-        <q-item-section>
+        <q-item-section side left>{{index+1}}</q-item-section>
+         <q-item-section class="col-6 gt-sm">{{ i.itemname }}</q-item-section>
+        <q-item-section class="col-2 gt-sm">
           <q-input
             outlined
-            style="max-width: 120px"
+            maxlength="4"
             v-model.number="myproducts[index].quantity"
             mask="#"
             fill-mask="0"
@@ -38,14 +35,10 @@
       </q-item>
       <q-item clickable class="text-subtitle2">
         <q-item-section>Notes</q-item-section>
-        <q-item-section> <q-input
-          v-model="notes"
-          type="text"
-          autogrow
-        /></q-item-section>
+        <q-item-section><q-input outlined v-model="notes" type="text" maxlength="500" autogrow /></q-item-section>
       </q-item>
     </q-list>
-  </div>
+<!--  </div>-->
 
   <q-dialog v-model="confirm" persistent>
     <q-card>
@@ -65,11 +58,12 @@
 <!--      {{myproducts}}-->
 <!--    </div>-->
 
-  <div class="q-pa-md q-gutter-sm" v-if="myproducts.length">
-    <q-btn unelevated rounded color="positive" label="Submit"  class="full-width"
-           type="submit" icon="camera_enhance" @click="confirmOrder()">
+
+    <q-btn color="positive" label="Submit" type="submit" icon="camera_enhance"
+            @click="confirmOrder()" v-if="myproducts.length">
     </q-btn>
-  </div>
+
+  </q-page>
 </template>
 
 <script>

@@ -5,7 +5,7 @@
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
       <q-item-label header>Order History</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.items)">
+              @click="showitems(i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
@@ -61,6 +61,16 @@
               <q-item-label caption lines="2">
                 <span class="text-weight-bold">{{ specificId }}</span>
               </q-item-label>
+              <q-item-label caption lines="1">
+                <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
+                <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
+                <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
+                <q-badge color="info" v-else-if="specificStatus === 'Packed'" >{{ specificStatus }}</q-badge>
+                <q-badge color="blue-grey" v-else-if="model === 'Dispatched'" >{{ specificStatus }}</q-badge>
+                <q-badge color="positive" v-else-if="specificStatus === 'Delivered'" >{{ specificStatus }}</q-badge>
+                <q-badge color="negative" v-else-if="specificStatus === 'Cancelled'" >{{ specificStatus }}</q-badge>
+                <q-badge color="primary" v-else>Unknown</q-badge>
+              </q-item-label>
             </q-item-section>
           </q-item>
           <q-item>
@@ -110,16 +120,20 @@
 <script>
 import { ref, computed } from 'vue'
 import { useOrderStore} from 'stores/order'
-const orderStore = useOrderStore()
-const ORDERS = orderStore.all.reverse()
 import { date } from 'quasar'
+const orderStore = useOrderStore()
 const { formatDate } = date
 
 export default {
   setup() {
     let num1
     let num2
-    let MYORDERS = ref(ORDERS)
+
+    const ORDERS =  computed(() => {
+      return orderStore.all.reverse()
+    })
+
+    let MYORDERS = ref(ORDERS.value)
     let totalcount = Object.values(MYORDERS.value).length
 
     const getOrders =  computed(() => {
@@ -138,11 +152,13 @@ export default {
     let specificItems = ref('')
     let specificId = ref('')
     let specificDate = ref('')
+    let specificStatus = ref('')
 
-    const showitems = function (id, adate, items){
+    const showitems = function (id, adate, status, items){
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
+      specificStatus.value = status
       // console.log(specificItems)
       card.value = true
     }
@@ -164,6 +180,7 @@ export default {
       specificItems,
       specificId,
       specificDate,
+      specificStatus,
       card,
     }
 

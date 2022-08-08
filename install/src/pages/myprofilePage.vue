@@ -1,61 +1,48 @@
 <template>
-  <div class="q-pa-lg column full-width">
 
-    <div class="q-gutter-lg row items-start">
+  <q-page padding class="flex flex-center column q-gutter-y-sm">
+    <q-input outlined label="Name and Surname" v-model="customer.name" type="text"
 
-      <q-input outlined v-model="customer.name" type="text"
-               hint="Name and Surname"
-               lazy-rules
-               :rules="[ val => val && val.length > 0 || 'Please type Name']" >
-        <template v-slot:append>
-          <q-icon name="account_box" />
-        </template>
-      </q-input>
-
-      <q-input outlined v-model="customer.password" type="password" hint="Password"
-               lazy-rules
-               :rules="[ val => val && val.length > 0 || 'Please type Password',
+             lazy-rules
+             :rules="[ val => val && val.length > 0 || 'Please type Name']" >
+      <template v-slot:append>
+        <q-icon name="account_box" />
+      </template>
+    </q-input>
+    <q-input outlined v-model="customer.password" type="password" label="Password"
+             lazy-rules
+             :rules="[ val => val && val.length > 0 || 'Please type Password',
                         val => val.length > 5 || 'Minimum length is 6']" >
-        <template v-slot:append>
-          <q-icon name="visibility_off" />
-        </template>
-      </q-input>
+      <template v-slot:append>
+        <q-icon name="visibility_off" />
+      </template>
+    </q-input>
+    <q-input outlined v-model="customer.email" type="email" label="Email"
+             lazy-rules
+             :rules="[val => !!val || 'Please type Email', isValidEmail ]">
+      <template v-slot:append>
+        <q-icon name="email" />
+      </template>
+    </q-input>
 
-      <q-input outlined v-model="customer.email" type="email" hint="Email"
-               lazy-rules
-               :rules="[val => !!val || 'Please type Email', isValidEmail ]">
-        <template v-slot:append>
-          <q-icon name="email" />
-        </template>
-      </q-input>
+    <q-input outlined v-model="customer.phone" type="tel" label="Contact number"
+             mask="(###) ### - ######"
+             lazy-rules
+             :rules="[ val => val && val.length > 0 || 'Please type Contact number']" >
+      <template v-slot:append>
+        <q-icon name="settings_phone" />
+      </template>
+    </q-input>
 
-      <q-input outlined v-model="customer.phone" type="tel" hint="Contact number"
-               mask="(###) ### - ######"
-               lazy-rules
-               :rules="[ val => val && val.length > 0 || 'Please type Contact number']" >
-        <template v-slot:append>
-          <q-icon name="settings_phone" />
-        </template>
-      </q-input>
-
-      <q-input outlined v-model="customer.address" type="text" hint="Address" autogrow
-               lazy-rules
-               :rules="[ val => val && val.length > 0 || 'Please type Address']" >
-        <template v-slot:append>
-          <q-icon name="home" />
-        </template>
-      </q-input>
-
-      <div class="q-pa-md q-gutter-sm full-width">
-        <q-btn unelevated rounded color="positive" label="Submit"  class="full-width"
-               type="submit" icon="camera_enhance" @click="updateMyself">
-        </q-btn>
-      </div>
-
-    </div>
-
-
-  </div>
+    <q-input outlined v-model="customer.address" type="text" label="Address" autogrow
+             lazy-rules
+             :rules="[ val => val && val.length > 0 || 'Please type Address']" >
+      <template v-slot:append>
+        <q-icon name="home" />
+      </template>
+    </q-input>
+    <q-btn color="positive" label="Submit" @click="updateMyself" icon="camera_enhance" />
+  </q-page>
 
 </template>
 

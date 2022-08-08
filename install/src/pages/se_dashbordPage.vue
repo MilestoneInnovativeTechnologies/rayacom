@@ -12,13 +12,9 @@
         <q-item-section>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
-        </q-item-section>
-        <q-item-section>
-<!--          <q-item-label lines="1"></q-item-label>-->
           <q-item-label caption>{{ i.narration }}</q-item-label>
         </q-item-section>
-
-        <q-item-section side>
+        <q-item-section side top>
           <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
           <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
           <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
