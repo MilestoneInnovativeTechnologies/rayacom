@@ -1,5 +1,6 @@
 <template>
   <q-item clickable tag="a" target="_blank" @click="navigate">
+
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
@@ -8,6 +9,10 @@
       <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
   </q-item>
+<!--  Will delete from here-->
+  <q-separator v-if="title == 'ORDER HISTORY'" />
+  <q-separator v-if="title == 'Firose'" />
+<!--  ends here-->
 </template>
 
 <script setup>
