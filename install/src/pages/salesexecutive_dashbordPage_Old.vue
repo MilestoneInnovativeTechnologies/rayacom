@@ -89,7 +89,7 @@
             <q-item-label class="q-mt-sm">{{ ind + 1 }}</q-item-label>
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
-            <q-item-label class="q-mt-sm">{{ j['item']['name'] }}</q-item-label>
+            <q-item-label class="q-mt-sm">{{ j.name }}</q-item-label>
           </q-item-section>
           <q-item-section top>
             <q-item-label class="q-mt-sm flex-center text-center">{{ j.quantity }}</q-item-label>
@@ -154,25 +154,31 @@ export default {
     let num1
     let num2
 
-    const ORDERS =  computed(() => {
-      return orderStore.all.reverse()
-    })
 
     const MYORDERS =  computed(() => {
-      let newArray = []
-      for( let n in ORDERS.value){
-        checkstatus = ORDERS.value[n]['status']
+      let ORDERS = orderStore.all.reverse()
+      for( let n in ORDERS){
+        checkstatus = ORDERS[n]['status']
         if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
-          newArray.push(ORDERS.value[n])
+          itemarray = ORDERS[n]['items']
+          let newArray = []
+          for( let i in itemarray) {
+            itemObj = { id:itemarray[i]['item']['id'], name:itemarray[i]['item']['name'],
+              quantity:itemarray[i]['quantity'] }
+            newArray.push(itemObj)
+          }
+          EXTRACTEDORDERS[n] = { id: ORDERS[n]['id'],  date: ORDERS[n]['date'], status: ORDERS[n]['status'],
+            narration: ORDERS[n]['narration'], items: newArray }
         }
       }
-      return newArray;
+      return EXTRACTEDORDERS
     })
 
+    console.log(MYORDERS.value)
     const totalcount =  computed(() => {
       return Object.keys(MYORDERS.value).length
     })
-
+    console.log(totalcount)
     let MYKEYS
     let newArr
     let status
@@ -210,11 +216,11 @@ export default {
     let specificStatus = ref('')
 
     const showitems = function (id, adate, status, items){
-      console.log(items)
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
       specificStatus.value = model.value = status
+
       // console.log(specificItems)
       card.value = true
     }
@@ -234,7 +240,6 @@ export default {
     const totalPages= ref(5)
 
     return {
-      ORDERS,
       MYORDERS,
       totalcount: totalcount.value,
       page,

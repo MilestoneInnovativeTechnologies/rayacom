@@ -89,7 +89,7 @@
             <q-item-label class="q-mt-sm">{{ ind + 1 }}</q-item-label>
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
-            <q-item-label class="q-mt-sm">{{ j.name }}</q-item-label>
+            <q-item-label class="q-mt-sm">{{ j['item']['name'] }}</q-item-label>
           </q-item-section>
           <q-item-section top>
             <q-item-label class="q-mt-sm flex-center text-center">{{ j.quantity }}</q-item-label>
@@ -121,42 +121,39 @@
 import { useQuasar } from 'quasar'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-
 import { useOrderStore} from 'stores/order'
 const orderStore = useOrderStore()
-const ORDERS = orderStore.all.reverse()
 import { date } from 'quasar'
 const { formatDate } = date
-const EXTRACTEDORDERS= {}
-let checkstatus
-let customer
-let itemarray
-let itemObj
 
-for( let n in ORDERS){
-  checkstatus = ORDERS[n]['status']
-  if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
-    itemarray = ORDERS[n]['items']
-    let newArray = []
-    for( let i in itemarray) {
-      itemObj = { id:itemarray[i]['item']['id'], name:itemarray[i]['item']['name'],
-        quantity:itemarray[i]['quantity'] }
-      newArray.push(itemObj)
-    }
-    EXTRACTEDORDERS[n] = { id: ORDERS[n]['id'],  date: ORDERS[n]['date'], status: ORDERS[n]['status'],
-      narration: ORDERS[n]['narration'], items: newArray }
-  }
-}
 
 export default {
   setup() {
     const router = useRouter()
     const $q = useQuasar()
+    let checkstatus
     let num1
     let num2
-    let MYORDERS = ref(EXTRACTEDORDERS)
-    // console.log(MYORDERS.value)
-    let totalcount = Object.keys(MYORDERS.value).length
+
+    const ORDERS =  computed(() => {
+      return orderStore.all.reverse()
+    })
+
+    const MYORDERS =  computed(() => {
+      let newArray = []
+      for( let n in ORDERS.value){
+        checkstatus = ORDERS.value[n]['status']
+        if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
+          newArray.push(ORDERS.value[n])
+        }
+      }
+      return newArray;
+    })
+
+    const totalcount =  computed(() => {
+      return Object.keys(MYORDERS.value).length
+    })
+
     let MYKEYS
     let newArr
     let status
@@ -167,8 +164,8 @@ export default {
       MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
       newArr = MYKEYS.map((e) => {
         status = e.status
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration,
-          status:e.status, items:e.items }
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration: e.narration,
+          status: e.status, items: e.items }
       })
       return newArr
     })
@@ -199,7 +196,7 @@ export default {
 
     return {
       MYORDERS,
-      totalcount,
+      totalcount: totalcount.value,
       page,
       currentPage,
       nextPage,
@@ -215,5 +212,4 @@ export default {
 
   }
 }
-
 </script>
