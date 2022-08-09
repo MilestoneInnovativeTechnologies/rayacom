@@ -29,14 +29,15 @@ class MasterProperty extends Model
             $property = $Property->id;
             $mps = self::where(compact('property','data'))->get();
             if($mps->isEmpty() || $Property->nature === 'Multiple') {
-                $mp = new self(compact('property','data','value'));
-                $mp->save();
+                if(!is_null($value)){
+                    $mp = new self(compact('property','data','value'));
+                    $mp->save();
+                }
             } else {
                 $mp = $mps->first();
                 $mp->value = $value;
                 $mp->save();
             }
         }
-        return $mp ?: null;
     }
 }
