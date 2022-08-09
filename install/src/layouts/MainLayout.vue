@@ -33,6 +33,7 @@ const linksList = [
   {title: 'SE DASHBOARD', caption: 'Sales Executive Dashboard', icon: 'home', route: 'SALESEXECUTIVEDASHBOARD'},
   {title: 'SE ORDER HISTORY', caption: 'Sales Executive Order History', icon: 'history', route: 'SALESEXECUTIVEORDEHISTORY'},
   {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'editprofile'},
+  // {title: 'SE TEST', caption: 'Sales', icon: 'account_circle', route: 'se.history'},
 ]
 
 export default defineComponent({

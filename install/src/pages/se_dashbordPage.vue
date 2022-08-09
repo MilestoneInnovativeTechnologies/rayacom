@@ -1,4 +1,5 @@
 <template>
+  <q-page padding class="flex flex-center column q-gutter-y-sm">
   <div class="q-pa-md q-gutter-md left">
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
@@ -126,6 +127,7 @@
       </q-card>
     </q-dialog>
   </div>
+  </q-page>
 
 </template>
 
