@@ -65,6 +65,7 @@ class PostController extends Controller
         return DB::table('_property_masters')
             ->where(function($Q) use($after_date){ $Q->where('created_at','>',$after_date); })
             ->orWhere(function($Q)use ($after_date){ $Q->where('created_at','<=',$after_date)->where('updated_at','>',$after_date); })
+            ->orderBy('updated_at')
             ->get();
     }
 
