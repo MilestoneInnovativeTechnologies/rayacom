@@ -8,6 +8,11 @@
       <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
   </q-item>
+  <!--  Will delete from here-->
+  <q-separator v-if="title == 'PROFILE'" />
+  <q-separator v-if="title == 'SE PROFILE'" />
+  <q-separator v-if="title == 'Firose'" />
+  <!--  ends here-->
 </template>
 
 <script setup>

@@ -21,7 +21,9 @@
         <q-item-section side left top>
           <q-input
             outlined
+            dense
             maxlength="4"
+            style="max-width: 80px"
             v-model.number="myproducts[index].quantity"
             mask="#"
             fill-mask="0"
@@ -43,7 +45,7 @@
       </q-item>
       <q-item clickable class="text-subtitle2">
         <q-item-section>Notes</q-item-section>
-        <q-item-section><q-input outlined v-model="notes" type="text" maxlength="500" autogrow /></q-item-section>
+        <q-item-section><q-input outlined v-model="notes" type="text" maxlength="500" autogrow counter /></q-item-section>
       </q-item>
     </q-list>
 <!--  </div>-->

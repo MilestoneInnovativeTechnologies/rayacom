@@ -28,14 +28,11 @@ const linksList = [
   {title: 'Home', caption: 'Back to main, Home Page', icon: 'home', route: 'home'},
   {title: 'Firose', caption: 'A test page created by Firose Hussain', icon: 'beach_access', route: 'firose'},
   {title: 'DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'DASHBOARD'},
-  {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
   {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
+  {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
   {title: 'SE DASHBOARD', caption: 'Sales Executive Dashboard', icon: 'home', route: 'SALESEXECUTIVEDASHBOARD'},
-  {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'editprofile'},
   {title: 'SE ORDER HISTORY', caption: 'Sales Executive Order History', icon: 'history', route: 'SALESEXECUTIVEDASHBOARD'},
-
-  {title: 'anju', caption: 'test', icon: 'history', route: 'anju'},
-
+  {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'editprofile'},
 ]
 
 export default defineComponent({
