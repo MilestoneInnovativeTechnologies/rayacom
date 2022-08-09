@@ -31,7 +31,7 @@ const linksList = [
   {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
   {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
   {title: 'SE DASHBOARD', caption: 'Sales Executive Dashboard', icon: 'home', route: 'SALESEXECUTIVEDASHBOARD'},
-  {title: 'SE ORDER HISTORY', caption: 'Sales Executive Order History', icon: 'history', route: 'SALESEXECUTIVEDASHBOARD'},
+  {title: 'SE ORDER HISTORY', caption: 'Sales Executive Order History', icon: 'history', route: 'SALESEXECUTIVEORDEHISTORY'},
   {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'editprofile'},
 ]
 

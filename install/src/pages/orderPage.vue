@@ -1,7 +1,7 @@
 <template>
-  <q-page padding class="flex flex-center column q-gutter-y-lg">
+  <q-page padding class="flex flex-center column q-gutter-y-xl">
 
-    <q-list bordered separator>
+    <q-list bordered>
       <q-item clickable class="text-subtitle2 bg-deep-orange-10 text-white">
         <q-item-section class="text-white"><q-item-label lines="1">#</q-item-label></q-item-section>
         <q-item-section><q-item-label lines="1">Item</q-item-label></q-item-section>
@@ -9,21 +9,21 @@
         <q-item-section>
           <q-item-label lines="1">Quantity</q-item-label>
         </q-item-section>
-        <q-item-section class="text-white" side>Remove</q-item-section>
+        <q-item-section class="text-white" side></q-item-section>
       </q-item>
       <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
-        <q-item-section side left>
+        <q-item-section class="text-black" side>
           <q-item-label lines="1">{{index+1}}</q-item-label>
         </q-item-section>
          <q-item-section>
            <q-item-label lines="1">{{ i.itemname }}</q-item-label>
            </q-item-section>
-        <q-item-section side left top>
+        <q-item-section side top>
           <q-input
             outlined
             dense
             maxlength="4"
-            style="max-width: 80px"
+            style="max-width: 60px"
             v-model.number="myproducts[index].quantity"
             mask="#"
             fill-mask="0"
@@ -34,21 +34,25 @@
                     ]"
           />
         </q-item-section>
-        <q-item-section avatar side>
+        <q-item-section avatar side top>
           <q-icon name="cancel" @click="confirmBox(index)"  class="cursor-pointer"  />
         </q-item-section>
-
       </q-item>
+      <q-separator />
       <q-item clickable class="text-subtitle2">
         <q-item-section>Total Items:</q-item-section>
         <q-item-section>{{ myproducts.length }}</q-item-section>
       </q-item>
+      <q-separator />
       <q-item clickable class="text-subtitle2">
         <q-item-section>Notes</q-item-section>
         <q-item-section><q-input outlined v-model="notes" type="text" maxlength="500" autogrow counter /></q-item-section>
       </q-item>
     </q-list>
-<!--  </div>-->
+
+    <q-btn color="positive" label="Save" type="submit" icon="camera_enhance"
+           @click="confirmOrder()" v-if="myproducts.length">
+    </q-btn>
 
   <q-dialog v-model="confirm" persistent>
     <q-card>
@@ -68,10 +72,6 @@
 <!--      {{myproducts}}-->
 <!--    </div>-->
 
-
-    <q-btn color="positive" label="Save" type="submit" icon="camera_enhance"
-            @click="confirmOrder()" v-if="myproducts.length">
-    </q-btn>
 
   </q-page>
 </template>
