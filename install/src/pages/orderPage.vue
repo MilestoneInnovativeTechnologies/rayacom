@@ -1,23 +1,29 @@
 <template>
+  <q-page padding class="flex flex-center column q-gutter-y-xl">
 
-  <div class="q-pa-md q-gutter-md full-width">
-
-    <q-list bordered separator>
+    <q-list bordered>
       <q-item clickable class="text-subtitle2 bg-deep-orange-10 text-white">
-        <q-item-section>#</q-item-section>
-        <q-item-section>Item</q-item-section>
-        <q-item-section>Quantity</q-item-section>
-        <q-item-section>Remove</q-item-section>
-      </q-item>
-
-
-      <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
-        <q-item-section>{{index + 1}}</q-item-section>
-         <q-item-section>{{ i.itemname }}</q-item-section>
+        <q-item-section class="text-white"><q-item-label lines="1">#</q-item-label></q-item-section>
+        <q-item-section><q-item-label lines="1">Item</q-item-label></q-item-section>
+<!--        <q-item-section class="col-3 gt-sm">-->
         <q-item-section>
+          <q-item-label lines="1">Quantity</q-item-label>
+        </q-item-section>
+        <q-item-section class="text-white" side></q-item-section>
+      </q-item>
+      <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
+        <q-item-section class="text-black" side>
+          <q-item-label lines="1">{{index+1}}</q-item-label>
+        </q-item-section>
+         <q-item-section>
+           <q-item-label lines="1">{{ i.itemname }}</q-item-label>
+           </q-item-section>
+        <q-item-section side top>
           <q-input
             outlined
-            style="max-width: 120px"
+            dense
+            maxlength="4"
+            style="max-width: 60px"
             v-model.number="myproducts[index].quantity"
             mask="#"
             fill-mask="0"
@@ -28,24 +34,25 @@
                     ]"
           />
         </q-item-section>
-
-        <q-item-section side><q-icon name="cancel" @click="confirmBox(index)"  class="cursor-pointer" />
+        <q-item-section avatar side top>
+          <q-icon name="cancel" @click="confirmBox(index)"  class="cursor-pointer"  />
         </q-item-section>
       </q-item>
+      <q-separator />
       <q-item clickable class="text-subtitle2">
         <q-item-section>Total Items:</q-item-section>
         <q-item-section>{{ myproducts.length }}</q-item-section>
       </q-item>
+      <q-separator />
       <q-item clickable class="text-subtitle2">
         <q-item-section>Notes</q-item-section>
-        <q-item-section> <q-input
-          v-model="notes"
-          type="text"
-          autogrow
-        /></q-item-section>
+        <q-item-section><q-input outlined v-model="notes" type="text" maxlength="500" autogrow counter /></q-item-section>
       </q-item>
     </q-list>
-  </div>
+
+    <q-btn color="positive" label="Save" type="submit" icon="camera_enhance"
+           @click="confirmOrder()" v-if="myproducts.length">
+    </q-btn>
 
   <q-dialog v-model="confirm" persistent>
     <q-card>
@@ -65,11 +72,8 @@
 <!--      {{myproducts}}-->
 <!--    </div>-->
 
-  <div class="q-pa-md q-gutter-sm" v-if="myproducts.length">
-    <q-btn unelevated rounded color="positive" label="Submit"  class="full-width"
-           type="submit" icon="camera_enhance" @click="confirmOrder()">
-    </q-btn>
-  </div>
+
+  </q-page>
 </template>
 
 <script>
@@ -116,7 +120,7 @@ export default {
         post('order','store',{ customer:customer, date:formattedString, narration:notes.value, items:myproducts.value })
           // .then(console.log)
         myproducts.length = 0
-        positivemsg('Order saved Succesfully')
+        positivemsg('Order saved Successfully')
         router.push({
           name: 'DASHBOARD'
         })

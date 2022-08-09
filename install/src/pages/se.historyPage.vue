@@ -1,23 +1,28 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <div class="q-pa-md" >
-    <q-toolbar class="bg-secondary text-white shadow-2">
-      <q-toolbar-title>Order History</q-toolbar-title>
-    </q-toolbar>
-
+  <div class="q-pa-md q-gutter-md">
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
-<!--      <q-item-label header></q-item-label>-->
+      <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
+      <q-item-label header>Order History</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.status, i.items)">
+              @click="showitems(i.id, i.date, i.status, i.items,  i.customer)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
         <q-item-section>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
-          <q-item-label caption>{{ i.date }}</q-item-label>
+          <q-item-label>{{ i.customer}}</q-item-label>
+
+
+        <q-item-label caption>{{ i.date }}</q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <!--          <q-item-label lines="1"></q-item-label>-->
           <q-item-label caption>{{ i.narration }}</q-item-label>
         </q-item-section>
+
+
 
         <q-item-section side>
           <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
@@ -31,7 +36,7 @@
         </q-item-section>
       </q-item>
     </q-list>
-    </div>
+  </div>
   <div class="q-pa-lg flex flex-center" v-if="totalcount">
     <q-pagination
       v-model="page"
@@ -59,6 +64,8 @@
             </q-item-section>
             <q-item-section top class="col-7 gt-sm">
               <q-item-label lines="1">{{ specificDate }}</q-item-label>
+              <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
+
               <q-item-label caption lines="2">
                 <span class="text-weight-bold">{{ specificId }}</span>
               </q-item-label>
@@ -123,11 +130,22 @@
 import { ref, computed } from 'vue'
 import { useOrderStore} from 'stores/order'
 import { date } from 'quasar'
+import {useMasterStore} from "app/milestone/rayacom/install/src/stores/master";
+import {post} from "app/milestone/rayacom/install/src/boot/axios";
+
+
+
 const orderStore = useOrderStore()
 const { formatDate } = date
 
+
 export default {
   setup() {
+
+
+
+
+
     let num1
     let num2
 
@@ -144,6 +162,7 @@ export default {
       let MYKEYS = MYORDERS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '),
+          customer: e.customer.name,
           narration:e.narration, status:e.status, items:e.items }
       })
       console.log(newArr);
@@ -155,18 +174,21 @@ export default {
     let specificId = ref('')
     let specificDate = ref('')
     let specificStatus = ref('')
+    let specificCustomer = ref('')
 
-    const showitems = function (id, adate, status, items){
+    const showitems = function (id, adate, status, items,customer ){
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
       specificStatus.value = status
+      specificCustomer.value = customer
       // console.log(specificItems)
       card.value = true
     }
 
     let page = ref(1)
     let currentPage= ref(1)
+    let nextPage= ref(null)
     const totalPages= ref(5)
 
     return {
@@ -174,6 +196,7 @@ export default {
       totalcount,
       page,
       currentPage,
+      nextPage,
       totalPages,
       getOrders,
       showitems,
@@ -181,7 +204,10 @@ export default {
       specificId,
       specificDate,
       specificStatus,
+      specificCustomer,
+
       card,
+
     }
 
   }

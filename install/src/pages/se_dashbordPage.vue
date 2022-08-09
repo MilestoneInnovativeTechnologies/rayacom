@@ -1,23 +1,19 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-
-    <div class="row justify-end side">
-      <q-btn color="positive" no-caps @click="gotoItempage()">
-        <q-icon left size="2em" name="open_in_new" />
-        NEW ORDER
-      </q-btn>
-    </div>
-
-    <q-list bordered padding class="rounded-borders">
-<!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-      <q-item-label header v-if="totalcount === 0">No Order</q-item-label>
-      <q-item-label header v-else>Dashboard</q-item-label>
+    <div class="q-pa-md" >
+    <q-toolbar class="bg-secondary text-white shadow-2">
+      <q-toolbar-title>Dashboard</q-toolbar-title>
+    </q-toolbar>
+    <q-list bordered padding class="rounded-borders" style="max-width: 350px"
+            v-if="totalcount">
+<!--      <q-item-label header>Dashboard</q-item-label>-->
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.status, i.items)">
+              @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
         <q-item-section>
+          <q-item-label lines="1">{{ i.customer }}</q-item-label>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
           <q-item-label caption>{{ i.narration }}</q-item-label>
@@ -32,24 +28,22 @@
         </q-item-section>
       </q-item>
     </q-list>
-
-  <div class="q-pa-lg flex flex-center" v-if="totalcount">
-    <q-pagination
-      v-model="page"
-      :min="currentPage"
-      :max="maxVal"
-      :max-pages="7"
-      direction-links
-      boundary-links
-      icon-first="skip_previous"
-      icon-last="skip_next"
-      icon-prev="fast_rewind"
-      icon-next="fast_forward"
-      active-color="deep-orange-10"
-    />
-  </div>
-
-
+    </div>
+    <div class="q-pa-lg flex flex-center" v-if="totalcount">
+      <q-pagination
+        v-model="page"
+        :min="currentPage"
+        :max="maxVal"
+        :max-pages="7"
+        direction-links
+        boundary-links
+        icon-first="skip_previous"
+        icon-last="skip_next"
+        icon-prev="fast_rewind"
+        icon-next="fast_forward"
+        active-color="deep-orange-10"
+      />
+    </div>
 
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="card">
@@ -60,20 +54,21 @@
             <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
-            <q-item-label lines="1">{{ specificDate }}</q-item-label>
-            <q-item-label caption lines="2">
+            <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
+            <q-item-label lines="2">{{ specificDate }}</q-item-label>
+            <q-item-label caption lines="3">
               <span class="text-weight-bold">{{ specificId }}</span>
             </q-item-label>
-            <q-item-label caption lines="1">
-              <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
-              <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
-              <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
-              <q-badge color="info" v-else-if="specificStatus === 'Packed'" >{{ specificStatus }}</q-badge>
-              <q-badge color="blue-grey" v-else-if="model === 'Dispatched'" >{{ specificStatus }}</q-badge>
-              <q-badge color="positive" v-else-if="specificStatus === 'Delivered'" >{{ specificStatus }}</q-badge>
-              <q-badge color="negative" v-else-if="specificStatus === 'Cancelled'" >{{ specificStatus }}</q-badge>
+          </q-item-section>
+            <q-item-section side >
+              <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
+              <q-badge color="secondary" v-else-if ="model === 'Viewed'" >{{ model }}</q-badge>
+              <q-badge color="accent" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
+              <q-badge color="info" v-else-if="model === 'Packed'" >{{ model }}</q-badge>
+              <q-badge color="blue-grey" v-else-if="model === 'Dispatched'" >{{ model }}</q-badge>
+              <q-badge color="positive" v-else-if="model === 'Delivered'" >{{ model }}</q-badge>
+              <q-badge color="negative" v-else-if="model === 'Cancelled'" >{{ model }}</q-badge>
               <q-badge color="primary" v-else>Unknown</q-badge>
-            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -111,9 +106,25 @@
             <q-item-label class="q-mt-sm text-weight-medium text-center">{{ specificItems.length }}</q-item-label>
           </q-item-section>
         </q-item>
+
+          <q-item>
+            <q-item-section top class="col-2 gt-sm">
+              <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
+            </q-item-section>
+            <q-item-section top class="col-7 gt-sm">
+              <q-item-label class="q-mt-sm text-weight-medium">
+                <q-select filled  v-model="model" :options="options" label="Status"
+                          @update:model-value="updateStatus()"  />
+              </q-item-label>
+            </q-item-section>
+            <q-item-section top>
+              <q-item-label class="q-mt-sm">
+              </q-item-label>
+            </q-item-section>
+          </q-item>
       </q-list>
                 <q-card-actions align="right">
-                  <q-btn flat label="Close" color="negative" v-close-popup />
+                  <q-btn flat label="Close" color="negative"  v-close-popup  />
                 </q-card-actions>
       </q-card>
     </q-dialog>
@@ -128,8 +139,8 @@ import { useRouter } from 'vue-router'
 import { useOrderStore} from 'stores/order'
 const orderStore = useOrderStore()
 import { date } from 'quasar'
+import { post } from "boot/axios";
 const { formatDate } = date
-
 
 export default {
   setup() {
@@ -140,7 +151,7 @@ export default {
     let num2
 
     const ORDERS =  computed(() => {
-      return orderStore.all.reverse()
+      return orderStore.all
     })
 
     const MYORDERS =  computed(() => {
@@ -151,7 +162,7 @@ export default {
           newArray.push(ORDERS.value[n])
         }
       }
-      return newArray;
+      return newArray.reverse();
     })
 
     const totalcount =  computed(() => {
@@ -161,6 +172,7 @@ export default {
     let MYKEYS
     let newArr
     let status
+    let model = ref(null)
 
     const getOrders =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
@@ -169,7 +181,7 @@ export default {
       newArr = MYKEYS.map((e) => {
         status = e.status
         return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration: e.narration,
-          status: e.status, items: e.items }
+          customer: e.customer.name, status: e.status, items: e.items }
       })
       return newArr
     })
@@ -180,19 +192,38 @@ export default {
         })
     }
 
+    const updateStatus = function (){
+      post('order','status',{ order:specificId.value, status:model.value })
+      .then(console.log)
+      positivemsg('Order status updated Successfully')
+    }
+
 
     let card = ref(false)
     let specificItems = ref('')
+    let specificCustomer = ref('')
     let specificId = ref('')
     let specificDate = ref('')
     let specificStatus = ref('')
-    const showitems = function (id, adate, status, items){
+
+    const showitems = function (customer, id, adate, status, items){
+      console.log(items)
+      specificCustomer.value = customer
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
-      specificStatus.value = status
+      specificStatus.value = model.value = status
       // console.log(specificItems)
       card.value = true
+    }
+    const positivemsg = function (msg){
+      $q.notify({
+        type: 'positive',
+        message: msg,
+        icon: 'cloud_done',
+        position:'top-right',
+        timeout:2000
+      })
     }
 
     let page = ref(1)
@@ -216,11 +247,18 @@ export default {
       showitems,
       specificItems,
       specificId,
+      specificCustomer,
       specificDate,
       specificStatus,
       card,
+      model,
+      options: [
+        'New','Viewed','Accepted','Packed','Dispatched','Delivered','Cancelled'
+      ],
+      updateStatus,
+      positivemsg,
     }
-
   }
 }
+
 </script>
