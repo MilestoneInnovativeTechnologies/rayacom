@@ -26,6 +26,12 @@ class PostController extends Controller
         if(request()->header('Latest-Date')){
             $latest_date = request()->header('Latest-Date',now()->toDateTimeString()) ?: now()->toDateTimeString();
             $data = array_merge($data,$this->latest_masters($latest_date));
+            if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_master_prop_last_updated()))) {
+                $data['mp'] = $this->get_master_properties($latest_date);
+            }
+            if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_prop_master_last_updated()))) {
+                $data['pm'] = $this->get_property_masters($latest_date);
+            }
         }
         return $data;
     }
@@ -37,10 +43,6 @@ class PostController extends Controller
             if(Carbon::parse($latest_date)->lessThan(Carbon::parse($master_max))){
                 $data = array_merge($data,$this->get_latest_master($master_id,$latest_date));
             }
-        }
-        if(Carbon::parse($latest_date)->lessThan(Carbon::parse(db_properties_last_updated()))){
-            $data['mp'] = $this->get_master_properties($latest_date);
-            $data['pm'] = $this->get_property_masters($latest_date);
         }
         return $data;
     }
