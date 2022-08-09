@@ -38,7 +38,7 @@ const onSubmit = function(message)
     color: 'green',
     textColor: 'white',
     icon: 'cloud_done',
-    message: 'Your Profile Submitted',
+    message: 'Your Profile Successfully Updated',
     position:'top-right',
 
   })
@@ -67,9 +67,10 @@ const onSubmit = function(message)
 
 <template>
   <q-form
-    @submit.prevent="onSubmit" class="q-pa-md items-start">
+    @submit.prevent="onSubmit" class="">
+    <q-page padding class="flex flex-center column q-gutter-y-sm">
 
-    <div class="row justify-xl-center full-width">
+<!--    <div class="row justify-xl-center full-width">-->
     <q-input outlined
              v-model="salesexecutive.name"
              type="text"
@@ -79,18 +80,19 @@ const onSubmit = function(message)
         <q-icon name="account_box" />
       </template>
     </q-input>
-      <q-space></q-space>
+<!--      <q-space></q-space>-->
       <q-input outlined
              v-model="salesexecutive.password"
              hint="Password"
              type="password"
-             :rules="[ val => val && val.length > 0  || 'must  fill this field']" >
+             :rules="[ val => val && val.length > 0  || 'must  fill this field',
+             val => val.length > 5 || 'Minimum length is 6']" >
 
       <template v-slot:append>
-        <q-icon name="password"/>
+        <q-icon name="visibility_off"/>
       </template>
     </q-input>
-      <q-space></q-space>
+<!--      <q-space></q-space>-->
       <q-input  outlined
              v-model="salesexecutive.email"
              hint="E-Mail"
@@ -103,7 +105,7 @@ const onSubmit = function(message)
     </q-input>
 
 
-      <q-space></q-space>
+<!--      <q-space></q-space>-->
       <div class="row justify-md-center">
     <q-input outlined
              v-model="salesexecutive.phone"
@@ -118,13 +120,14 @@ const onSubmit = function(message)
 
     </div>
 
-      <div class="row justify-center full-width">
+<!--      <div class="row justify-center full-width">-->
         <q-btn type="submit"
                label="Submit"
-               class="q-mt-md full-width"
-               color="positive"
+               color="green"
+               icon="camera_enhance"
                @click="myProfile"/>
-      </div>
-    </div>
+<!--      </div>-->
+<!--    </div>-->
+    </q-page>
   </q-form>
 </template>
