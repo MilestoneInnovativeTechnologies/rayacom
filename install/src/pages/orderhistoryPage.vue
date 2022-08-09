@@ -1,9 +1,13 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
+  <q-page padding class="flex flex-center column q-gutter-y-sm">
+    <div class="q-pa-md" >
+    <q-toolbar class="bg-secondary text-white shadow-2">
+      <q-toolbar-title>Order History</q-toolbar-title>
+    </q-toolbar>
+
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
-<!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-      <q-item-label header>Order History</q-item-label>
+<!--      <q-item-label header></q-item-label>-->
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
               @click="showitems(i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
@@ -12,9 +16,6 @@
         <q-item-section>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
-        </q-item-section>
-        <q-item-section>
-<!--          <q-item-label lines="1"></q-item-label>-->
           <q-item-label caption>{{ i.narration }}</q-item-label>
         </q-item-section>
 
@@ -30,7 +31,7 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </div>
+    </div>
   <div class="q-pa-lg flex flex-center" v-if="totalcount">
     <q-pagination
       v-model="page"
@@ -115,6 +116,7 @@
       </q-card>
     </q-dialog>
   </div>
+  </q-page>
 </template>
 
 <script>
@@ -165,7 +167,6 @@ export default {
 
     let page = ref(1)
     let currentPage= ref(1)
-    let nextPage= ref(null)
     const totalPages= ref(5)
 
     return {
@@ -173,7 +174,6 @@ export default {
       totalcount,
       page,
       currentPage,
-      nextPage,
       totalPages,
       getOrders,
       showitems,

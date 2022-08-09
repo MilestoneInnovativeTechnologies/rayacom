@@ -1,9 +1,12 @@
 <template>
-  <div class="q-pa-md q-gutter-md left">
+  <q-page padding class="flex flex-center column q-gutter-y-sm">
+    <div class="q-pa-md" >
+    <q-toolbar class="bg-secondary text-white shadow-2">
+      <q-toolbar-title>Dashboard</q-toolbar-title>
+    </q-toolbar>
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
-<!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-      <q-item-label header>Dashboard</q-item-label>
+<!--      <q-item-label header>Dashboard</q-item-label>-->
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
               @click="showitems(i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
@@ -24,24 +27,22 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </div>
-  <div class="q-pa-lg flex flex-center" v-if="totalcount">
-    <q-pagination
-      v-model="page"
-      :min="currentPage"
-      :max="Math.ceil(totalcount/totalPages)"
-      :max-pages="7"
-      direction-links
-      boundary-links
-      icon-first="skip_previous"
-      icon-last="skip_next"
-      icon-prev="fast_rewind"
-      icon-next="fast_forward"
-      active-color="deep-orange-10"
-    />
-  </div>
-
-
+    </div>
+    <div class="q-pa-lg flex flex-center" v-if="totalcount">
+      <q-pagination
+        v-model="page"
+        :min="currentPage"
+        :max="maxVal"
+        :max-pages="7"
+        direction-links
+        boundary-links
+        icon-first="skip_previous"
+        icon-last="skip_next"
+        icon-prev="fast_rewind"
+        icon-next="fast_forward"
+        active-color="deep-orange-10"
+      />
+    </div>
 
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="card">
@@ -126,7 +127,7 @@
       </q-card>
     </q-dialog>
   </div>
-
+  </q-page>
 </template>
 
 <script>
@@ -143,15 +144,12 @@ export default {
   setup() {
     const router = useRouter()
     const $q = useQuasar()
-    let EXTRACTEDORDERS= {}
     let checkstatus
-    let itemarray
-    let itemObj
     let num1
     let num2
 
     const ORDERS =  computed(() => {
-      return orderStore.all.reverse()
+      return orderStore.all
     })
 
     const MYORDERS =  computed(() => {
@@ -162,7 +160,7 @@ export default {
           newArray.push(ORDERS.value[n])
         }
       }
-      return newArray;
+      return newArray.reverse();
     })
 
     const totalcount =  computed(() => {
@@ -226,17 +224,20 @@ export default {
 
     let page = ref(1)
     let currentPage= ref(1)
-    let nextPage= ref(null)
     const totalPages= ref(5)
+
+    const maxVal =  computed(() => {
+      return Math.ceil(totalcount.value/totalPages.value)
+    })
 
     return {
       ORDERS,
       MYORDERS,
-      totalcount: totalcount.value,
+      totalcount,
       page,
       currentPage,
-      nextPage,
       totalPages,
+      maxVal,
       getOrders,
       gotoItempage,
       showitems,
