@@ -3,15 +3,22 @@
 
     <q-list bordered separator>
       <q-item clickable class="text-subtitle2 bg-deep-orange-10 text-white">
-        <q-item-section class="text-white" side left>#</q-item-section>
-        <q-item-section class="col-6 gt-sm">Item</q-item-section>
-        <q-item-section class="col-2 gt-sm">Quantity</q-item-section>
+        <q-item-section class="text-white"><q-item-label lines="1">#</q-item-label></q-item-section>
+        <q-item-section><q-item-label lines="1">Item</q-item-label></q-item-section>
+<!--        <q-item-section class="col-3 gt-sm">-->
+        <q-item-section>
+          <q-item-label lines="1">Quantity</q-item-label>
+        </q-item-section>
         <q-item-section class="text-white" side>Remove</q-item-section>
       </q-item>
       <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
-        <q-item-section side left>{{index+1}}</q-item-section>
-         <q-item-section class="col-6 gt-sm">{{ i.itemname }}</q-item-section>
-        <q-item-section class="col-2 gt-sm">
+        <q-item-section side left>
+          <q-item-label lines="1">{{index+1}}</q-item-label>
+        </q-item-section>
+         <q-item-section>
+           <q-item-label lines="1">{{ i.itemname }}</q-item-label>
+           </q-item-section>
+        <q-item-section side left top>
           <q-input
             outlined
             maxlength="4"
@@ -25,9 +32,10 @@
                     ]"
           />
         </q-item-section>
-
-        <q-item-section side><q-icon name="cancel" @click="confirmBox(index)"  class="cursor-pointer" />
+        <q-item-section avatar side>
+          <q-icon name="cancel" @click="confirmBox(index)"  class="cursor-pointer"  />
         </q-item-section>
+
       </q-item>
       <q-item clickable class="text-subtitle2">
         <q-item-section>Total Items:</q-item-section>
@@ -59,7 +67,7 @@
 <!--    </div>-->
 
 
-    <q-btn color="positive" label="Submit" type="submit" icon="camera_enhance"
+    <q-btn color="positive" label="Save" type="submit" icon="camera_enhance"
             @click="confirmOrder()" v-if="myproducts.length">
     </q-btn>
 

@@ -122,7 +122,7 @@ const onSubmit = function(message)
         <q-btn type="submit"
                label="Submit"
                class="q-mt-md full-width"
-               color="purple"
+               color="positive"
                @click="myProfile"/>
       </div>
     </div>
