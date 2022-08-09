@@ -1,15 +1,19 @@
 <template>
-  <div class="q-pa-md q-gutter-md left">
+  <q-page padding class="flex flex-center column q-gutter-y-sm">
+    <div class="q-pa-md" >
+    <q-toolbar class="bg-secondary text-white shadow-2">
+      <q-toolbar-title>Dashboard</q-toolbar-title>
+    </q-toolbar>
     <q-list bordered padding class="rounded-borders" style="max-width: 350px"
             v-if="totalcount">
-<!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-      <q-item-label header>Dashboard</q-item-label>
+<!--      <q-item-label header>Dashboard</q-item-label>-->
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.status, i.items)">
+              @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
         <q-item-section>
+          <q-item-label lines="1">{{ i.customer }}</q-item-label>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
           <q-item-label caption>{{ i.narration }}</q-item-label>
@@ -24,24 +28,22 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </div>
-  <div class="q-pa-lg flex flex-center" v-if="totalcount">
-    <q-pagination
-      v-model="page"
-      :min="currentPage"
-      :max="Math.ceil(totalcount/totalPages)"
-      :max-pages="7"
-      direction-links
-      boundary-links
-      icon-first="skip_previous"
-      icon-last="skip_next"
-      icon-prev="fast_rewind"
-      icon-next="fast_forward"
-      active-color="deep-orange-10"
-    />
-  </div>
-
-
+    </div>
+    <div class="q-pa-lg flex flex-center" v-if="totalcount">
+      <q-pagination
+        v-model="page"
+        :min="currentPage"
+        :max="maxVal"
+        :max-pages="7"
+        direction-links
+        boundary-links
+        icon-first="skip_previous"
+        icon-last="skip_next"
+        icon-prev="fast_rewind"
+        icon-next="fast_forward"
+        active-color="deep-orange-10"
+      />
+    </div>
 
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="card">
@@ -52,11 +54,13 @@
             <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
-            <q-item-label lines="1">{{ specificDate }}</q-item-label>
-            <q-item-label caption lines="2">
+            <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
+            <q-item-label lines="2">{{ specificDate }}</q-item-label>
+            <q-item-label caption lines="3">
               <span class="text-weight-bold">{{ specificId }}</span>
             </q-item-label>
-            <q-item-label caption lines="1">
+          </q-item-section>
+            <q-item-section side >
               <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
               <q-badge color="secondary" v-else-if ="model === 'Viewed'" >{{ model }}</q-badge>
               <q-badge color="accent" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
@@ -65,7 +69,6 @@
               <q-badge color="positive" v-else-if="model === 'Delivered'" >{{ model }}</q-badge>
               <q-badge color="negative" v-else-if="model === 'Cancelled'" >{{ model }}</q-badge>
               <q-badge color="primary" v-else>Unknown</q-badge>
-            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -126,7 +129,7 @@
       </q-card>
     </q-dialog>
   </div>
-
+  </q-page>
 </template>
 
 <script>
@@ -143,15 +146,12 @@ export default {
   setup() {
     const router = useRouter()
     const $q = useQuasar()
-    let EXTRACTEDORDERS= {}
     let checkstatus
-    let itemarray
-    let itemObj
     let num1
     let num2
 
     const ORDERS =  computed(() => {
-      return orderStore.all.reverse()
+      return orderStore.all
     })
 
     const MYORDERS =  computed(() => {
@@ -162,7 +162,7 @@ export default {
           newArray.push(ORDERS.value[n])
         }
       }
-      return newArray;
+      return newArray.reverse();
     })
 
     const totalcount =  computed(() => {
@@ -180,8 +180,8 @@ export default {
       MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
       newArr = MYKEYS.map((e) => {
         status = e.status
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration,
-          status:e.status, items:e.items }
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration: e.narration,
+          customer: e.customer.name, status: e.status, items: e.items }
       })
       return newArr
     })
@@ -201,12 +201,14 @@ export default {
 
     let card = ref(false)
     let specificItems = ref('')
+    let specificCustomer = ref('')
     let specificId = ref('')
     let specificDate = ref('')
     let specificStatus = ref('')
 
-    const showitems = function (id, adate, status, items){
+    const showitems = function (customer, id, adate, status, items){
       console.log(items)
+      specificCustomer.value = customer
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
@@ -226,22 +228,26 @@ export default {
 
     let page = ref(1)
     let currentPage= ref(1)
-    let nextPage= ref(null)
     const totalPages= ref(5)
+
+    const maxVal =  computed(() => {
+      return Math.ceil(totalcount.value/totalPages.value)
+    })
 
     return {
       ORDERS,
       MYORDERS,
-      totalcount: totalcount.value,
+      totalcount,
       page,
       currentPage,
-      nextPage,
       totalPages,
+      maxVal,
       getOrders,
       gotoItempage,
       showitems,
       specificItems,
       specificId,
+      specificCustomer,
       specificDate,
       specificStatus,
       card,
