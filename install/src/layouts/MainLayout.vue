@@ -32,7 +32,7 @@ const linksList = [
   {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
   {title: 'SE DASHBOARD', caption: 'Sales Executive Dashboard', icon: 'home', route: 'SALESEXECIVEDASHBOARD'},
   {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'editprofile'},
-  {title: 'anju', caption: 'test', icon: 'history', route: 'anju'},
+  //{title: 'sales excutive dashboard', caption: 'test', icon: 'history', route: 'SAlESEXECUTIVE DASHBOARD'},
 
 ]
 
