@@ -8,11 +8,12 @@
             v-if="totalcount">
 <!--      <q-item-label header>Dashboard</q-item-label>-->
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.status, i.items)">
+              @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
         <q-item-section>
+          <q-item-label lines="1">{{ i.customer }}</q-item-label>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
           <q-item-label caption>{{ i.narration }}</q-item-label>
@@ -53,11 +54,13 @@
             <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
           </q-item-section>
           <q-item-section top class="col-7 gt-sm">
-            <q-item-label lines="1">{{ specificDate }}</q-item-label>
-            <q-item-label caption lines="2">
+            <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
+            <q-item-label lines="2">{{ specificDate }}</q-item-label>
+            <q-item-label caption lines="3">
               <span class="text-weight-bold">{{ specificId }}</span>
             </q-item-label>
-            <q-item-label caption lines="1">
+          </q-item-section>
+            <q-item-section side >
               <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
               <q-badge color="secondary" v-else-if ="model === 'Viewed'" >{{ model }}</q-badge>
               <q-badge color="accent" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
@@ -66,7 +69,6 @@
               <q-badge color="positive" v-else-if="model === 'Delivered'" >{{ model }}</q-badge>
               <q-badge color="negative" v-else-if="model === 'Cancelled'" >{{ model }}</q-badge>
               <q-badge color="primary" v-else>Unknown</q-badge>
-            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -178,8 +180,8 @@ export default {
       MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
       newArr = MYKEYS.map((e) => {
         status = e.status
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration:e.narration,
-          status:e.status, items:e.items }
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration: e.narration,
+          customer: e.customer.name, status: e.status, items: e.items }
       })
       return newArr
     })
@@ -199,12 +201,14 @@ export default {
 
     let card = ref(false)
     let specificItems = ref('')
+    let specificCustomer = ref('')
     let specificId = ref('')
     let specificDate = ref('')
     let specificStatus = ref('')
 
-    const showitems = function (id, adate, status, items){
+    const showitems = function (customer, id, adate, status, items){
       console.log(items)
+      specificCustomer.value = customer
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
@@ -243,6 +247,7 @@ export default {
       showitems,
       specificItems,
       specificId,
+      specificCustomer,
       specificDate,
       specificStatus,
       card,
