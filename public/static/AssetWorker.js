@@ -9,6 +9,7 @@ const Auth = { Master:"",Data:""}
 const latest_fetch_interval = 10 * 1000;
 let latest_timeOut = null, latest_date = '', master_prop_time = '';
 let PROPERTIES = {}, PROP_SET = {}, MASTERS = [], STORE_MASTER = {};
+const PROP_SUMMARY = {}
 
 function init({ property_time,masters,master_time,master_property_time,auth_data,auth_master }){
   Auth.Data = auth_data || 10001; Auth.Master = auth_master || 2; master_prop_time = master_property_time;
@@ -30,7 +31,8 @@ function handlePropertiesResponse(response){
     PROPERTIES = properties;
     _.forEach(PROPERTIES,function(properties,master){
       let pObj = new Object({});
-      _.forEach(properties,function(property){
+      _.forEach(properties,function(property,idx){
+        PROP_SUMMARY[property.id] = [master,_.get(_.find(MASTERS,Ary => Ary[0] == master),1),property.name,property.nature,property.index,property.value_master,idx]
         pObj[property.name] = property['nature'] === 'Y/N' ? false : (property['nature'] === 'Multiple' ? [] : ((property['value_master'] || property['index'] === 'Y') ? { master:property['value_master'],data:null,value:null } : null))
       })
       PROP_SET[String(master)] = pObj
@@ -55,11 +57,12 @@ function MastersFetched(){
 }
 function PropertiesFetched(){
   setTimeout((wn) => {
-    wn.postMessage({ payload:STORE_MASTER,action:'data',store:'master' })
+    const MAST = _(MASTERS).mapKeys(Ary => Ary[1]).mapValues(Ary => ({ id:Ary[0],name:Ary[1],time:Ary[2],data:{} })).value()
+    wn.postMessage({ payload:MAST,action:'master',store:'master' })
     wn.postMessage({ payload:PROPERTIES,action:'property',store:'master' })
-    wn.postMessage({ payload:MASTERS,action:'master',store:'master' })
     wn.postMessage({ payload:PROP_SET,action:'property_set',store:'master' })
-    STORE_MASTER = null; PROPERTIES = null; PROP_SET = null; MASTERS = _(MASTERS).mapKeys(Ary => Ary[0]).mapValues(Ary => Ary[1]).value()
+    wn.postMessage({ payload:STORE_MASTER,action:'data',store:'master' })
+    STORE_MASTER = null; PROP_SET = null; MASTERS = _(MASTERS).mapKeys(Ary => Ary[0]).mapValues(Ary => Ary[1]).value()
     wn['latest']();
     latest_timeOut = setInterval(wn['latest'],latest_fetch_interval);
   },1000,self)
@@ -163,13 +166,50 @@ function process_latest_response(data){
   _.forEach(data,function(records,mName){
     if(mName === '_next') return latest_date = records;
     if(records && records.length){
-      if(records[0].master){
-        masters[mName] = {}
-        _.forEach(records,function({ id,name }){
-          masters[mName][id] = name
-        })
+      if(mName === 'mp') {
+        let mObj = _(records).groupBy(({ property }) => _.get(PROP_SUMMARY,[property,1])).mapValues(mProps => _(mProps).groupBy('data').mapValues(mdProps => _(mdProps).mapKeys(({ property }) => _.get(PROP_SUMMARY,[property,2])).mapValues('value').value()).value()).value()
+        _.merge(masters,mObj);
       } else {
-        self.postMessage({ store:_.toLower(mName),action:'store',payload:records })
+        if(mName === 'pm') {
+          _.forEach(records,record => {
+            let Property = _(PROPERTIES).flatMap().filter(property => record.property == property.id).mapValues(property => Object.assign({},property,{ masters:_(property.masters).filter(pM => pM.data == record.data).value() })).values().nth(0)
+            let PIds = _.get(Property,['masters',0,'ids']), CIds = [];
+            let master_id = PROP_SUMMARY[record.property][0], m_prop_idx = PROP_SUMMARY[record.property][6];
+            try {
+              CIds = JSON.parse(record.ids)
+            } catch (e) {
+              CIds = [];
+            }
+            let added = _.difference(CIds,PIds), removed = _.difference(PIds,CIds);
+            let mName = PROP_SUMMARY[record.property][1], pName = PROP_SUMMARY[record.property][2];
+            if(!_.isEmpty(added)) _.forEach(added,mid => {
+              if(!_.has(masters,mName)) masters[mName] = {};
+              if(!_.has(masters[mName],mid)) masters[mName][mid] = {};
+              if(!_.has(masters[mName][mid],pName)) masters[mName][mid][pName] = {};
+              if(!_.has(masters[mName][mid][pName],'_add')) masters[mName][mid][pName]['_add'] = [];
+              masters[mName][mid][pName]['_add'].push(record.data)
+            })
+            if(!_.isEmpty(removed)) _.forEach(removed,mid => {
+              if(!_.has(masters,mName)) masters[mName] = {};
+              if(!_.has(masters[mName],mid)) masters[mName][mid] = {};
+              if(!_.has(masters[mName][mid],pName)) masters[mName][mid][pName] = {};
+              if(!_.has(masters[mName][mid][pName],'_remove')) masters[mName][mid][pName]['_remove'] = [];
+              masters[mName][mid][pName]['_remove'].push(record.data)
+            })
+            let pms = _.get(PROPERTIES,[master_id,m_prop_idx,'masters']);
+            let masters_data_index = _.findIndex(pms,({ data }) => data == record.data);
+            if(masters_data_index > -1) PROPERTIES[master_id][m_prop_idx]['masters'][masters_data_index]['ids'] = CIds;
+          })
+        } else {
+          if(records[0].master){
+            masters[mName] = {}
+            _.forEach(records,function({ id,name }){
+              masters[mName][id] = { name }
+            })
+          } else {
+            self.postMessage({ store:_.toLower(mName),action:'store',payload:records })
+          }
+        }
       }
     }
   })
