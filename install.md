@@ -19,9 +19,11 @@ select RayacomServiceProvider from the list
 ###### Create database and set details in env files
 `php artisan migrate`
 
-###### Seed dummy data if required
+###### If required dummy data, Publish data files then Seed it
 `php artisan vendor:publish`
 Select rayacom-dummydata from the list
+
+`php artisan db:seed --class=Milestone/Rayacom/Seeders/DatabaseSeeders`
 
 ##### Application Ready
 ##### If need to test locally, create host and vhost (apache). Then browse through the host address
