@@ -1,4 +1,5 @@
 <template>
+  <q-separator v-if="separate && separate === true" spaced />
   <q-item clickable tag="a" target="_blank" @click="navigate">
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
@@ -8,17 +9,12 @@
       <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
   </q-item>
-  <!--  Will delete from here-->
-  <q-separator v-if="title == 'PROFILE'" />
-  <q-separator v-if="title == 'SE PROFILE'" />
-  <q-separator v-if="title == 'Firose'" />
-  <!--  ends here-->
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
 
-const props = defineProps(['title','caption','route','icon'])
+const props = defineProps(['title','caption','route','icon','separate'])
 const emits = defineEmits(['navigate'])
 const router = useRouter();
 function navigate(){
