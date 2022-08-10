@@ -1,30 +1,26 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <div class="q-pa-md q-gutter-md">
+    <div class="q-pa-md" >
+      <q-toolbar class="bg-brand text-white shadow-2">
+        <q-toolbar-title>Order History</q-toolbar-title>
+      </q-toolbar>
+
       <q-list bordered padding class="rounded-borders" style="max-width: 350px"
               v-if="totalcount">
-        <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-        <q-item-label header>Order History</q-item-label>
+        <!--      <q-item-label header></q-item-label>-->
         <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-                @click="showitems(i.id, i.date, i.status, i.items,  i.customer)">
+                @click="showitems(i.id, i.date, i.status, i.items, i.customer)">
           <q-item-section avatar top>
-            <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+            <q-avatar icon="fact_check" color="brand" text-color="white" />
           </q-item-section>
           <q-item-section>
             <q-item-label lines="1">{{ i.id }}</q-item-label>
             <q-item-label>{{ i.customer}}</q-item-label>
-
-
             <q-item-label caption>{{ i.date }}</q-item-label>
-          </q-item-section>
-          <q-item-section>
-            <!--          <q-item-label lines="1"></q-item-label>-->
             <q-item-label caption>{{ i.narration }}</q-item-label>
           </q-item-section>
 
-
-
-          <q-item-section side>
+          <q-item-section side top>
             <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
             <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
             <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
@@ -49,7 +45,7 @@
         icon-last="skip_next"
         icon-prev="fast_rewind"
         icon-next="fast_forward"
-        active-color="deep-orange-10"
+        active-color="brand"
       />
     </div>
 
@@ -60,16 +56,16 @@
           <q-list bordered class="rounded-borders" style="min-width: 350px">
             <q-item>
               <q-item-section avatar>
-                <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+                <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
               <q-item-section top class="col-7 gt-sm">
                 <q-item-label lines="1">{{ specificDate }}</q-item-label>
-                <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
-
-                <q-item-label caption lines="2">
+                <q-item-label>{{ specificCustomer }}</q-item-label>
+                <q-item-label caption>
                   <span class="text-weight-bold">{{ specificId }}</span>
                 </q-item-label>
-                <q-item-label caption lines="1">
+              </q-item-section>
+                <q-item-section side >
                   <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
                   <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
                   <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
@@ -78,7 +74,6 @@
                   <q-badge color="positive" v-else-if="specificStatus === 'Delivered'" >{{ specificStatus }}</q-badge>
                   <q-badge color="negative" v-else-if="specificStatus === 'Cancelled'" >{{ specificStatus }}</q-badge>
                   <q-badge color="primary" v-else>Unknown</q-badge>
-                </q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
@@ -130,22 +125,11 @@
 import { ref, computed } from 'vue'
 import { useOrderStore} from 'stores/order'
 import { date } from 'quasar'
-import {useMasterStore} from "app/milestone/rayacom/install/src/stores/master";
-import {post} from "app/milestone/rayacom/install/src/boot/axios";
-
-
-
 const orderStore = useOrderStore()
 const { formatDate } = date
 
-
 export default {
   setup() {
-
-
-
-
-
     let num1
     let num2
 
@@ -161,9 +145,8 @@ export default {
       num2 = (page.value-1)*totalPages.value+totalPages.value;
       let MYKEYS = MYORDERS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '),
-          customer: e.customer.name,
-          narration:e.narration, status:e.status, items:e.items }
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), customer: e.customer.name,
+          narration: e.narration, status: e.status, items: e.items }
       })
       console.log(newArr);
       return newArr
@@ -176,7 +159,7 @@ export default {
     let specificStatus = ref('')
     let specificCustomer = ref('')
 
-    const showitems = function (id, adate, status, items,customer ){
+    const showitems = function (id, adate, status, items, customer){
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
@@ -188,7 +171,6 @@ export default {
 
     let page = ref(1)
     let currentPage= ref(1)
-    let nextPage= ref(null)
     const totalPages= ref(5)
 
     return {
@@ -196,7 +178,6 @@ export default {
       totalcount,
       page,
       currentPage,
-      nextPage,
       totalPages,
       getOrders,
       showitems,
@@ -205,9 +186,7 @@ export default {
       specificDate,
       specificStatus,
       specificCustomer,
-
       card,
-
     }
 
   }

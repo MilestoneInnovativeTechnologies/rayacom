@@ -37,15 +37,15 @@ const linksList = [
   {title: 'SE PROFILE', caption: 'Sales Executive Profile', icon: 'account_circle', route: 'editprofile'},
 
   {title: 'AD DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'ADMINDASHBOARD'},
-  {title: 'AD LEAVES', caption: 'Leaves', icon: 'account_circle', route: ''},
-  {title: 'AD REVIEWS', caption: 'Reviews', icon: 'account_circle', route: ''},
-  {title: 'AD ORDERS', caption: 'Orders', icon: 'account_circle', route: ''},
-  {title: 'AD ORDER HISTORY', caption: 'Order History', icon: 'account_circle', route: 'ADMINORDERHISTORY'},
-  {title: 'AD CUSTOMERS', caption: 'Customers', icon: 'account_circle', route: ''},
-  {title: 'AD SALES EXECUTIVES', caption: 'Sales Executives', icon: 'account_circle', route: ''},
-  {title: 'AD AREA', caption: 'Area', icon: 'account_circle', route: ''},
-  {title: 'AD ITEMS', caption: 'items', icon: 'account_circle', route: ''},
-  {title: 'AD PROFILE', caption: 'Profile', icon: 'account_circle', route: 'ADMINPROFILE'},
+  {title: 'AD LEAVES', caption: 'Leaves', icon: 'sick', route: 'ADMINDASHBOARD'},
+  {title: 'AD REVIEWS', caption: 'Reviews', icon: 'comment_bank', route: ''},
+  {title: 'AD ORDERS', caption: 'Orders', icon: 'reorder', route: ''},
+  {title: 'AD ORDER HISTORY', caption: 'Order History', icon: 'history', route: 'ADMINORDERHISTORY'},
+  {title: 'AD CUSTOMERS', caption: 'Customers', icon: 'people', route: ''},
+  {title: 'AD SALES EXECUTIVES', caption: 'Sales Executives', icon: 'person', route: ''},
+  {title: 'AD AREA', caption: 'Area', icon: 'area_chart', route: ''},
+  {title: 'AD ITEMS', caption: 'Items', icon: 'add_shopping_cart', route: 'ADMINITEMS'},
+  {title: 'AD PROFILE', caption: 'Profile', icon: 'manage_accounts', route: 'ADMINPROFILE'},
 
 ]
 
