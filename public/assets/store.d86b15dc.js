@@ -1,0 +1,1 @@
+import{b as c}from"./index.d6457b73.js";import{u as m}from"./master.88af1675.js";import{u as n}from"./order.f826452f.js";import"./lodash.e6c87188.js";var b=c(async i=>{AssetWorker.onmessage=function(t){const{store:e,action:r,payload:o}=t.data,s=m(),a=n();switch(e){case"master":s[r](o);break;case"order":a[r](o);break}}});export{b as default};
