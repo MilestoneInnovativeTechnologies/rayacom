@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
     <div class="q-pa-md" >
-      <q-toolbar class="bg-secondary text-white shadow-2">
+      <q-toolbar class="bg-brand text-white shadow-2">
         <q-toolbar-title>Dashboard</q-toolbar-title>
       </q-toolbar>
       <q-list bordered padding class="rounded-borders" style="max-width: 350px"
@@ -10,7 +10,7 @@
         <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
                 @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
           <q-item-section avatar top>
-            <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+            <q-avatar icon="fact_check" color="brand" text-color="white" />
           </q-item-section>
           <q-item-section>
             <q-item-label lines="1">{{ i.customer }}</q-item-label>
@@ -41,7 +41,7 @@
         icon-last="skip_next"
         icon-prev="fast_rewind"
         icon-next="fast_forward"
-        active-color="deep-orange-10"
+        active-color="brand"
       />
     </div>
 
@@ -51,7 +51,7 @@
           <q-list bordered class="rounded-borders" style="min-width: 350px">
             <q-item>
               <q-item-section avatar>
-                <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
+                <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
               <q-item-section top class="col-7 gt-sm">
                 <q-item-label lines="1">{{ specificCustomer }}</q-item-label>

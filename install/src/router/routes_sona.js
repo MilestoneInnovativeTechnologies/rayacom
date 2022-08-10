@@ -11,5 +11,6 @@ export default [
   { name: 'ADMINDASHBOARD', path: '/admin_dashbord', props: true, component: () => import('pages/adminDashboardPage.vue'), meta:{ title: 'Dashboard'} },
   { name: 'ADMINORDERHISTORY', path: '/admin_orderhistory', props: true, component: () => import('pages/admin_orderhistoryPage.vue'), meta:{ title: 'Order History'} },
   { name: 'ADMINPROFILE', path: '/admin_profile', props: true, component: () => import('pages/admin_profilePage.vue'), meta:{ title: 'Profile'} },
+  { name: 'ADMINITEMS', path: '/admin_items', props: true, component: () => import('pages/admin_itempage.vue'), meta:{ title: 'Items'} },
 
 ]
