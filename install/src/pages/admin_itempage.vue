@@ -1,11 +1,7 @@
 <template>
+  <q-page padding class="flex flex-center column q-gutter-y-sm">
 
-  <div class="q-pa-md fullwidth">
-    <div class="q-gutter-md">
-      <div>
-<!--        <q-badge color="teal">Model: "{{ search }}"</q-badge>-->
-      </div>
-
+    <div class="q-gutter-md" top>
       <q-input
         v-model="search"
         debounce="500"
@@ -16,16 +12,19 @@
           <q-icon name="search" />
         </template>
       </q-input>
-
     </div>
-  </div>
+    <div class="row justify-end side">
+      <q-btn color="positive" no-caps @click="gotoItempage()">
+        <q-icon left size="2em" name="open_in_new" />
+        NEW ITEM
+      </q-btn>
+    </div>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
     <q-card flat bordered
             class="my-card"
-            v-for="(i, index) in getData" :key="i.id"
-            @click="selectedProducts(i.id, i.name)">
-      <q-card-section class="bg-brand text-white">
+            v-for="(i, index) in getData" :key="i.id">
+      <q-card-section class="bg-deep-orange-10 text-white">
         <div class="Subtitle 2 text-weight-bolder">{{ i.name }}</div>
       </q-card-section>
     </q-card>
@@ -47,30 +46,19 @@
       icon-last="skip_next"
       icon-prev="fast_rewind"
       icon-next="fast_forward"
-      active-color="brand"
+      active-color="deep-orange-10"
     />
   </div>
-
-  <div class="q-pa-md q-gutter-sm" v-if="myproducts.length">
-    <q-btn unelevated rounded color="positive" label="Proceed"  icon-right="send" class="full-width"
-           @click="order()">
-    </q-btn>
-  </div>
-
+  </q-page>
 </template>
 
 <script>
 import { computed, ref  } from 'vue'
-import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
 import { useMasterStore } from 'stores/master'
 const master = useMasterStore()
 const ITEMS = master.ITEM
 export default {
   setup () {
-    const $q = useQuasar()
-    const router = useRouter()
-    const myproducts = ref([] )
     let num1
     let num2
     let MYITEMS = ref(ITEMS)
@@ -99,40 +87,9 @@ export default {
       return newArr
     })
 
-    const selectedProducts = function(item, itemname ){
-      var msg =''
-      var exists = myproducts.value.some(function(field) {
-        return field.item === item;
-      });
-      if (!exists) {
-        myproducts.value.push({ item, itemname, quantity: 1 });
-        msg = 'New item added'
-      }else{
-        myproducts.value.find(x => x.item === item).quantity+=1;
-        msg = 'Item quantity updated'
-      }
-      positivemsg(msg)
-    }
-
-    const positivemsg = function (msg){
-      $q.notify({
-        type: 'positive',
-        icon: 'cloud_done',
-        message: msg,
-        position:'top-right',
-        timeout:800
-      })
-    }
-
-    const order = function (){
-      router.push({
-        name: 'ORDER', params: { myproducts : JSON.stringify( myproducts.value) }
-      })
-    }
 
     let page = ref(1)
     let currentPage= ref(1)
-    let nextPage= ref(null)
     const totalPages= ref(10)
 
     return {
@@ -142,13 +99,8 @@ export default {
       myitemsLength,
       page,
       currentPage,
-      nextPage,
       totalPages,
       getData,
-      positivemsg,
-      myproducts,
-      selectedProducts,
-      order,
     }
   },
 }
