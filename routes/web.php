@@ -37,8 +37,13 @@ Route::get('caches',function(){
     }
     dd($caches);
 });
+//Route::get('/test', function () {
+//  return  \Milestone\Rayacom\Models\MasterData::where('name','ITEM')->value('id');
+//
+//});
 Route::view('/','Rayacom::home');
 Route::post('latest.json',[PostController::class,'latest']);
 Route::post('{item}/{action}',[PostController::class,'post']);
 Route::view('{rayacom_segments}', 'Rayacom::home');
+
 
