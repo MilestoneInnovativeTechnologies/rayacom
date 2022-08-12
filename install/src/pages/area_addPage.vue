@@ -1,13 +1,11 @@
 <template>
-
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <q-input outlined label="Item Name" v-model="item.name" type="text"
+    <q-input outlined label="Area" v-model="item.name" type="text"
              lazy-rules
-             :rules="[ val => val && val.length > 0 || 'Please type Item Name']" >
+             :rules="[ val => val && val.length > 0 || 'Please type Area']" >
     </q-input>
-    <q-btn color="positive" label="Submit" @click="saveItem" icon="camera_enhance" />
+    <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
   </q-page>
-
 </template>
 
 <script>
@@ -31,24 +29,24 @@ export default {
       if(ID.value == 0){
         return ({ id: '', name: '' })
       }else{
-        return masterStore.ITEM[ID.value]
+        return masterStore.AREA[ID.value]
       }
       })
 
     let msg
-    const saveItem = function() {
+    const save = function() {
       if( item.value.name != ''){
         console.warn(item.value);
         if(ID.value == 0){
-          post('item', 'store', item.value)
+          post('area', 'store', item.value)
           msg = 'Your have added a new item successfully'
         }else{
-          post('item', 'update', item.value)
+          post('area', 'update', item.value)
           msg = 'Your Item have updated successfully'
         }
         positivemsg(msg)
         router.push({
-          name: 'ADMINITEMS'
+          name: 'ADMINAREA'
         })
       }
     }
@@ -65,7 +63,7 @@ export default {
 
     return {
       item,
-      saveItem,
+      save,
       positivemsg
     }
   }

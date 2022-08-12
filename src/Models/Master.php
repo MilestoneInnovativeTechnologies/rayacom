@@ -19,6 +19,7 @@ class Master extends Model
             return $master->isDirty('name');
         });
         static::creating(function($master){
+            if(!$master->master) $master->master = self::$MASTER;
             $properties = array_values(array_diff(array_keys($master->getAttributes()),['id','name','master','created_at','updated_at']));
             foreach ($properties as $property) {
                 self::RFCA($property,$master->$property);
@@ -26,25 +27,29 @@ class Master extends Model
             }
         });
         static::created(function($master){
-            if(empty(self::$RFCAs)) return;
-            $master_id = $master->master; $data_id = $master->id;
-            foreach (self::$RFCAs as $property => $value) {
-                Property::set($master_id,$property,$data_id,$value);
+            if(!empty(self::$RFCAs)) {
+                $master_id = $master->master; $data_id = $master->id;
+                foreach (self::$RFCAs as $property => $value) {
+                    Property::set($master_id,$property,$data_id,$value);
+                }
+                self::$RFCAs = [];
             }
-            self::$RFCAs = [];
+            self::rGenCache();
         });
         static::saved(function($master){
-            if($master->wasChanged('name')){
-                Cache::forever(rayacom_config('cache_key.db_master_data_max_times'),DB::table('_master_data')->select(['master', DB::raw('max(updated_at) as `max`')])->groupBy('master')->pluck('max', 'master')->toArray());
-                Cache::forever(rayacom_config('cache_key.db_master_data'),DB::table('_master_data')->get()->groupBy->master->map(fn($masters) => $masters->map(fn($master) => [intval($master->id), trim($master->name)]))->toArray());
-            }
+            if($master->wasChanged('name')) self::rGenCache();
         });
     }
 
     protected $table = '_master_data';
     protected $guarded = [];
+    public static $MASTER = null;
 
     private static $RFCAs = [];
 
     private static function RFCA($attr,$value){ self::$RFCAs[$attr] = $value; }
+    private static function rGenCache(){
+        Cache::forever(rayacom_config('cache_key.db_master_data_max_times'),DB::table('_master_data')->select(['master', DB::raw('max(updated_at) as `max`')])->groupBy('master')->pluck('max', 'master')->toArray());
+        Cache::forever(rayacom_config('cache_key.db_master_data'),DB::table('_master_data')->get()->groupBy->master->map(fn($masters) => $masters->map(fn($master) => [intval($master->id), trim($master->name)]))->toArray());
+    }
 }

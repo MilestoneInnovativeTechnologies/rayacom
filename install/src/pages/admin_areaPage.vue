@@ -13,13 +13,13 @@
       </q-input>
     </div>
     <div class="row justify-end side">
-      <q-btn color="positive" no-caps @click="gotoItem(0)">
+      <q-btn color="positive" no-caps @click="gotoAction(0)">
         <q-icon left size="2em" name="open_in_new" />
-        NEW ITEM
+        ADD AREA
       </q-btn>
     </div>
 
-  <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
+  <div class="q-pa-md row items-start q-gutter-md" v-if="myarrayLength">
     <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
       <q-list>
         <q-item class="bg-brand text-white text-bold">
@@ -27,7 +27,7 @@
             <q-item-label>{{ i.name }}</q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-btn flat round color="primary" icon="mode_edit" @click="gotoItem(i.id)">
+            <q-btn flat round color="primary" icon="mode_edit" @click="gotoAction(i.id)">
             <q-tooltip> Edit </q-tooltip>   </q-btn>
           </q-item-section>
         </q-item>
@@ -39,7 +39,7 @@
 <!--    {{myproducts}}-->
 <!--  </div>-->
 
-  <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
+  <div class="q-pa-lg flex flex-center" v-if="myarrayLength">
     <q-pagination
       v-model="page"
       :min="currentPage"
@@ -68,22 +68,22 @@ export default {
     let num1
     let num2
 
-    const MYITEMS =  computed(() => {
-      return  master.ITEM
+    const MYARRAY =  computed(() => {
+      return  master.AREA
     })
 
     const search = ref('')
 
     const searchResult = computed(()=>{
       if(search.value === ''){
-        return Object.values(MYITEMS.value)
+        return Object.values(MYARRAY.value)
       }else{
         let keyword = search.value.toLowerCase();
-        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+        return Object.values(MYARRAY.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
       }
     })
 
-    const myitemsLength = computed(()=>{
+    const myarrayLength = computed(()=>{
       return searchResult.value.length
     })
 
@@ -97,9 +97,9 @@ export default {
       return newArr
     })
 
-    const gotoItem = function (id){
+    const gotoAction = function (id){
       router.push({
-        name: 'ITEMADD', params: { id : id }
+        name: 'AREAADD', params: { id : id }
       })
     }
 
@@ -109,20 +109,20 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(myitemsLength.value/totalPages.value)
+      return Math.ceil(myarrayLength.value/totalPages.value)
     })
 
     return {
-      MYITEMS,
+      MYARRAY,
       search,
       searchResult,
-      myitemsLength,
+      myarrayLength,
       page,
       currentPage,
       totalPages,
       maxVal,
       getData,
-      gotoItem
+      gotoAction
     }
   },
 }
