@@ -11,15 +11,8 @@ use Milestone\Rayacom\Models\MasterData;
 class ItemController extends Controller
 {
     public function update(){
-        $id = request('id');
-        $name = request('name');
-        if($id >0){
-          $master = Master::find($id);
-        }else{
-          $master= new Master();
-          $master->master = MasterData::where('name','ITEM')->value('id');
-        }
-        $master->name = $name;
+        $master = Master::find(request('id'));
+        $master->name = request('name');
         $master->save();
         return $master;
     }
