@@ -14,19 +14,24 @@
       </q-input>
     </div>
     <div class="row justify-end side">
-      <q-btn color="positive" no-caps @click="gotoItempage()">
+      <q-btn color="positive" no-caps @click="gotoItem(0)">
         <q-icon left size="2em" name="open_in_new" />
         NEW ITEM
       </q-btn>
     </div>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
-    <q-card flat bordered
-            class="my-card"
-            v-for="(i, index) in getData" :key="i.id">
-      <q-card-section class="bg-deep-orange-10 text-white">
-        <div class="Subtitle 2 text-weight-bolder">{{ i.name }}</div>
-      </q-card-section>
+    <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
+      <q-list>
+        <q-item class="bg-brand text-white text-bold">
+          <q-item-section>
+            <q-item-label>{{ i.name }}</q-item-label>
+          </q-item-section>
+          <q-item-section avatar>
+            <q-btn flat round color="primary" icon="mode_edit" @click="gotoItem(i.id)" />
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-card>
   </div>
 
@@ -38,7 +43,7 @@
     <q-pagination
       v-model="page"
       :min="currentPage"
-      :max="Math.ceil(myitemsLength/totalPages)"
+      :max="maxVal"
       :max-pages="7"
       direction-links
       boundary-links
@@ -55,13 +60,18 @@
 <script>
 import { computed, ref  } from 'vue'
 import { useMasterStore } from 'stores/master'
+import { useRouter } from 'vue-router'
 const master = useMasterStore()
-const ITEMS = master.ITEM
 export default {
   setup () {
+    const router = useRouter()
     let num1
     let num2
-    let MYITEMS = ref(ITEMS)
+
+    const MYITEMS =  computed(() => {
+      return  master.ITEM
+    })
+
     const search = ref('')
 
     const searchResult = computed(()=>{
@@ -87,10 +97,20 @@ export default {
       return newArr
     })
 
+    const gotoItem = function (id){
+      router.push({
+        name: 'ITEMADD', params: { id : id }
+      })
+    }
+
 
     let page = ref(1)
     let currentPage= ref(1)
     const totalPages= ref(10)
+
+    const maxVal =  computed(() => {
+      return Math.ceil(myitemsLength.value/totalPages.value)
+    })
 
     return {
       MYITEMS,
@@ -100,7 +120,9 @@ export default {
       page,
       currentPage,
       totalPages,
+      maxVal,
       getData,
+      gotoItem
     }
   },
 }
