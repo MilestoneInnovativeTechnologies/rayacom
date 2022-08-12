@@ -27,26 +27,23 @@ import EssentialLink from 'components/EssentialLink.vue'
 const linksList = [
   {title: 'Home', caption: 'Back to main, Home Page', icon: 'home', route: 'home'},
   {title: 'Firose', caption: 'A test page created by Firose Hussain', icon: 'beach_access', route: 'firose'},
-
   {title: 'DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'DASHBOARD'},
   {title: 'ORDER HISTORY', caption: 'ORDER HISTORY', icon: 'history', route: 'ORDERHISTORY'},
   {title: 'PROFILE', caption: 'Profile', icon: 'account_circle', route: 'PROFILE'},
-
   {title: 'SE DASHBOARD', caption: 'Sales Executive Dashboard', icon: 'home', route: 'SALESEXECUTIVEDASHBOARD'},
   {title: 'SE ORDER HISTORY', caption: 'Sales Executive Order History', icon: 'history', route: 'SALESEXECUTIVEORDEHISTORY'},
-  {title: 'SE PROFILE', caption: 'Sales Executive Profile', icon: 'account_circle', route: 'editprofile'},
-
-  {title: 'AD DASHBOARD', caption: 'Dashboard', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD LEAVES', caption: 'Leaves', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD REVIEWS', caption: 'Reviews', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD ORDERS', caption: 'Orders', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD ORDER HISTORY', caption: 'Order History', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD CUSTOMERS', caption: 'Customers', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD SALES EXECUTIVES', caption: 'Sales Executives', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD AREA', caption: 'Area', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD ITEMS', caption: 'items', icon: 'account_circle', route: 'editprofile'},
-  {title: 'AD PROFILE', caption: 'Profile', icon: 'account_circle', route: 'editprofile'},
-
+  {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'SALESEXECUTIVEPROFILE'},
+  {title: 'SE TEST', caption: 'Sales', icon: 'account_circle', route: 'ADMINSALESXECUTIVEPAGE'},
+  {title: 'AD LEAVES', caption: 'Leaves', icon: 'sick', route: 'ADMINDASHBOARD'},
+  {title: 'AD REVIEWS', caption: 'Reviews', icon: 'comment_bank', route: ''},
+  {title: 'AD ORDERS', caption: 'Orders', icon: 'reorder', route: ''},
+  {title: 'AD ORDER HISTORY', caption: 'Order History', icon: 'history', route: 'ADMINORDERHISTORY'},
+  {title: 'AD CUSTOMERS', caption: 'Customers', icon: 'people', route: ''},
+  {title: 'AD SALES EXECUTIVES', caption: 'Sales Executives', icon: 'person', route: ''},
+  {title: 'AD AREA', caption: 'Area', icon: 'area_chart', route: ''},
+  {title: 'AD ITEMS', caption: 'Items', icon: 'add_shopping_cart', route: 'ADMINITEMS'},
+  {title: 'AD PROFILE', caption: 'Profile', icon: 'manage_accounts', route: 'ADMINPROFILE'},
+  {title: 'AD DASHBOARD', caption: 'Dashboard', icon: 'home', route: 'ADMINDASHBOARD'},
 ]
 
 export default defineComponent({
