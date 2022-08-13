@@ -15,7 +15,7 @@
     <div class="row justify-end side">
       <q-btn color="positive" no-caps @click="gotoAction(0)">
         <q-icon left size="2em" name="open_in_new" />
-        ADD AREA
+        ADD CUSTOMER
       </q-btn>
     </div>
 
@@ -69,7 +69,7 @@ export default {
     let num2
 
     const MYARRAY =  computed(() => {
-      return  master.AREA
+      return  master.CUSTOMER
     })
 
     const search = ref('')
@@ -99,10 +99,9 @@ export default {
 
     const gotoAction = function (id){
       router.push({
-        name: 'AREAADD', params: { id : id }
+        name: 'CUSTOMERADD', params: { id : id }
       })
     }
-
 
     let page = ref(1)
     let currentPage= ref(1)

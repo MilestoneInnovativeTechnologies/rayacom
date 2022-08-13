@@ -16,6 +16,6 @@ export default [
   { name: 'ADMINITEMS', path: '/admin_items', props: true, component: () => import('pages/admin_itemPage.vue'), meta:{ title: 'Items'} },
   { name: 'ITEMADD', path: '/item_add', props: true, component: () => import('pages/item_addPage.vue'), meta:{ title: 'Item'} },
   { name: 'ADMINCUSTOMERS', path: '/admin_customer', props: true, component: () => import('pages/admin_customerPage.vue'), meta:{ title: 'Customers'} },
-  { name: 'ITEMADD123', path: '/item_add', props: true, component: () => import('pages/item_addPage.vue'), meta:{ title: 'Item'} },
+  { name: 'CUSTOMERADD', path: '/customer_add', props: true, component: () => import('pages/customer_addPage.vue'), meta:{ title: 'Customer'} },
 
 ]
