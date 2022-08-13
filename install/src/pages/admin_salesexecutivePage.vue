@@ -1,19 +1,26 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
 
-    <div class="q-gutter-md" top>
-      <q-input
-        v-model="search"
-        debounce="500"
-        filled
-        placeholder="Search"
-      >
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+    <div class="q-pa-md full-width" style="max-width: 500px" >
+      <div class="q-gutter-md">
+        <div>
+
+        </div>
+
+        <q-input
+          v-model="search"
+          debounce="500"
+          filled
+          placeholder="Search"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+
+      </div>
     </div>
-    <div class="row justify-end side">
+    <div class="row side">
       <q-btn color="positive" no-caps @click="gotoSales(0)">
         <q-icon left size="2em" name="open_in_new" />
         ADD NEW SALES EXECUTIVE
@@ -129,7 +136,8 @@ const master = useMasterStore()
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  max-width: 250px
+  max-width: 300px
+
 </style>
 
 

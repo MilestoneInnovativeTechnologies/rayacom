@@ -1,7 +1,10 @@
 <template>
 
+
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <q-input outlined label="Full Name" v-model="salesexecutive.name" type="text"
+    <q-input outlined label="Full Name" v-model="salesexecutive.name"
+             type="text"
+             hint="Name"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type  user Name']" >
       <template v-slot:append>
@@ -10,7 +13,8 @@
 
     </q-input>
 
-        <q-input outlined
+
+        <q-input outlined label="Password"
                  v-model="salesexecutive.password"
                  hint="Password"
                  type="password"
@@ -18,29 +22,29 @@
              val => val.length > 5 || 'Minimum length is 6']" >
 
           <template v-slot:append>
-            <q-icon name="visibility_off"/>
+            <q-icon name="visibility_off" color="brand"/>
           </template>
         </q-input>
-      <q-input outlined
+      <q-input outlined label="email id"
                v-model="salesexecutive.email"
                hint="email id"
-               type="text"
-               :rules="[ val => val && val.length > 0  || 'must  fill this field',
-             val => val.length > 5 || 'Minimum length is 6']" >
+               type="text" clearable
+               :rules="[ val => val && val.length > 0  || 'please type email',
+             val => val.length > 5 || 'Minimum length is 6']"  >
 
         <template v-slot:append>
-          <q-icon name="visibility_off"/>
+          <q-icon name="email" color="brand"/>
         </template>
       </q-input>
-    <q-input outlined
+    <q-input outlined label="phone number"
              v-model="salesexecutive.phone"
              hint="phone number"
              type="text"
-             :rules="[ val => val && val.length > 0  || 'must  fill this field',
+             :rules="[ val => val && val.length > 0  || 'please type phone number',
              val => val.length > 5 || 'Minimum length is 6']" >
 
       <template v-slot:append>
-        <q-icon name="visibility_off"/>
+        <q-icon name="phone" color="brand"/>
       </template>
     </q-input>
 
@@ -78,7 +82,8 @@ export default {
 
     let msg
     const saveSalesexecutive = function() {
-      if( salesexecutive.value.name != ''){
+      if( (salesexecutive.value.name != '') && (salesexecutive.value.password != '')  && (salesexecutive.value.phone != '')
+        && (salesexecutive.value.email !='')){
         console.warn(salesexecutive.value);
         // let cus = _.omit(customer.value, ['area'])
         post('add', 'update', salesexecutive.value)
@@ -107,7 +112,9 @@ export default {
     return {
       salesexecutive,
       saveSalesexecutive,
-      positivemsg
+      positivemsg,
+
+
     }
   }
 }
