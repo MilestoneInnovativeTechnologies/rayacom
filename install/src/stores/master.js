@@ -22,7 +22,7 @@ export const useMasterStore = defineStore('master', {
     recursive(Data){
       _.forEach(Data,(records,master) => _.forEach(records,(value,id) => {
         if(!_.has(this[master],id)){
-          let master_id = _.get(_.find(this.masters,(Ary) => Ary[1] === master),0), prop_set = _.get(this.prop_set,master_id,null);
+          let master_id = _.get(this.masters,[master,'id']), prop_set = _.get(this.prop_set,master_id,null);
           this[master][id] = Object.assign({ id,name:value.name },_.cloneDeep(prop_set))
         }
         _.forEach(value,(val,prop) => {
