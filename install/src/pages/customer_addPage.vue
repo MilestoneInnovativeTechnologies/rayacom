@@ -2,7 +2,6 @@
   <q-page padding class="flex flex-center column q-gutter-y-sm">
     <div style="max-width: 300px">
     <q-input outlined label="Name and Surname" v-model="obj.name" type="text"
-
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Name']" >
       <template v-slot:append>
@@ -24,7 +23,6 @@
         <q-icon name="email" />
       </template>
     </q-input>
-
     <q-input outlined v-model="obj.phone" type="tel" label="Contact number"
              mask="(###) ### - ######"
              lazy-rules
@@ -33,7 +31,7 @@
         <q-icon name="settings_phone" />
       </template>
     </q-input>
-    <q-select outlined v-model="model" :options="options" label="Area">
+    <q-select outlined v-model="obj.area" :options="options" label="Area">
     </q-select>
 <br>
     <q-input outlined v-model="obj.address" type="text" label="Address" autogrow
@@ -46,7 +44,6 @@
       <div class="row justify-center">
         <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
       </div>
-
     </div>
   </q-page>
 </template>
@@ -56,11 +53,10 @@
 <script>
 import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
-import {computed, reactive, ref, watchEffect} from "vue";
+import { reactive, ref, watchEffect} from "vue";
 import {useQuasar} from "quasar";
 import { useRouter } from 'vue-router'
 const masterStore = useMasterStore()
-
 
 export default {
   props: ['id'],
@@ -71,6 +67,8 @@ export default {
     const ID = ref(props.id)
     const AREA = ref(masterStore.AREA)
     const options = []
+    const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+
     for( let n in AREA.value){
       options.push( { label: AREA.value[n].name, value: AREA.value[n].id })
     }
@@ -89,23 +87,31 @@ export default {
         obj.password = aCustomer.password
         obj.email = aCustomer.email
         obj.phone = aCustomer.phone
-        obj.area = aCustomer.area
+        obj.area = aCustomer.area.value
         obj.address = aCustomer.address
       }
     })
 
+    const isValidEmail = function (){
+      return emailPattern.test(obj.email) || 'Invalid email';
+    }
+
     let msg
-    const save = function() { alert(obj.name)
-      if(ID.value >0){
-        // console.warn(obj);
+    let fun
+    const save = function() {
+      if( (obj.name != '') && (obj.password != '')  && (obj.phone != '') && (emailPattern.test(obj.email))
+        && (obj.area.value != '') && (obj.address != '')){
+        console.warn(obj);
         let newObj = _.omit(obj, ['area'])
-        if(ID.value == 0){
-          post('customer', 'store', newObj)
-          msg = 'Your have added a new item successfully'
-        }else{
-          post('customer', 'update', newObj)
+        if(ID.value > 0){
+          fun = 'update'
           msg = 'Your Item have updated successfully'
+        }else{
+          fun = 'store'
+          msg = 'Your have added a new item successfully'
         }
+        newObj.area = obj.area.value
+        post('customer', fun, newObj)
         positivemsg(msg)
         router.push({
           name: 'ADMINCUSTOMERS'
@@ -127,6 +133,7 @@ export default {
       obj,
       save,
       positivemsg,
+      isValidEmail,
       options,
     }
   }
