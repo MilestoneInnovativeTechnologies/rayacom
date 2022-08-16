@@ -9,6 +9,6 @@ class Customer extends Master
   public function __construct(array $attributes = [])
   {
     parent::__construct($attributes);
-    self::$MASTER = MasterData::where('name','ITEM')->value('id');
+    self::$MASTER = MasterData::where('name','CUSTOMER')->value('id');
   }
 }
