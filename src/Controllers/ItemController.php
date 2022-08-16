@@ -10,15 +10,17 @@ use Milestone\Rayacom\Models\MasterData;
 
 class ItemController extends Controller
 {
+  public function store(){
+    $Item = new Item(request()->only('name'));
+    $Item->save();
+  }
+
     public function update(){
-        $master = Master::find(request('id'));
-        $master->name = request('name');
-        $master->save();
-        return $master;
+    $master = Master::find(request('id'));
+    $master->name = request('name');
+    $master->save();
+    return $master;
     }
 
-    public function store(){
-        $Item = new Item(request()->only('name'));
-        $Item->save();
-    }
+
 }

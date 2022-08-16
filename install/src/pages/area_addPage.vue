@@ -11,7 +11,7 @@
 <script>
 import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
-import {computed, ref} from "vue";
+import { reactive, ref, watchEffect} from "vue";
 import {useQuasar} from "quasar";
 import { useRouter } from 'vue-router'
 const masterStore = useMasterStore()
@@ -25,25 +25,33 @@ export default {
 
     const ID = ref(props.id)
 
-    const item = computed(() => {
+    const item = reactive({
+      id: '', name: ''
+    })
+
+    watchEffect(()=>{
       if(ID.value == 0){
-        return ({ id: '', name: '' })
+        item.id = item.name = ''
       }else{
-        return masterStore.AREA[ID.value]
+        let aITEM = masterStore.AREA[ID.value]
+        item.id = ID.value
+        item.name = aITEM.name
       }
-      })
+    })
 
     let msg
+    let fun
     const save = function() {
-      if( item.value.name != ''){
-        console.warn(item.value);
+      if( item.name != ''){
+        console.warn(item);
         if(ID.value == 0){
-          post('area', 'store', item.value)
+          fun = 'store'
           msg = 'Your have added a new item successfully'
         }else{
-          post('area', 'update', item.value)
+          fun = 'update'
           msg = 'Your Item have updated successfully'
         }
+        post('area', fun, item)
         positivemsg(msg)
         router.push({
           name: 'ADMINAREA'
