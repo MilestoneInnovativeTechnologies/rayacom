@@ -1,32 +1,25 @@
 <template>
-  <q-page padding class="flex q-gutter-x-sm justify-center">
-    <div class="flex column q-gutter-y-sm">
-      <div class="text-center">{{ size(items) }}</div>
-      <q-input v-model="item.name" outlined label="Name" type="text" />
-      <q-btn @click="save" color="primary" label="Save Item" />
-    </div>
-    <div class="flex column q-gutter-y-sm">
-      <q-input v-model.number="ID" outlined label="ID" type="number" />
-      <q-input v-model="ITEM.name" outlined label="Name" type="text" />
-      <q-btn @click="update" color="secondary" label="Update Item" />
-    </div>
+  <q-page padding class="flex column q-gutter-y-sm">
+    <q-input v-model="customer.name" label="Name" outlined />
+    <q-input v-model="customer.phone" label="Phone" outlined />
+    <q-input v-model="customer.email" label="Email" outlined />
+    <q-input v-model="customer.password" label="Password" outlined />
+    <q-select v-model="customer.area" label="Area" outlined :options="areas" option-label="name" option-value="id" emit-value map-options />
+    <q-btn label="Update" @click="update" color="primary" />
   </q-page>
 </template>
 
 <script setup>
 import { post } from 'boot/axios'
 import { useMasterStore } from "stores/master";
-import {computed, reactive, ref, watchEffect} from "vue";
-import { size,get } from 'lodash'
+import {reactive, ref} from "vue";
+import { get } from 'lodash'
 const masterStore = useMasterStore()
-const items = masterStore.ITEM
-const ID = ref(1000001)
-const item = reactive({ name:'' })
-const ITEM = computed(() => masterStore.ITEM[ID.value])
-function save(){
-  post('item','store',{ name:item.name,item:'ITEM' })
-}
+const customers = masterStore.CUSTOMER
+const ID = ref(10001)
+const customer = reactive(Object.assign({},get(customers,ID.value),{ area:get(customers,[ID.value,'area','data'])+"" }))
+const areas = ref(Object.values(masterStore.AREA))
 function update(){
-  post('master','update',ITEM.value)
+  post('master','update',customer)
 }
 </script>
