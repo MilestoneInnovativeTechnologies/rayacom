@@ -12,6 +12,9 @@
       </template>
 
     </q-input>
+    <q-select class=""  style="width: 220px" outlined v-model="model" :options="options" label="Area"
+              hint="area"></q-select>
+
 
 
         <q-input outlined label="Password"
@@ -48,6 +51,7 @@
       </template>
     </q-input>
 
+
     <q-btn color="positive" label="Submit" @click="saveSalesexecutive" icon="camera_enhance" />
 
   </q-page>
@@ -57,7 +61,7 @@
 <script>
 import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
-import {computed, ref} from "vue";
+import {computed, reactive, ref, watchEffect} from "vue";
 import {useQuasar} from "quasar";
 import { useRouter } from 'vue-router'
 const masterStore = useMasterStore()
@@ -70,27 +74,45 @@ export default {
     const router = useRouter()
 
     const ID = ref(props.id)
-    console.log(ID.value)
+    // console.log(ID.value)
+    const AREA = ref(masterStore.AREA)
+    const options = []
+    for( let n in AREA.value){
+      options.push( { label: AREA.value[n].name, value: AREA.value[n].id })
+    }
 
-    const salesexecutive = computed(() => {
+    const obj = reactive({
+      id: '', name: '', password: '', email: '', phone: '', area: ''
+    })
+
+
+
+    watchEffect(()=>{
       if(ID.value == 0){
-        return ({id:'' , name: '' })
+        obj.id = obj.name = obj.password = obj.email = obj.phone = obj.area =  ''
       }else{
-        return masterStore.SALES_EXECUTIVE[ID.value]
+        let Sales = masterStore.SALES_EXECUTIVE[ID.value]
+        obj.id = ID.value
+        obj.name = Sales.name
+        obj.password = Sales.password
+        obj.email = Sales.email
+        obj.phone = Sales.phone
+        obj.area = Sales.area
+
       }
     })
 
     let msg
-    const saveSalesexecutive = function() {
-      if( (salesexecutive.value.name != '') && (salesexecutive.value.password != '')  && (salesexecutive.value.phone != '')
-        && (salesexecutive.value.email !='')){
-        console.warn(salesexecutive.value);
-        // let cus = _.omit(customer.value, ['area'])
-        post('add', 'update', salesexecutive.value)
+    const save = function() { alert(obj.name)
+      if(ID.value >0){
+        // console.warn(obj);
+        let newObj = _.omit(obj, ['areas'])
         if(ID.value == 0){
-          msg = ' new user added successfully'
+          post('customer', 'store', newObj)
+          msg = 'Your have added a new item successfully'
         }else{
-          msg = 'user have updated successfully'
+          post('customer', 'update', newObj)
+          msg = 'Your Item have updated successfully'
         }
         positivemsg(msg)
         router.push({
@@ -110,9 +132,10 @@ export default {
     }
 
     return {
-      salesexecutive,
-      saveSalesexecutive,
+      obj,
+      save,
       positivemsg,
+      options,
 
 
     }
