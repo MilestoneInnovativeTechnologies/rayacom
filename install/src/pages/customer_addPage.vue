@@ -1,6 +1,5 @@
 <template>
-  <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <div style="max-width: 300px">
+    <q-page padding class="flex column q-gutter-y-sm">
     <q-input outlined label="Name and Surname" v-model="obj.name" type="text"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Name']" >
@@ -41,10 +40,7 @@
         <q-icon name="home" />
       </template>
     </q-input>
-      <div class="row justify-center">
         <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
-      </div>
-    </div>
   </q-page>
 </template>
 
@@ -103,15 +99,14 @@ export default {
         && (obj.area.value != '') && (obj.address != '')){
         console.warn(obj);
         let newObj = _.omit(obj, ['area'])
+        newObj.area = obj.area.value
         if(ID.value > 0){
-          fun = 'update'
+          post('master','update', newObj)
           msg = 'Your Item have updated successfully'
         }else{
-          fun = 'store'
+          post('customer', 'store', newObj)
           msg = 'Your have added a new item successfully'
         }
-        newObj.area = obj.area.value
-        post('customer', fun, newObj)
         positivemsg(msg)
         router.push({
           name: 'ADMINCUSTOMERS'

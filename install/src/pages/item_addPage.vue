@@ -1,6 +1,6 @@
 <template>
 
-  <q-page padding class="flex flex-center column q-gutter-y-sm">
+  <q-page padding class="flex column q-gutter-y-sm">
     <q-input outlined label="Item Name" v-model="item.name" type="text"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Item Name']" >
