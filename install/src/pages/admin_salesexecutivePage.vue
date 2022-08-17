@@ -1,33 +1,25 @@
 <template>
-  <q-page padding class="flex flex-center column q-gutter-y-sm">
+  <q-page padding class="flex column q-gutter-y-sm">
 
-    <div class="q-pa-md full-width" style="max-width: 500px" >
-      <div class="q-gutter-md">
-        <div>
-
-        </div>
-
-        <q-input
-          v-model="search"
-          debounce="500"
-          filled
-          placeholder="Search"
-        >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-
-      </div>
+    <div class="q-gutter-md" top>
+      <q-input
+        v-model="search"
+        debounce="500"
+        filled
+        placeholder="Search">
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
     </div>
-    <div class="row side">
-      <q-btn color="positive" no-caps @click="gotoSales(0)">
+    <div class="row justify-end side">
+      <q-btn color="positive" no-caps @click="gotoAction(0)">
         <q-icon left size="2em" name="open_in_new" />
-        ADD NEW SALES EXECUTIVE
+        ADD CUSTOMER
       </q-btn>
     </div>
 
-    <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
+    <div class="q-pa-md row items-start q-gutter-md" v-if="myarrayLength">
       <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
         <q-list>
           <q-item class="bg-brand text-white text-bold">
@@ -35,7 +27,8 @@
               <q-item-label>{{ i.name }}</q-item-label>
             </q-item-section>
             <q-item-section avatar>
-              <q-btn flat round color="primary" icon="mode_edit" @click="gotoSales(i.id)" />
+              <q-btn flat round color="primary" icon="mode_edit" @click="gotoAction(i.id)">
+                <q-tooltip> Edit </q-tooltip>   </q-btn>
             </q-item-section>
           </q-item>
         </q-list>
@@ -46,7 +39,7 @@
     <!--    {{myproducts}}-->
     <!--  </div>-->
 
-    <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
+    <div class="q-pa-lg flex flex-center" v-if="myarrayLength">
       <q-pagination
         v-model="page"
         :min="currentPage"
@@ -64,17 +57,18 @@
   </q-page>
 </template>
 
-<script setup>
+<script>
 import { computed, ref  } from 'vue'
 import { useMasterStore } from 'stores/master'
 import { useRouter } from 'vue-router'
 const master = useMasterStore()
-
+export default {
+  setup () {
     const router = useRouter()
     let num1
     let num2
 
-    const MYSALES =  computed(() => {
+    const MYARRAY =  computed(() => {
       return  master.SALES_EXECUTIVE
     })
 
@@ -82,14 +76,14 @@ const master = useMasterStore()
 
     const searchResult = computed(()=>{
       if(search.value === ''){
-        return Object.values(MYSALES.value)
+        return Object.values(MYARRAY.value)
       }else{
         let keyword = search.value.toLowerCase();
-        return Object.values(MYSALES.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+        return Object.values(MYARRAY.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
       }
     })
 
-    const myitemsLength = computed(()=>{
+    const myarrayLength = computed(()=>{
       return searchResult.value.length
     })
 
@@ -103,41 +97,40 @@ const master = useMasterStore()
       return newArr
     })
 
-    const gotoSales = function (id) {
+    const gotoAction = function (id){
       router.push({
         name: 'SALESEXECUTIVEADD', params: { id : id }
       })
     }
-
 
     let page = ref(1)
     let currentPage= ref(1)
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(myitemsLength.value / totalPages.value)
-
-
-      return {
-        MYSALES,
-        search,
-        searchResult,
-        myitemsLength,
-        page,
-        currentPage,
-        totalPages,
-        maxVal,
-        getData,
-        gotoSales
-      }
+      return Math.ceil(myarrayLength.value/totalPages.value)
     })
+
+    return {
+      MYARRAY,
+      search,
+      searchResult,
+      myarrayLength,
+      page,
+      currentPage,
+      totalPages,
+      maxVal,
+      getData,
+      gotoAction
+    }
+  },
+}
 </script>
 
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  max-width: 300px
-
+  max-width: 250px
 </style>
 
 
