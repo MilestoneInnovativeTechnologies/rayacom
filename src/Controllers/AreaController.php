@@ -10,13 +10,13 @@ use Milestone\Rayacom\Models\Master;
 class AreaController extends Controller
 {
     public function store(){
-      $Item = new Area(request()->only('name'));
-      $Item->save();
+      $data = new Area(request()->only('name'));
+      $data->save();
     }
     public function update(){
-      $master = Master::find(request('id'));
-      $master->name = request('name');
-      $master->save();
-      return $master;
+      $data = Master::find(request('id'));
+      $data->name = request('name');
+      $data->save();
+      return $data;
     }
 }
