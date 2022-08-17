@@ -31,8 +31,37 @@
       </template>
     </q-input>
     <q-select outlined v-model="obj.areas" :options="options" label="Area">
-    </q-select>
+          </q-select>
     <br>
+    <div class="q-pa-md " style="max-width: 300px">
+    <div class="q-gutter-md ">
+      <q-badge color="secondary" multi-line>
+        Model: "{{ model }}"
+      </q-badge>
+
+      <q-select class="full-width"
+        filled
+        v-model="model"
+        :options="options"
+        label="Area"
+        multiple
+        emit-value
+        map-options
+      >
+        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+          <q-item v-bind="itemProps">
+            <q-item-section>
+              <q-item-label v-html="opt.label" />
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+    </div>
+  </div>
+
 
     <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
   </q-page>
@@ -60,18 +89,18 @@ export default {
     const options = []
     const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
 
-    for( let n in AREA.value){
-      options.push( { label: AREA.value[n].name, value: AREA.value[n].id })
+    for (let n in AREA.value) {
+      options.push({label: AREA.value[n].name, value: AREA.value[n].id})
     }
 
     const obj = reactive({
       id: '', name: '', password: '', email: '', phone: '', areas: ''
     })
 
-    watchEffect(()=>{
-      if(ID.value == 0){
+    watchEffect(() => {
+      if (ID.value == 0) {
         obj.id = obj.name = obj.password = obj.email = obj.phone = obj.areas = ''
-      }else{
+      } else {
         let aCustomer = masterStore.SALES_EXECUTIVE[ID.value]
         obj.id = ID.value
         obj.name = aCustomer.name
@@ -79,27 +108,29 @@ export default {
         obj.email = aCustomer.email
         obj.phone = aCustomer.phone
         obj.areas = aCustomer.areas.value
-        obj.address = aCustomer.address
       }
     })
-
-    const isValidEmail = function (){
+    console.log(obj)
+    const isValidEmail = function () {
       return emailPattern.test(obj.email) || 'Invalid email';
     }
 
     let msg
     let fun
-    const save = function() {
-      if( (obj.name != '') && (obj.password != '')  && (obj.phone != '') && (emailPattern.test(obj.email))
-        && (obj.areas.value != '') ){
+    const save = function () {
+      if ((obj.name != '') && (obj.password != '') && (obj.phone != '') && (emailPattern.test(obj.email))
+        && (obj.areas.value != '')) {
         console.warn(obj);
         let newObj = _.omit(obj, ['areas'])
-        newObj.areas = obj.areas.value
-        if(ID.value > 0){
-          post('master','update', newObj)
+        // newObj.areas = obj.areas.value
+        newObj.areas = [1, 2, 3, 4]
+        console.log(obj.areas.value)
+        console.log('-------------------------------')
+        if (ID.value > 0) {
+          post('master', 'update', newObj)
           msg = 'Your Item have updated successfully'
-        }else{
-          post('customer', 'store', newObj)
+        } else {
+          post('add', 'store', newObj)
           msg = 'Your have added a new item successfully'
         }
         positivemsg(msg)
@@ -109,24 +140,41 @@ export default {
       }
     }
 
-    const positivemsg = function (msg){
+    const positivemsg = function (msg) {
       $q.notify({
         type: 'positive',
         message: msg,
         icon: 'cloud_done',
-        position:'top-right',
-        timeout:2000
+        position: 'top-right',
+        timeout: 2000
       })
     }
 
-    return {
-      obj,
-      save,
-      positivemsg,
-      isValidEmail,
-      options,
-    }
-  }
+
+      return {
+        obj,
+        save,
+        positivemsg,
+        isValidEmail,
+        options,
+        left: ref(true),
+        right: ref(false),
+        UAE: ref(true),
+        USA: ref(false),
+        onItemClick (){
+
+        },
+        model: ref([]),
+
+        arr: [
+
+        ]
+      }
+
+
+      }
+
+
 }
 </script>
 

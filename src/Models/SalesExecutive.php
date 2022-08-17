@@ -5,7 +5,7 @@ namespace Milestone\Rayacom\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SalesExecutive extends Model
+class SalesExecutive extends Master
 {
   public function __construct(array $attributes = [])
   {
