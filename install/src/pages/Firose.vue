@@ -1,10 +1,10 @@
 <template>
   <q-page padding class="flex column q-gutter-y-sm">
-    <q-input v-model="customer.name" label="Name" outlined />
-    <q-input v-model="customer.phone" label="Phone" outlined />
-    <q-input v-model="customer.email" label="Email" outlined />
-    <q-input v-model="customer.password" label="Password" outlined />
-    <q-select v-model="customer.area" label="Area" outlined :options="areas" option-label="name" option-value="id" emit-value map-options />
+    <q-input v-model="executive.name" label="Name" outlined />
+    <q-input v-model="executive.phone" label="Phone" outlined />
+    <q-input v-model="executive.email" label="Email" outlined />
+    <q-input v-model="executive.password" label="Password" outlined />
+    <q-select v-model="executive.areas" label="Areas" multiple use-chips stack-label outlined :options="areas" option-label="name" option-value="id" emit-value map-options />
     <q-btn label="Update" @click="update" color="primary" />
   </q-page>
 </template>
@@ -13,13 +13,13 @@
 import { post } from 'boot/axios'
 import { useMasterStore } from "stores/master";
 import {reactive, ref} from "vue";
-import { get } from 'lodash'
+import { get,map } from 'lodash'
 const masterStore = useMasterStore()
-const customers = masterStore.CUSTOMER
-const ID = ref(10001)
-const customer = reactive(Object.assign({},get(customers,ID.value),{ area:get(customers,[ID.value,'area','data'])+"" }))
-const areas = ref(Object.values(masterStore.AREA))
+const executives = masterStore['SALES_EXECUTIVE']
+const ID = ref(100001)
+const executive = reactive(Object.assign({},get(executives,ID.value),{ areas:map(get(executives,[ID.value,'areas'],[]),({ data }) => String(data)) }))
+const areas = ref(Object.values(masterStore['AREA']))
 function update(){
-  post('master','update',customer)
+  post('master','update',executive)
 }
 </script>
