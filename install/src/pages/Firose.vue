@@ -24,6 +24,6 @@ watch(ID,(id) => {
 })
 const areas = ref(Object.values(masterStore['AREA']))
 function update(){
-  post('master','update',executive.value)
+  post('master','update',{id:ID.value,...executive.value})
 }
 </script>

@@ -86,13 +86,13 @@ export default {
 
     const ID = ref(props.id)
     const AREA = ref(masterStore.AREA)
-    const options = []
+    // const options = []
     const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
 
-    for (let n in AREA.value) {
-      options.push({label: AREA.value[n].name, value: AREA.value[n].id})
-    }
-
+    // for (let n in AREA.value) {
+    //   options.push({label: AREA.value[n].name.value, value: AREA.value[n].id.value})
+    // }
+    const options = ref(Object.values(masterStore['AREA']))
     const obj = reactive({
       id: '', name: '', password: '', email: '', phone: '', areas: ''
     })
@@ -100,55 +100,60 @@ export default {
     watchEffect(() => {
       if (ID.value == 0) {
         obj.id = obj.name = obj.password = obj.email = obj.phone = obj.areas = ''
-      } else {
-        let aCustomer = masterStore.SALES_EXECUTIVE[ID.value]
-        obj.id = ID.value
-        obj.name = aCustomer.name
-        obj.password = aCustomer.password
-        obj.email = aCustomer.email
-        obj.phone = aCustomer.phone
-        obj.areas = aCustomer.areas.value
       }
-    })
-    console.log(obj)
-    const isValidEmail = function () {
-      return emailPattern.test(obj.email) || 'Invalid email';
-    }
-
-    let msg
-    let fun
-    const save = function () {
-      if ((obj.name != '') && (obj.password != '') && (obj.phone != '') && (emailPattern.test(obj.email))
-        && (obj.areas.value != '')) {
-        console.warn(obj);
-        let newObj = _.omit(obj, ['areas'])
-        // newObj.areas = obj.areas.value
-        // newObj.areas = [1, 2, 3, 4]
-        console.log(obj.areas.value)
-        // console.log('-------------------------------')
-        if (ID.value > 0) {
-          post('master', 'update', newObj)
-          msg = 'Your Item have updated successfully'
-        } else {
-          post('add', 'store', newObj)
-          msg = 'Your have added a new item successfully'
+      else
+        {
+          let aCustomer = masterStore.SALES_EXECUTIVE[ID.value]
+          obj.id = ID.value
+          obj.name = aCustomer.name
+          obj.password = aCustomer.password
+          obj.email = aCustomer.email
+          obj.phone = aCustomer.phone
+          obj.areas = aCustomer.areas.value
         }
-        positivemsg(msg)
-        router.push({
-          name: 'ADMINSALESXECUTIVEPAGE'
+      })
+      console.log(obj)
+      const isValidEmail = function () {
+        return emailPattern.test(obj.email) || 'Invalid email';
+      }
+
+      let msg
+      let fun
+      const save = function () {
+        if ((obj.name != '') && (obj.password != '') && (obj.phone != '') && (emailPattern.test(obj.email))
+          && (obj.areas.value != '')) {
+          console.warn(obj);
+          // let newObj = _.omit(obj, ['areas'])
+          // newObj.areas = obj.areas.value
+          // newObj.areas = [1, 2, 3, 4]
+          console.log(obj.areas.value)
+          // console.log('-------------------------------')
+          if (ID.value > 0) {
+            post('master', 'update',{id:ID.value,...obj.areas.value })
+            msg = 'Your Item have updated successfully'
+          } else {
+            post('add', 'store',{id:ID.value,...obj.areas.value} )
+            msg = 'Your have added a new item successfully'
+          }
+          // function update(){
+          //   post('master','update',{id:ID.value,...obj.areas.value})
+          // }
+          positivemsg(msg)
+          router.push({
+            name: 'ADMINSALESXECUTIVEPAGE'
+          })
+        }
+      }
+
+      const positivemsg = function (msg) {
+        $q.notify({
+          type: 'positive',
+          message: msg,
+          icon: 'cloud_done',
+          position: 'top-right',
+          timeout: 2000
         })
       }
-    }
-
-    const positivemsg = function (msg) {
-      $q.notify({
-        type: 'positive',
-        message: msg,
-        icon: 'cloud_done',
-        position: 'top-right',
-        timeout: 2000
-      })
-    }
 
 
       return {
@@ -157,16 +162,12 @@ export default {
         positivemsg,
         isValidEmail,
         options,
-        onItemClick (){
-
-        },
-        // model: ref([]),
-        //
-
-      }
 
 
       }
+    }
+
+
 
 
 }
