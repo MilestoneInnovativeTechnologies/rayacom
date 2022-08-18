@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('executive')->index();
             $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->dateTime('end_date')->nullable();
             $table->string('description',512)->nullable();
             $table->enum('status',['New','Progress','Accepted','Rejected'])->default('New');
             $table->timestamps();

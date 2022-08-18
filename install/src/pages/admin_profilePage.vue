@@ -1,6 +1,6 @@
 <template>
 
-  <q-page padding class="flex flex-center column q-gutter-y-sm">
+  <q-page padding class="flex column q-gutter-y-sm">
     <q-input outlined label="Name and Surname" v-model="customer.name" type="text"
 
              lazy-rules
@@ -76,7 +76,7 @@ export default {
         post('master', 'update', cus)
         positivemsg('Your profile have updated succesfully')
         router.push({
-          name: 'PROFILE'
+          name: 'ADMINPROFILE'
         })
       }
     }

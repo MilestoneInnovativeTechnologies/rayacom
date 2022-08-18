@@ -78,7 +78,7 @@
 
 <script>
 import { computed, ref, reactive } from 'vue'
-import {date, useQuasar} from 'quasar'
+import { date, useQuasar} from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { useOrderStore} from 'stores/order'
 import {post} from "boot/axios";
