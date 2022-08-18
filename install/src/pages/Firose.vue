@@ -1,5 +1,6 @@
 <template>
   <q-page padding class="flex column q-gutter-y-sm">
+    <q-input v-model.number="ID" label="Sales Executive ID" outlined type="number" />
     <q-input v-model="executive.name" label="Name" outlined />
     <q-input v-model="executive.phone" label="Phone" outlined />
     <q-input v-model="executive.email" label="Email" outlined />
@@ -12,12 +13,15 @@
 <script setup>
 import { post } from 'boot/axios'
 import { useMasterStore } from "stores/master";
-import {reactive, ref} from "vue";
+import {reactive, ref, watch, watchEffect} from "vue";
 import { get,map } from 'lodash'
 const masterStore = useMasterStore()
 const executives = masterStore['SALES_EXECUTIVE']
 const ID = ref(100001)
-const executive = reactive(Object.assign({},get(executives,ID.value),{ areas:map(get(executives,[ID.value,'areas'],[]),({ data }) => String(data)) }))
+const executive = ref({  }) //reactive(Object.assign({},get(executives,ID.value),{ areas:map(get(executives,[ID.value,'areas'],[]),({ data }) => String(data)) }))
+watch(ID,(id) => {
+  executive.value = Object.assign({},get(executives,id),{ areas:map(get(executives,[id,'areas'],[]),({ data }) => String(data)) })
+})
 const areas = ref(Object.values(masterStore['AREA']))
 function update(){
   post('master','update',executive)
