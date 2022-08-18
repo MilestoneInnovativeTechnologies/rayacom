@@ -30,38 +30,38 @@
         <q-icon name="settings_phone" />
       </template>
     </q-input>
-    <q-select outlined v-model="obj.areas" :options="options" label="Area">
-          </q-select>
-    <br>
-    <div class="q-pa-md " style="max-width: 300px">
-    <div class="q-gutter-md ">
-      <q-badge color="secondary" multi-line>
-        Model: "{{ model }}"
-      </q-badge>
+<!--    <q-select outlined v-model="obj.areas" :options="options" label="Area">-->
+<!--          </q-select>-->
+<!--    <br>-->
+<!--    <div class="q-pa-md " style="max-width: 300px">-->
+<!--    <div class="q-gutter-md ">-->
+<!--      <q-badge color="secondary" multi-line>-->
+<!--        Model: "{{ model }}"-->
+<!--      </q-badge>-->
 
-      <q-select class="full-width"
-        filled
-        v-model="model"
-        :options="options"
-        label="Area"
-        multiple
-        emit-value
-        map-options
-      >
-        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-          <q-item v-bind="itemProps">
-            <q-item-section>
-              <q-item-label v-html="opt.label" />
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-    </div>
-  </div>
-
+<!--      <q-select class="full-width"-->
+<!--        filled-->
+<!--        v-model="model"-->
+<!--        :options="options"-->
+<!--        label="Area"-->
+<!--        multiple-->
+<!--        emit-value-->
+<!--        map-options-->
+<!--      >-->
+<!--        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">-->
+<!--          <q-item v-bind="itemProps">-->
+<!--            <q-item-section>-->
+<!--              <q-item-label v-html="opt.label" />-->
+<!--            </q-item-section>-->
+<!--            <q-item-section side>-->
+<!--              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />-->
+<!--            </q-item-section>-->
+<!--          </q-item>-->
+<!--        </template>-->
+<!--      </q-select>-->
+<!--    </div>-->
+<!--  </div>-->
+    <q-select v-model="obj.areas" label="Areas" multiple use-chips stack-label outlined :options="options" option-label="name" option-value="id" emit-value map-options />
 
     <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
   </q-page>
@@ -123,9 +123,9 @@ export default {
         console.warn(obj);
         let newObj = _.omit(obj, ['areas'])
         // newObj.areas = obj.areas.value
-        newObj.areas = [1, 2, 3, 4]
+        // newObj.areas = [1, 2, 3, 4]
         console.log(obj.areas.value)
-        console.log('-------------------------------')
+        // console.log('-------------------------------')
         if (ID.value > 0) {
           post('master', 'update', newObj)
           msg = 'Your Item have updated successfully'
@@ -157,18 +157,12 @@ export default {
         positivemsg,
         isValidEmail,
         options,
-        left: ref(true),
-        right: ref(false),
-        UAE: ref(true),
-        USA: ref(false),
         onItemClick (){
 
         },
-        model: ref([]),
+        // model: ref([]),
+        //
 
-        arr: [
-
-        ]
       }
 
 

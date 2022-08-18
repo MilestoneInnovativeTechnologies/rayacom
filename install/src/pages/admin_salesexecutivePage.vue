@@ -15,7 +15,7 @@
     <div class="row justify-end side">
       <q-btn color="positive" no-caps @click="gotoAction(0)">
         <q-icon left size="2em" name="open_in_new" />
-        ADD CUSTOMER
+        ADD SALES EXECUTIVE
       </q-btn>
     </div>
 
