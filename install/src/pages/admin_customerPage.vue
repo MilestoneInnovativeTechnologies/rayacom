@@ -1,25 +1,29 @@
 <template>
-  <q-page padding class="flex column q-gutter-y-sm">
+  <q-page padding class="flex column q-col-gutter-y-lg">
 
-    <div class="q-gutter-md" top>
-      <q-input
-        v-model="search"
-        debounce="500"
-        filled
-        placeholder="Search">
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-    </div>
-    <div class="row justify-end side">
-      <q-btn color="positive" no-caps @click="gotoAction(0)">
-        <q-icon left size="2em" name="open_in_new" />
-        ADD CUSTOMER
-      </q-btn>
+    <div class="q-pa-sm">
+      <div class="row q-pa-md">
+        <div class="col-8">
+          <q-input
+          v-model="search"
+          debounce="500"
+          filled
+          placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+        </div>
+        <div class="col-4 text-center">
+          <q-btn color="positive" no-caps @click="gotoAction(0)">
+            <q-icon left size="2em" name="open_in_new" />
+            ADD <br>CUSTOMER
+          </q-btn>
+        </div>
+      </div>
     </div>
 
-  <div class="q-pa-md row items-start q-gutter-md" v-if="myarrayLength">
+  <div class="q-pa-sm row items-start q-gutter-md" v-if="myarrayLength">
     <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
       <q-list>
         <q-item class="bg-brand text-white text-bold">
