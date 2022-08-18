@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Milestone\Rayacom\Models\Order;
 use Milestone\Rayacom\Models\OrderItem;
 
-class OrderRequest extends FormRequest
+class  OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

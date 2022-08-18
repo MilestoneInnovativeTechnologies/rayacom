@@ -7,6 +7,7 @@ export default [
 
   { name: 'SALESEXECUTIVEDASHBOARD', path: '/salesexecutive_dashbord', props: true, component: () => import('pages/se_dashbordPage.vue'), meta:{ title: 'Executive Dashboard'} },
   { name: 'SALESEXECUTIVEORDEHISTORY', path: '/salesexecutive_orderhistory', props: true, component: () => import('pages/se_orderhistoryPage.vue'), meta:{ title: 'Executive Order History'} },
+  { name: 'SALESEXECUTIVELEAVES', path: '/salesexecutive_leaves', props: true, component: () => import('pages/se_leavesPage.vue'), meta:{ title: 'Executive Leaves'} },
   { name: 'LEAVEADD', path: '/leave_add', props: true, component: () => import('pages/leave_addPage.vue'), meta:{ title: 'Leave'} },
 
   { name: 'ADMINDASHBOARD', path: '/admin_dashbord', props: true, component: () => import('pages/adminDashboardPage.vue'), meta:{ title: 'Dashboard'} },
@@ -18,5 +19,7 @@ export default [
   { name: 'ITEMADD', path: '/item_add', props: true, component: () => import('pages/item_addPage.vue'), meta:{ title: 'Item'} },
   { name: 'ADMINCUSTOMERS', path: '/admin_customer', props: true, component: () => import('pages/admin_customerPage.vue'), meta:{ title: 'Customers'} },
   { name: 'CUSTOMERADD', path: '/customer_add', props: true, component: () => import('pages/customer_addPage.vue'), meta:{ title: 'Customer'} },
+
+  { name: 'TEST', path: '/test', props: true, component: () => import('pages/test.vue'), meta:{ title: 'test'} },
 
 ]

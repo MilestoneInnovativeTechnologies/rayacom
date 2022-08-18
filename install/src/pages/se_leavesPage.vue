@@ -1,33 +1,11 @@
 <template>
   <q-page padding class="flex column q-col-gutter-y-lg">
 
-    <div class="q-pa-sm">
-      <div class="row q-pa-md">
-        <div class="col-8">
-          <q-input
-            v-model="search"
-            debounce="500"
-            filled
-            placeholder="Search">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </div>
-        <div class="col-4 text-center">
-          <q-btn color="positive" no-caps @click="gotoItem(0)">
-            <q-icon left size="2em" name="open_in_new" />
-            NEW  <br>ITEM
-          </q-btn>
-        </div>
-      </div>
-    </div>
-
-    <div class="q-gutter-md" top>
-
-    </div>
-    <div class="row justify-end side">
-
+    <div class="q-pa-md text-center">
+      <q-btn color="positive" no-caps @click="gotoAction()">
+        <q-icon left size="2em" name="open_in_new" />
+        NEW LEAVE
+      </q-btn>
     </div>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
@@ -35,20 +13,19 @@
       <q-list>
         <q-item class="bg-brand text-white text-bold">
           <q-item-section>
-            <q-item-label>{{ i.name }}</q-item-label>
-          </q-item-section>
-          <q-item-section avatar>
-            <q-btn flat round color="primary" icon="mode_edit" @click="gotoItem(i.id)">
-            <q-tooltip> Edit </q-tooltip>   </q-btn>
+            <q-item-label>Date</q-item-label>
+            <q-item-label caption>
+              <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
+              <q-badge color="secondary" v-else-if ="specificStatus === 'Progress'" >{{ specificStatus }}</q-badge>
+              <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
+              <q-badge color="negative" v-else-if="specificStatus === 'Rejected'" >{{ specificStatus }}</q-badge>
+              <q-badge color="primary" v-else>Unknown</q-badge>
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-card>
   </div>
-
-<!--  <div class="q-mt-sm">-->
-<!--    {{myproducts}}-->
-<!--  </div>-->
 
   <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
     <q-pagination
@@ -108,9 +85,9 @@ export default {
       return newArr
     })
 
-    const gotoItem = function (id){
+    const gotoAction = function (){
       router.push({
-        name: 'ITEMADD', params: { id : id }
+        name: 'LEAVEADD'
       })
     }
 
@@ -133,7 +110,8 @@ export default {
       totalPages,
       maxVal,
       getData,
-      gotoItem
+      gotoAction,
+      specificStatus : ref('New')
     }
   },
 }
