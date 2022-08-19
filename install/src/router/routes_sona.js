@@ -4,6 +4,8 @@ export default [
   { name: 'PROFILE', path: '/profile', props: true, component: () => import('pages/myprofilePage.vue'), meta:{ title: 'Profile'} },
   { name: 'DASHBOARD', path: '/dashboard', props: true, component: () => import('pages/dashboardPage.vue'), meta:{ title: 'Dashboard'} },
   { name: 'ORDERHISTORY', path: '/orderhistory', props: true, component: () => import('pages/orderhistoryPage.vue'), meta:{ title: 'Order History'} },
+  { name: 'REVIEWS', path: '/reviews', props: true, component: () => import('pages/reviewPage.vue'), meta:{ title: 'Reviews'} },
+  { name: 'REVIEWADD', path: '/review_add', props: true, component: () => import('pages/review_addPage.vue'), meta:{ title: 'Review'} },
 
   { name: 'SALESEXECUTIVEDASHBOARD', path: '/salesexecutive_dashbord', props: true, component: () => import('pages/se_dashbordPage.vue'), meta:{ title: 'Executive Dashboard'} },
   { name: 'SALESEXECUTIVEORDEHISTORY', path: '/salesexecutive_orderhistory', props: true, component: () => import('pages/se_orderhistoryPage.vue'), meta:{ title: 'Executive Order History'} },
