@@ -36,7 +36,7 @@ const linksList = [
   {title: 'SE DASHBOARD', caption: 'Sales Executive Dashboard', icon: 'home', route: 'SALESEXECUTIVEDASHBOARD'},
   {title: 'SE ORDER HISTORY', caption: 'Sales Executive Order History', icon: 'history', route: 'SALESEXECUTIVEORDEHISTORY'},
   {title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle', route: 'SALESEXECUTIVEPROFILE'},
-  {title: 'SE LEAVE', caption: 'Leave', icon: 'account_circle', route: 'LEAVEADD'},
+  {title: 'SE LEAVES', caption: 'Leave', icon: 'account_circle', route: 'SALESEXECUTIVELEAVES'},
   {title: 'SE TEST', caption: 'Sales', icon: 'account_circle', route: 'ADMINSALESXECUTIVEPAGE'},
   {title: 'AD LEAVES', caption: 'Leaves', icon: 'sick', route: 'ADMINDASHBOARD'},
   {title: 'AD REVIEWS', caption: 'Reviews', icon: 'comment_bank', route: ''},

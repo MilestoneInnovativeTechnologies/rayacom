@@ -1,108 +1,43 @@
 <template>
-  <q-page padding>
+  <div class="q-pa-md">
+    <div class="q-gutter-md">
+      <q-date
+        v-model="date"
+        :options="options"
+      />
 
-    <div class="row">
-      <q-expansion-item class="col"
-      expand-separator
+      <q-date
+        v-model="date"
+        :options="optionsFn"
+      />
 
-      label="Select Items"
-      header-class="text-purple">
-
-        <q-input v-model="text" placeholder="Search Here"
-               class="col" >
-
-          <q-btn
-             color="primary"
-             size="lg"
-             icon="search"
-          />
-
-        </q-input>
-      <q-card>
-        <q-card-section>
-          <q-item
-            v-for="userArray in userArray"
-            :key="userArray.id"
-            clickable
-            v-ripple>
-            <div class="options">
-              <ul>
-                <li @click="selectItem(user)" v-for="(user, index) in filtereduserArray" :key="`user-${index}`">{{ user.name }}</li>
-
-              </ul>
-            </div>
-           <q-item-label>{{ userArray.name }}</q-item-label>
-          </q-item>
-
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
+      <q-date
+        v-model="date"
+        :options="optionsFn2"
+      />
     </div>
-  </q-page>
+  </div>
 </template>
 
-<style>
-
-</style>
-
 <script>
+import { ref } from 'vue'
+
 export default {
-  setup() {
+  setup () {
     return {
-      searchQuery: "",
-      selectedItem: null,
-      isVisible: false,
+      date: ref('2019/02/01'),
 
-      userArray: [
-        {
-          "id": 1,
-          "name": "colgate",
-        },
-        {
-          "id": 2,
-          "name": "good night",
-        },
-        {
-          "id": 3,
-          "name": "hide & seek",
-        },
-        {
-          "id": 4,
-          "name": "lakme",
-        },
-        {
-          "id": 5,
-          "name": "yardly 50 gm",
-        },
-        {
-          "id": 6,
-          "name": "enchanteur",
-        },
-        {
-          "id": 7,
-          "name": "blue lady",
-        },
-        {
-          "id": 8,
-          "name": "vicks 100 GM ",
-        },
-        {
-          "id": 9,
-          "name": "classmate notebook",
-        },
-        {
-          "id": 10,
-          "name": "dustbin",
-        }
-      ]
-    }
-    method: {
-      selectedItem(user)
-      this.searchQuery=user
-    }
+      options: [ '2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23' ],
 
-  },
+      optionsFn (date) {
+        return date >= '2019/02/03' && date <= '2019/02/15'
+      },
+
+      optionsFn2 (date) {
+        const parts = date.split('/')
+        return parts[ 2 ] % 2 === 0
+      }
+    }
+  }
 }
-
-
 </script>
