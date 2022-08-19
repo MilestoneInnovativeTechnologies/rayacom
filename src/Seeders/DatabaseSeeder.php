@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             MasterSeeder::class,
             PropertySeeder::class,
             AreaSeeder::class,
+            AdminSeeder::class,
             CustomerSeeder::class,
             AreaCustomerSeeder::class,
             SalesExecutiveSeeder::class,

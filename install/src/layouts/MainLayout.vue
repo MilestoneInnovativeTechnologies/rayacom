@@ -4,13 +4,15 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
         <q-toolbar-title>Rayaheen  <span class="text-subtitle2">{{ $route.meta.title }} </span></q-toolbar-title>
+        <q-btn flat round dense @click="logout"><q-icon name="power" /></q-btn>
+        <q-btn flat round dense @click="router.push({ name:'home' })"><q-icon name="home" /></q-btn>
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item-label header>Menu</q-item-label>
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" @navigate="leftDrawerOpen = false"/>
+        <EssentialLink v-for="link in links" :key="link.title" v-bind="link" @navigate="leftDrawerOpen = false"/>
       </q-list>
     </q-drawer>
 
@@ -20,10 +22,11 @@
   </q-layout>
 </template>
 
+<!--
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
-
+import Routes from './../router/routes'
 const linksList = [
   {title: 'Home', caption: 'Back to main, Home Page', icon: 'home', route: 'home'},
   {title: 'Firose', caption: 'A test page created by Firose Hussain', icon: 'beach_access', route: 'firose'},
@@ -52,8 +55,8 @@ export default defineComponent({
   components: {
     EssentialLink
   },
-
   setup () {
+    console.log(_.flatMap(Routes,'children'))
     const leftDrawerOpen = ref(false)
 
     return {
@@ -65,4 +68,18 @@ export default defineComponent({
     }
   }
 })
+</script>
+-->
+<script setup>
+import {ref} from "vue";
+import { useRouter } from 'vue-router'
+import Routes from "src/router/routes";
+import EssentialLink from 'components/EssentialLink.vue'
+const router = useRouter()
+const links = _(Routes).flatMap('children').filter(route => route && route.menu).map(route => Object.assign({},route.menu,{ route:route.name })).value()
+const leftDrawerOpen = ref(false)
+function toggleLeftDrawer () {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
+function logout(){ location.href = [location.protocol+'/',location.host,'logout'].join("/") }
 </script>
