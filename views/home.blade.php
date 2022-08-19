@@ -1,4 +1,4 @@
-@php $origin = request()->server('REQUEST_SCHEME') . "://" . request()->server('HTTP_HOST') @endphp<!DOCTYPE html>
+@php $origin = request()->server('REQUEST_SCHEME') . "://" . request()->server('HTTP_HOST'); @endphp<!DOCTYPE html>
 <html>
 <head><title>Rayacom Home</title>
     <meta charset=utf-8>
@@ -11,7 +11,10 @@
     <link rel=icon type=image/png sizes=32x32 href="{!! $origin !!}/icons/favicon-32x32.png">
     <link rel=icon type=image/png sizes=16x16 href="{!! $origin !!}/icons/favicon-16x16.png">
     <link rel=icon type=image/ico href="{!! $origin !!}/favicon.ico">
-    <script type="text/javascript" src="{!! $origin !!}/2/10001/init.js"></script>
+    @if(session('logged') && session('auth_master') && session('auth_data'))
+        <script type="text/javascript" src="{!! $origin !!}/init.js"></script>
+        <script type="text/javascript">const AUTH_TYPE = "{{ session('auth_type') }}";</script>
+    @endif
     <style> html:root { @foreach(rayacom_config('brand_colors') as $brand => $color) --q-{{ $brand }}:{{ $color }};@endforeach } </style>
 </head>
 <body>

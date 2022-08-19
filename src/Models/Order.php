@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
+    protected $guarded = [];
 
     protected static function booted() {
         parent::booted();
@@ -22,7 +23,14 @@ class Order extends Model
         });
     }
 
-    protected $guarded = [];
+    public function scopeRecent($q){
+        $q->where('updated_at','>',now()->subMonths(1)->toDateTimeString())
+            ->orWhereNotIn('status',['Delivered','Cancelled']);
+    }
+    public function scopeRecentAgain($q){
+        $q->whereNotIn('status',['Delivered','Cancelled'])->where();
+    }
+
 
     public function items(){
         return $this->hasMany(OrderItem::class,'order','id');

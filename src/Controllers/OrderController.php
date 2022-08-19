@@ -52,12 +52,4 @@ class OrderController extends Controller
         }
         return [];
     }
-
-    public function scopeRecent($q){
-        $q->where('updated_at','>',now()->subMonths(1)->toDateTimeString())
-            ->orWhereNotIn('status',['Delivered','Cancelled']);
-    }
-    public function scopeRecentAgain($q){
-        $q->whereNotIn('status',['Delivered','Cancelled'])->where();
-    }
 }

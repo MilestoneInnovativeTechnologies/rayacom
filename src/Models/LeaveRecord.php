@@ -2,16 +2,33 @@
 
 namespace Milestone\Rayacom\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class LeaveRecord extends Model
 {
   protected $table = 'leaverecord';
+  protected $guarded = [];
 
-  protected $fillable = [
-    'executive',
-    'start_date',
-    'end_date',
-    'description'
-  ];
+
+    protected static function booted() {
+        parent::booted();
+        static::saved(function(){
+            $max = DB::table('leaverecord')->select(DB::raw('max(updated_at) max'))->value('max');
+            Cache::forever(rayacom_config('cache_key.db_leaves_last_updated_time'),$max);
+        });
+        static::addGlobalScope('active', function (Builder $builder) {
+
+        });
+    }
+
+    public function scopeRecent($q){
+        $q->where('updated_at','>',now()->subMonths(1)->toDateTimeString());
+    }
+    public function scopeRecentAgain($q){
+
+    }
+
 }

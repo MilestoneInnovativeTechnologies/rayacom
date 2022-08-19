@@ -21,6 +21,7 @@ return [
         'db_master_prop_max_time'  =>  'DB_MASTER_PROP_MAX_TIME',
         'db_prop_master_max_time'  =>  'DB_PROP_MASTER_MAX_TIME',
         'db_orders_last_updated_time'  =>  'DB_ORDERS_LAST_UPDATED_TIME',
+        'db_leaves_last_updated_time'  =>  'DB_LEAVES_LAST_UPDATED_TIME',
     ],
 
     'brand_colors' => [
