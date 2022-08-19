@@ -1,4 +1,6 @@
 export default [
+  { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
+
   { name:'search', path:'/search', component: () => import('pages/search.vue') },
   { name:'SALESEXECUTIVEPROFILE', path:'/profile', component: () => import('pages/salesexecutive_profile.vue'), menu:{title: 'SE PROFILE', caption: 'Sales Executive profile', icon: 'account_circle'} },
   { name:'ADMINSALESXECUTIVEPAGE', path:'/sales', component: () => import('pages/admin_salesexecutivePage.vue'), },

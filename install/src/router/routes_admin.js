@@ -1,4 +1,5 @@
 export default [
+  { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
   { name:'firose', path:'/firose', component: () => import('pages/Firose.vue'), meta:{ title:'Firose Page' }, menu: { title:'Firose',caption:'Firose Experiment Page',icon:'beach_access' } },
   { name: 'ADMINDASHBOARD', path: '/admin_dashbord', props: true, component: () => import('pages/adminDashboardPage.vue'), meta:{ title: 'Dashboard'} },
   { name: 'ADMINORDERHISTORY', path: '/admin_orderhistory', props: true, component: () => import('pages/admin_orderhistoryPage.vue'), meta:{ title: 'Order History'} },

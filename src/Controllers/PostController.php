@@ -23,6 +23,7 @@ class PostController extends Controller
     public function latest(){
         $data = ['_next' => now()->toDateTimeString()];
         $data['ORDER'] = OrderController::orders();
+        $data['LEAVE'] = LeaveController::leaves();
         if(request()->header('Latest-Date')){
             $latest_date = request()->header('Latest-Date',now()->toDateTimeString()) ?: now()->toDateTimeString();
             $data = array_merge($data,$this->latest_masters($latest_date));
