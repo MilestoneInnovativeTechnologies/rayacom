@@ -28,7 +28,7 @@ class LoginController extends Controller
                 if($success){
                     $cData = MasterProperty::where(compact('property','value'))->value('data');
                     if($data === null) $data = $cData;
-                    $success = ($data === $cData);
+                    $success = $cData && ($data === $cData);
                 }
             }
             if($success && $data) {
@@ -39,7 +39,6 @@ class LoginController extends Controller
                 break;
             }
         }
-//        dd(session()->all());
         return redirect()->route('home',compact('success'));
     }
 
