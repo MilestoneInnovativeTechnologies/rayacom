@@ -3,7 +3,7 @@
 
     <div class="row justify-end side">
       <q-btn color="positive" no-caps @click="gotoItempage()">
-        <q-icon left size="2em" name="open_in_new" />
+        <q-icon left size="xl" name="open_in_new" />
         NEW ORDER
       </q-btn>
     </div>
