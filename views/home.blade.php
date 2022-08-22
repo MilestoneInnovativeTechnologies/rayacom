@@ -13,7 +13,7 @@
     <link rel=icon type=image/ico href="{!! $origin !!}/favicon.ico">
     @if(session('logged') && session('auth_master') && session('auth_data'))
         <script type="text/javascript" src="{!! $origin !!}/init.js"></script>
-        <script type="text/javascript">const AUTH_TYPE = "{{ session('auth_type') }}";</script>
+        <script type="text/javascript">const AUTH_TYPE = "{{ session('auth_type') }}",AUTH_DATA = "{{ session('auth_data') }}";</script>
     @endif
     <style> html:root { @foreach(rayacom_config('brand_colors') as $brand => $color) --q-{{ $brand }}:{{ $color }};@endforeach } </style>
 </head>

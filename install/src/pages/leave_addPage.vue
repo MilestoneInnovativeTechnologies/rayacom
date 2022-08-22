@@ -51,9 +51,6 @@ import { useRouter } from 'vue-router'
 
 const $q = useQuasar()
 const router = useRouter()
-
-const ID = ref(10001)   // must change
-
 let timestamp = Date.now()
 let today = date.formatDate(timestamp, 'YYYY/MM/DD')
 
@@ -62,7 +59,7 @@ function optionsFn(date){
 }
 
 const obj = reactive({
-  id: '', executive: ID, start_date: today, end_date: today, description: '',
+  id: '', start_date: today, end_date: today, description: '',
 })
 function save(){
   if((obj.start_date != '') && (obj.end_date != '') && (obj.description != '')){

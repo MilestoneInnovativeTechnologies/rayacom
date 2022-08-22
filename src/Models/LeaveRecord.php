@@ -13,14 +13,14 @@ class LeaveRecord extends Model
   protected $guarded = [];
 
 
-    protected static function booted() {
-        parent::booted();
+    protected static function boot() {
+        parent::boot();
+        static::creating(function ($model) {
+          $model->executive = session('auth_data');
+        });
         static::saved(function(){
             $max = DB::table('leaverecord')->select(DB::raw('max(updated_at) max'))->value('max');
             Cache::forever(rayacom_config('cache_key.db_leaves_last_updated_time'),$max);
-        });
-        static::addGlobalScope('active', function (Builder $builder) {
-
         });
     }
 
