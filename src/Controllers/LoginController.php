@@ -39,6 +39,7 @@ class LoginController extends Controller
                 break;
             }
         }
+//        dd(session()->all());
         return redirect()->route('home',compact('success'));
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-grey-2">
+  <q-layout view="lHh Lpr lFf" class="bg-grey-1">
     <q-header elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
@@ -43,7 +43,6 @@ const linksList = [
 
   {title: 'AD LEAVES', caption: 'Leaves', icon: 'sick', route: 'ADMINDASHBOARD'},
   {title: 'AD REVIEWS', caption: 'Reviews', icon: 'comment_bank', route: ''},
-  {title: 'AD ORDERS', caption: 'Orders', icon: 'reorder', route: ''},
   {title: 'AD ORDER HISTORY', caption: 'Order History', icon: 'history', route: 'ADMINORDERHISTORY'},
   {title: 'AD CUSTOMERS', caption: 'Customers', icon: 'people', route: 'ADMINCUSTOMERS'},
   {title: 'AD SALES EXECUTIVES', caption: 'Sales Executives', icon: 'person', route: ''},
