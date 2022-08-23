@@ -10,6 +10,6 @@ export default [
     meta:{ title: 'ADD REVIEW'} },
   { name: 'ORDERHISTORY', path: '/ORDERHISTORY', props: true, component: () => import('pages/orderhistoryPage.vue'),
     meta:{ title: 'ORDERHISTORY'}, menu:{title: 'ORDERHISTORY', caption: 'ORDERHISTORY', icon: 'history' } },
-  { name: 'PROFILE', path: '/profile', props: true, component: () => import('pages/myprofilePage.vue'),
+  { name: 'PROFILE', path: '/profile', props: true, component: () => import('pages/customer_profilePage.vue'),
     meta:{ title: 'PROFILE'}, menu:{title: 'PROFILE', caption: 'Profile', icon: 'account_circle' } },
 ]
