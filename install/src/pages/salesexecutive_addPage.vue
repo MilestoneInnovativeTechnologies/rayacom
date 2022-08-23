@@ -129,10 +129,10 @@ export default {
           console.log(obj.areas.value)
           // console.log('-------------------------------')
           if (ID.value > 0) {
-            post('master', 'update', newObj)
+            post('master', 'update', ...newObj.areas )
             msg = 'Your Item have updated successfully'
           } else {
-            post('add', 'store', newObj )
+            post('add', 'store', ...newObj.areas )
             msg = 'Your have added a new item successfully'
           }
           // function update(){
