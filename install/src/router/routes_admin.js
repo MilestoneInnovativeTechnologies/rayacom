@@ -18,7 +18,7 @@ export default [
   { name: 'ADMINCUSTOMERS', path: '/admin_customer', props: true, component: () => import('pages/admin_customerPage.vue'),
     meta:{ title: 'CUSTOMERS'}, menu: { title:'CUSTOMERS',caption:'CUSTOMERS',icon:'people' } },
   { name: 'CUSTOMERADD', path: '/customer_add', props: true, component: () => import('pages/customer_addPage.vue')},
-  { name: 'SALES EXECUTIVE', path: '/sales', props: true, component: () => import('pages/admin_salesexecutivePage.vue'),
+  { name: 'ADMINSALESXECUTIVEPAGE', path: '/sales', props: true, component: () => import('pages/admin_salesexecutivePage.vue'),
     meta:{ title: 'SALES EXECUTIVE'}, menu: { title:'SALES EXECUTIVE',caption:'SALES EXECUTIVE',icon:'perm_contact_calendar' } },
   { name: 'SALESEXECUTIVEADD', path: '/salesexecutiveadd', props: true, component: () => import('pages/salesexecutive_addPage.vue'),
     meta:{ title: 'SALESXECUTIVE'} },

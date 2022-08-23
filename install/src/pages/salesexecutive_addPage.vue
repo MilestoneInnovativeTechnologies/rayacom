@@ -123,16 +123,16 @@ export default {
         if ((obj.name != '') && (obj.password != '') && (obj.phone != '') && (emailPattern.test(obj.email))
           && (obj.areas.value != '')) {
           console.warn(obj);
-          // let newObj = _.omit(obj, ['areas'])
-          // newObj.areas = obj.areas.value
-          // newObj.areas = [1, 2, 3, 4]
+          let newObj = _.omit(obj, ['areas'])
+          newObj.areas = obj.areas.value
+          newObj.areas = [1, 2, 3, 4]
           console.log(obj.areas.value)
           // console.log('-------------------------------')
           if (ID.value > 0) {
-            post('master', 'update',{id:ID.value,...obj.areas.value })
+            post('master', 'update', newObj)
             msg = 'Your Item have updated successfully'
           } else {
-            post('add', 'store',{id:ID.value,...obj.areas.value} )
+            post('add', 'store', newObj )
             msg = 'Your have added a new item successfully'
           }
           // function update(){
