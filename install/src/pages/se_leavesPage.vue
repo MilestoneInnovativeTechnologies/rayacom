@@ -3,12 +3,12 @@
 
     <div class="q-pa-md text-center">
       <q-btn color="positive" no-caps @click="gotoAction()">
-        <q-icon left size="2em" name="open_in_new" />
+        <q-icon left size="xl" name="open_in_new" />
         NEW LEAVE
       </q-btn>
     </div>
 
-  <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
+  <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
     <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
       <q-list>
         <q-item class="bg-brand text-white text-bold">
@@ -27,7 +27,7 @@
     </q-card>
   </div>
 
-  <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
+  <div class="q-pa-lg flex flex-center" v-if="totalcount">
     <q-pagination
       v-model="page"
       :min="currentPage"
@@ -47,38 +47,25 @@
 
 <script>
 import { computed, ref  } from 'vue'
-import { useMasterStore } from 'stores/master'
+import { useLeaveStore } from 'stores/leave'
 import { useRouter } from 'vue-router'
-const master = useMasterStore()
+const leaveStore = useLeaveStore()
 export default {
   setup () {
     const router = useRouter()
     let num1
     let num2
 
-    const MYITEMS =  computed(() => {
-      return  master.ITEM
+    const LEAVES =  computed(() => {
+      return leaveStore.leaves
     })
-
-    const search = ref('')
-
-    const searchResult = computed(()=>{
-      if(search.value === ''){
-        return Object.values(MYITEMS.value)
-      }else{
-        let keyword = search.value.toLowerCase();
-        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
-      }
-    })
-
-    const myitemsLength = computed(()=>{
-      return searchResult.value.length
-    })
+    const MYLEAVES = ref(LEAVES.value)
+    let totalcount = Object.values(MYLEAVES.value).length
 
     const getData =  computed(() => {
-      num1 = (page.value-1)*totalPages.value;
-      num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = searchResult.value.slice(num1,num2)
+      num1 = (page.value-1)*totalPages.value
+      num2 = (page.value-1)*totalPages.value+totalPages.value
+      let MYKEYS =Object.values(MYLEAVES.value).slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return e
       })
@@ -91,20 +78,17 @@ export default {
       })
     }
 
-
     let page = ref(1)
     let currentPage= ref(1)
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(myitemsLength.value/totalPages.value)
+      return Math.ceil(totalcount.value/totalPages.value)
     })
 
     return {
-      MYITEMS,
-      search,
-      searchResult,
-      myitemsLength,
+      MYLEAVES,
+      totalcount,
       page,
       currentPage,
       totalPages,

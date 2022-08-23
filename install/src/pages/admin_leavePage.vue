@@ -1,7 +1,7 @@
 <template>
-  <q-page padding class="flex column q-col-gutter-y-lg">
+    <q-page padding class="flex column q-col-gutter-y-lg">
 
-  <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
+  <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
       <q-card flat bordered
               class="my-card"
               v-for="(i, index) in getData" :key="i.id"
@@ -9,8 +9,10 @@
       <q-list>
         <q-item class="bg-brand text-white text-bold">
           <q-item-section>
-            <q-item-label>Date</q-item-label>
-            <q-item-label caption>
+            <q-item-label>{{ i.executive }}</q-item-label>
+            <q-item-label caption>{{ i.start_date }}</q-item-label>
+            <q-item-label caption>{{ i.end_date }}</q-item-label>
+             <q-item-label>
               <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
               <q-badge color="secondary" v-else-if ="specificStatus === 'Progress'" >{{ specificStatus }}</q-badge>
               <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
@@ -23,7 +25,7 @@
     </q-card>
   </div>
 
-  <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
+  <div class="q-pa-lg flex flex-center" v-if="totalcount">
     <q-pagination
       v-model="page"
       :min="currentPage"
@@ -108,10 +110,11 @@
 </template>
 
 <script>
-import { computed, ref  } from 'vue'
-import { useMasterStore } from 'stores/master'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-const master = useMasterStore()
+import { useLeaveStore } from 'stores/leave'
+const leaveStore = useLeaveStore()
+
 export default {
   setup () {
     const router = useRouter()
@@ -119,29 +122,17 @@ export default {
     let num2
 
 
-    const MYITEMS =  computed(() => {
-      return  master.ITEM
+    const LEAVES =  computed(() => {
+      return  leaveStore.leaves
     })
 
-    const search = ref('')
-
-    const searchResult = computed(()=>{
-      if(search.value === ''){
-        return Object.values(MYITEMS.value)
-      }else{
-        let keyword = search.value.toLowerCase();
-        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
-      }
-    })
-
-    const myitemsLength = computed(()=>{
-      return searchResult.value.length
-    })
+    let MYLEAVES = ref(LEAVES.value)
+    let totalcount = Object.values(MYLEAVES.value).length
 
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
       num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = searchResult.value.slice(num1,num2)
+      let MYKEYS =  MYLEAVES.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return e
       })
@@ -175,14 +166,12 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(myitemsLength.value/totalPages.value)
+      return Math.ceil(totalcount.value/totalPages.value)
     })
 
     return {
-      MYITEMS,
-      search,
-      searchResult,
-      myitemsLength,
+      MYLEAVES,
+      totalcount,
       page,
       currentPage,
       totalPages,

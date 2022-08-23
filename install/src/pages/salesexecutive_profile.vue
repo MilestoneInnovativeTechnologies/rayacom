@@ -6,7 +6,8 @@ import {computed, ref} from "vue"
 import {useRouter} from "vue-router/dist/vue-router";
 const $q = useQuasar()
 const router = useRouter()
-const masterStore = useMasterStore(), ID = ref(100001)
+const masterStore = useMasterStore()
+const ID = ref(AUTH_DATA)
 const salesexecutive = computed(() => masterStore.SALES_EXECUTIVE[ID.value])
 const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
 const isValidEmail = function () {
