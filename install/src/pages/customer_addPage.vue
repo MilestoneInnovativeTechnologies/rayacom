@@ -60,6 +60,7 @@ export default {
     const $q = useQuasar()
     const router = useRouter()
 
+
     const ID = ref(props.id)
     const AREA = ref(masterStore.AREA)
     const options = []
