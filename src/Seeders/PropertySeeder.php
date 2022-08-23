@@ -17,6 +17,8 @@ class PropertySeeder extends Seeder
     {
         DB::table('_properties')->truncate();
         $masters = DB::table('_masters')->pluck('id','name');
+        DB::table('_properties')->insert(['master' => $masters['ADMIN'],'name' => 'email','nature' => 'Single','created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]);
+        DB::table('_properties')->insert(['master' => $masters['ADMIN'],'name' => 'password','nature' => 'Single','created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]);
         DB::table('_properties')->insert(['master' => $masters['CUSTOMER'],'name' => 'area','value_master' => $masters['AREA'],'index' => 'Y','nature' => 'Single','created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]);
         DB::table('_properties')->insert(['master' => $masters['CUSTOMER'],'name' => 'address','nature' => 'Single','created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]);
         DB::table('_properties')->insert(['master' => $masters['CUSTOMER'],'name' => 'phone','nature' => 'Single','created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]);

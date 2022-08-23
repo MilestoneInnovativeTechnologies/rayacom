@@ -5,7 +5,7 @@
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-model="obj.start_date">
+            <q-date v-model="obj.start_date" :options="optionsFn">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
@@ -19,7 +19,7 @@
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-model="obj.end_date">
+            <q-date v-model="obj.end_date" :options="optionsFn">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
@@ -39,20 +39,44 @@
     </q-input>
     <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
   </q-page>
+
 </template>
+
 
 <script setup>
 import { post } from 'boot/axios'
-import { reactive, ref} from "vue";
-import { date, useQuasar} from 'quasar'
-const ID = ref(10001)   // must change
+import { reactive, ref } from "vue";
+import { date, useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
+const $q = useQuasar()
+const router = useRouter()
 let timestamp = Date.now()
 let today = date.formatDate(timestamp, 'YYYY/MM/DD')
+
+function optionsFn(date){
+  return date >= today
+}
+
 const obj = reactive({
-  id: '', executive: '', start_date: today, end_date: today, description: '',
+  id: '', start_date: today, end_date: today, description: '',
 })
 function save(){
-  post('leave','save', obj)
+  if((obj.start_date != '') && (obj.end_date != '') && (obj.description != '')){
+    post('leave','store', obj)
+    positivemsg('Your have added a leave successfully')
+    router.push({
+      name: 'SALESEXECUTIVELEAVES'
+    })
+  }
+}
+const positivemsg = function (msg){
+  $q.notify({
+    type: 'positive',
+    message: msg,
+    icon: 'cloud_done',
+    position:'top-right',
+    timeout:2000
+  })
 }
 </script>

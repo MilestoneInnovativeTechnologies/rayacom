@@ -1,49 +1,26 @@
 <template>
   <q-page padding class="flex column q-col-gutter-y-lg">
 
-    <div class="q-pa-sm">
-      <div class="row q-pa-md">
-        <div class="col-8">
-          <q-input
-            v-model="search"
-            debounce="500"
-            filled
-            placeholder="Search">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </div>
-        <div class="col-4 text-center">
-          <q-btn color="positive" no-caps @click="gotoAction(0)">
-            <q-icon left size="xl" name="open_in_new" />
-            ADD AREA
-          </q-btn>
-        </div>
-      </div>
-    </div>
-
-  <div class="q-pa-sm row items-start q-gutter-md" v-if="myarrayLength">
+  <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
     <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
       <q-list>
         <q-item class="bg-brand text-white text-bold">
           <q-item-section>
-            <q-item-label>{{ i.name }}</q-item-label>
-          </q-item-section>
-          <q-item-section avatar>
-            <q-btn flat round color="primary" icon="mode_edit" @click="gotoAction(i.id)">
-            <q-tooltip> Edit </q-tooltip>   </q-btn>
+            <q-item-label>Date</q-item-label>
+            <q-item-label caption>
+              <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
+              <q-badge color="secondary" v-else-if ="specificStatus === 'Progress'" >{{ specificStatus }}</q-badge>
+              <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
+              <q-badge color="negative" v-else-if="specificStatus === 'Rejected'" >{{ specificStatus }}</q-badge>
+              <q-badge color="primary" v-else>Unknown</q-badge>
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-card>
   </div>
 
-<!--  <div class="q-mt-sm">-->
-<!--    {{myproducts}}-->
-<!--  </div>-->
-
-  <div class="q-pa-lg flex flex-center" v-if="myarrayLength">
+  <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
     <q-pagination
       v-model="page"
       :min="currentPage"
@@ -72,22 +49,22 @@ export default {
     let num1
     let num2
 
-    const MYARRAY =  computed(() => {
-      return  master.AREA
+    const MYITEMS =  computed(() => {
+      return  master.ITEM
     })
 
     const search = ref('')
 
     const searchResult = computed(()=>{
       if(search.value === ''){
-        return Object.values(MYARRAY.value)
+        return Object.values(MYITEMS.value)
       }else{
         let keyword = search.value.toLowerCase();
-        return Object.values(MYARRAY.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
       }
     })
 
-    const myarrayLength = computed(()=>{
+    const myitemsLength = computed(()=>{
       return searchResult.value.length
     })
 
@@ -101,9 +78,9 @@ export default {
       return newArr
     })
 
-    const gotoAction = function (id){
+    const gotoAction = function (){
       router.push({
-        name: 'AREAADD', params: { id : id }
+        name: 'REVIEWADD'
       })
     }
 
@@ -113,20 +90,21 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(myarrayLength.value/totalPages.value)
+      return Math.ceil(myitemsLength.value/totalPages.value)
     })
 
     return {
-      MYARRAY,
+      MYITEMS,
       search,
       searchResult,
-      myarrayLength,
+      myitemsLength,
       page,
       currentPage,
       totalPages,
       maxVal,
       getData,
-      gotoAction
+      gotoAction,
+      specificStatus : ref('New')
     }
   },
 }

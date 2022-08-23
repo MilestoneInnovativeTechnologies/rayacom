@@ -1,22 +1,33 @@
 <template>
-  <q-page padding class="flex flex-center column q-gutter-y-sm">
+  <q-page padding class="flex column q-col-gutter-y-lg">
+
+    <div class="q-pa-sm">
+      <div class="row q-pa-md">
+        <div class="col-8">
+          <q-input
+            v-model="search"
+            debounce="500"
+            filled
+            placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
+        <div class="col-4 text-center">
+          <q-btn color="positive" no-caps @click="gotoItem(0)">
+            <q-icon left size="xl" name="open_in_new" />
+            ADD ITEM
+          </q-btn>
+        </div>
+      </div>
+    </div>
 
     <div class="q-gutter-md" top>
-      <q-input
-        v-model="search"
-        debounce="500"
-        filled
-        placeholder="Search">
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+
     </div>
     <div class="row justify-end side">
-      <q-btn color="positive" no-caps @click="gotoItem(0)">
-        <q-icon left size="2em" name="open_in_new" />
-        NEW ITEM
-      </q-btn>
+
     </div>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Milestone\Rayacom\Models\Order;
 use Milestone\Rayacom\Models\OrderItem;
 
-class OrderRequest extends FormRequest
+class  OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,6 +37,7 @@ class OrderRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
+            'customer' => session('auth_data'),
             'date' => $this->input('date',now()->toDateTimeString()),
             'status' => 'New',
             'created_user' => $this->auth_user(),
