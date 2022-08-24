@@ -19,11 +19,11 @@ const masterStore = useMasterStore()
 const executives = masterStore['SALES_EXECUTIVE']
 const ID = ref(100001)
 const executive = ref({  }) //reactive(Object.assign({},get(executives,ID.value),{ areas:map(get(executives,[ID.value,'areas'],[]),({ data }) => String(data)) }))
-watch(ID,(id) => {
-  executive.value = Object.assign({},get(executives,id),{ areas:map(get(executives,[id,'areas'],[]),({ data }) => String(data)) })
+watchEffect(() => {
+  executive.value = Object.assign({},get(executives,ID.value),{ areas:map(get(executives,[ID.value,'areas'],[]),({ data }) => String(data)) })
 })
 const areas = ref(Object.values(masterStore['AREA']))
 function update(){
-  post('master','update',executive.value)
+  post('master','update',{id:ID.value,...executive.value})
 }
 </script>

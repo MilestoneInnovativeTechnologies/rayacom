@@ -26,9 +26,9 @@ Route::group([
         "middleware" => 'cache.headers:public;max_age=2628000;etag',
         "controller" => AssetController::class,
     ],function(){
-        Route::get('properties/{time}/{id}/{name}.json','master_properties');
+        Route::get('properties/{user}/{time}/{id}/{name}.json','master_properties');
         Route::get('asset/{time}/properties.json','properties');
-        Route::get('asset/{time}/{id}/{name}.json','master');
+        Route::get('asset/{user}/{time}/{id}/{name}.json','master');
     });
 
     Route::get('init.js',[AssetController::class,'init']);
