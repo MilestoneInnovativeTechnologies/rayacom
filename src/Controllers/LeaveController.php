@@ -17,6 +17,14 @@ class LeaveController extends Controller
     $data->save();
     return $data;
   }
+  public function status(){
+    $id = request('id');
+    $status = request('status');
+    $data = LeaveRecord::find($id);
+    $data->status = $status;
+    $data->save();
+    return $data;
+  }
 
     public static function leaves(){
         $latest_date = request()->header('Latest-Date','2000-01-01 00:00:01') ?: '2000-01-01 00:00:01';

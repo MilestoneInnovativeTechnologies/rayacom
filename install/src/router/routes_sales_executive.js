@@ -8,7 +8,7 @@ export default [
     component: () => import('pages/se_orderhistoryPage.vue'), meta:{ title: 'ORDER HISTORY'} ,
     menu: { title:'ORDER HISTORY',caption:'ORDER HISTORY',icon:'history' } },
   { name: 'SALESEXECUTIVELEAVES', path: '/salesexecutive_leaves', props: true,
-    component: () => import('pages/se_leavesPage.vue'), meta:{ title: 'Executive Leaves'},
+    component: () => import('pages/se_leavesPage.vue'), meta:{ title: 'LEAVES'},
     menu:{title: 'LEAVES', caption: 'LEAVES', icon: 'sick'} },
   { name: 'LEAVEADD', path: '/leave_add', props: true, component: () => import('pages/leave_addPage.vue'),
     meta:{ title: 'ADD LEAVE'} },

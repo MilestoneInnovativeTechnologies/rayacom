@@ -5,18 +5,17 @@
       <q-card flat bordered
               class="my-card"
               v-for="(i, index) in getData" :key="i.id"
-              @click="openwindow(i.id)">
+              @click="openwindow(i.id, i.executive, i.start_date, i.end_date, i.description, i.status)">
       <q-list>
-        <q-item class="bg-brand text-white text-bold">
+        <q-item class="bg-grey-2 text-bold">
           <q-item-section>
             <q-item-label>{{ i.executive }}</q-item-label>
             <q-item-label caption>{{ i.start_date }}</q-item-label>
-            <q-item-label caption>{{ i.end_date }}</q-item-label>
              <q-item-label>
-              <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
-              <q-badge color="secondary" v-else-if ="specificStatus === 'Progress'" >{{ specificStatus }}</q-badge>
-              <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
-              <q-badge color="negative" v-else-if="specificStatus === 'Rejected'" >{{ specificStatus }}</q-badge>
+              <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
+              <q-badge color="secondary" v-else-if ="i.status === 'Progress'" >{{ i.status }}</q-badge>
+              <q-badge color="positive" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
+              <q-badge color="negative" v-else-if="i.status === 'Rejected'" >{{ i.status }}</q-badge>
               <q-badge color="primary" v-else>Unknown</q-badge>
             </q-item-label>
           </q-item-section>
@@ -40,72 +39,85 @@
       active-color="deep-orange-10"
     />
   </div>
-    <div class="q-pa-md q-gutter-sm">
-      <q-dialog v-model="card">
-        <q-card class="my-card" style="width: 400px">
-          <q-list bordered class="rounded-borders" style="min-width: 350px">
-            <q-item>
-              <q-item-section avatar>
-                <q-avatar icon="fact_check" color="brand" text-color="white" />
-              </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
-                <q-item-label lines="1">{{ specificDate }}</q-item-label>
-                <q-item-label>{{ specificCustomer }}</q-item-label>
-                <q-item-label caption>
-                  <span class="text-weight-bold">{{ specificId }}</span>
-                </q-item-label>
-              </q-item-section>
-              <q-item-section side >
-                <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
-                <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
-                <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
-                <q-badge color="info" v-else-if="specificStatus === 'Packed'" >{{ specificStatus }}</q-badge>
-                <q-badge color="blue-grey" v-else-if="model === 'Dispatched'" >{{ specificStatus }}</q-badge>
-                <q-badge color="positive" v-else-if="specificStatus === 'Delivered'" >{{ specificStatus }}</q-badge>
-                <q-badge color="negative" v-else-if="specificStatus === 'Cancelled'" >{{ specificStatus }}</q-badge>
-                <q-badge color="primary" v-else>Unknown</q-badge>
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section top class="col-1 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium">#</q-item-label>
-              </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium">Item</q-item-label>
-              </q-item-section>
-              <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium text-center">Quantity</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-separator/>
-            <q-item>
-              <q-item-section top class="col-1 gt-sm">
-                <q-item-label class="q-mt-sm"></q-item-label>
-              </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
-                <q-item-label class="q-mt-sm"></q-item-label>
-              </q-item-section>
-              <q-item-section top>
-                <q-item-label class="q-mt-sm flex-center text-center"></q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-separator/>
-            <q-item>
-              <q-item-section top class="col-1 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
-              </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium">Total Items</q-item-label>
-              </q-item-section>
-
-            </q-item>
-          </q-list>
-          <q-card-actions align="right">
-            <q-btn flat label="Close" color="negative" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-    </div>
+      <div class="q-pa-md q-gutter-sm">
+        <q-dialog v-model="card">
+          <q-card class="my-card" style="max-width: 400px">
+            <q-list bordered class="rounded-borders" style="min-width: 350px">
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar icon="fact_check" color="brand" text-color="white" />
+                </q-item-section>
+                <q-item-section top class="col-7 gt-sm">
+                  <q-item-label lines="1">{{ specificExecutive }}</q-item-label>
+                  <q-item-label lines="2"></q-item-label>
+                  <q-item-label caption lines="3">
+                    <span class="text-weight-bold">{{ specificId }}</span>
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side >
+                  <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
+                  <q-badge color="secondary" v-else-if ="model === 'Progress'" >{{ model }}</q-badge>
+                  <q-badge color="positive" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
+                  <q-badge color="negative" v-else-if="model === 'Rejected'" >{{ model }}</q-badge>
+                  <q-badge color="primary" v-else>Unknown</q-badge>
+                </q-item-section>
+              </q-item>
+              <q-separator/>
+              <q-item>
+                <q-item-section top class="col-1 gt-sm">
+                  <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+                </q-item-section>
+                <q-item-section top class="col-3 gt-sm">
+                  <q-item-label class="q-mt-sm">Start Date</q-item-label>
+                </q-item-section>
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm flex-center text-center">{{ specificstartDate }}</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section class="col-1 gt-sm">
+                  <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+                </q-item-section>
+                <q-item-section top class="col-3 gt-sm">
+                  <q-item-label class="q-mt-sm">End Date</q-item-label>
+                </q-item-section>
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm flex-center text-center">{{ specificendDate}}</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section class="col-1 gt-sm">
+                  <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+                </q-item-section>
+                <q-item-section top class="col-3 gt-sm">
+                  <q-item-label class="q-mt-sm">Description</q-item-label>
+                </q-item-section>
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm flex-center text-left">{{ specificeDescription }}</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section top class="col-2 gt-sm">
+                  <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
+                </q-item-section>
+                <q-item-section top class="col-7 gt-sm">
+                  <q-item-label class="q-mt-sm text-weight-medium">
+                    <q-select filled  v-model="model" :options="options" label="Status"
+                              @update:model-value="updateStatus()"  />
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm">
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <q-card-actions align="right">
+              <q-btn flat label="Close" color="negative"  v-close-popup  />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+      </div>
   </q-page>
 </template>
 
@@ -113,20 +125,21 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLeaveStore } from 'stores/leave'
+import { post } from "boot/axios";
+import { date,useQuasar } from "quasar";
 const leaveStore = useLeaveStore()
 
 export default {
   setup () {
     const router = useRouter()
+    const $q = useQuasar()
     let num1
     let num2
+    let model = ref(null)
 
-
-    const LEAVES =  computed(() => {
-      return  leaveStore.leaves
+    const MYLEAVES =  computed(() => {
+      return Object.values(leaveStore.leaves).reverse()
     })
-
-    let MYLEAVES = ref(LEAVES.value)
     let totalcount = Object.values(MYLEAVES.value).length
 
     const getData =  computed(() => {
@@ -145,28 +158,47 @@ export default {
       })
     }
     let card = ref(false)
-    let specificItems = ref('')
     let specificId = ref('')
-    let specificDate = ref('')
+    let specificstartDate = ref('')
+    let specificendDate = ref('')
+    let specificeDescription = ref('')
     let specificStatus = ref('')
-    let specificCustomer = ref('')
+    let specificExecutive = ref('')
 
-    const openwindow = function (id){
-      // specificId.value = id
-      // specificItems.value = items
-      // specificDate.value = adate
-      // specificStatus.value = status
-      // specificCustomer.value = customer
-      // console.log(specificItems)
+    const openwindow = function (id, executive, start_date, end_date, description, status){
+      specificId.value = id
+      specificExecutive.value = executive
+      specificstartDate.value = date.formatDate(start_date, 'DD-MM-YYYY')
+      specificendDate.value = date.formatDate(end_date, 'DD-MM-YYYY')
+      specificeDescription.value = description
+      if(status == 'New'){
+        specificStatus.value = model.value = 'Progress'
+        updateStatus()
+      }else{
+        specificStatus.value = model.value = status
+      }
       card.value = true
     }
-
+    const updateStatus = function (){
+      post('leave','status',{ id :specificId.value, status:model.value })
+        .then(console.log)
+      positivemsg('Leave status updated Successfully')
+    }
+    const positivemsg = function (msg){
+      $q.notify({
+        type: 'positive',
+        message: msg,
+        icon: 'cloud_done',
+        position:'top-right',
+        timeout:2000
+      })
+    }
     let page = ref(1)
     let currentPage= ref(1)
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(totalcount.value/totalPages.value)
+      return Math.ceil(totalcount/totalPages.value)
     })
 
     return {
@@ -177,14 +209,20 @@ export default {
       totalPages,
       maxVal,
       getData,
-      gotoAction,
       openwindow,
-      specificItems,
       specificId,
-      specificDate,
-      specificStatus: ref('New'),
-      specificCustomer,
-      card
+      specificExecutive,
+      specificstartDate,
+      specificendDate,
+      specificeDescription,
+      specificStatus,
+      card,
+      options: [
+        'Accepted','Rejected'
+      ],
+      model,
+      updateStatus,
+      positivemsg,
     }
   },
 }
