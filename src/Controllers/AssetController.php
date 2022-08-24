@@ -8,7 +8,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Milestone\Rayacom\Models\Customer;
 use Milestone\Rayacom\Models\Property;
+use Milestone\Rayacom\Models\SalesExecutive;
 
 class AssetController extends Controller
 {
@@ -57,11 +59,37 @@ SCRIPT;
         return $merged_properties;
     }
 
-    public function master($time,$id,$name) {
+    public function master($user,$time,$id,$name) {
+        $auth_type = session('auth_type');
+        if($auth_type === 'CUSTOMER') {
+            if($name === 'ADMIN') return [];
+            if($name === 'CUSTOMER') return [[session('auth_data'),session('auth_user.name')]];
+            if($name === 'AREA') {
+                $customer_area = Customer::find(session('auth_data'))->area();
+                return array_values(array_filter(db_master_data($id),fn($Ary) => $Ary[0] == $customer_area));
+            }
+            if($name === 'SALES_EXECUTIVE') {
+                $executives = Customer::find(session('auth_data'))->sales_executives();
+                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$executives)));
+            }
+        }
+        if($auth_type === 'SALES_EXECUTIVE') {
+            //CUSTOMER,AREA,ITEM,ADMIN,SALES_EXECUTIVE
+            if($name === 'ADMIN') return [];
+            if($name === 'SALES_EXECUTIVE') return [[session('auth_data'),session('auth_user.name')]];
+            if($name === 'AREA') {
+                $areas = SalesExecutive::find(session('auth_data'))->areas();
+                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],(array) $areas)));
+            }
+            if($name === 'CUSTOMER') {
+                $customers = SalesExecutive::find(session('auth_data'))->customers();
+                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$customers)));
+            }
+        }
         return db_master_data($id);
     }
 
-    public function master_properties($time,$id,$name) {
+    public function master_properties($user,$time,$id,$name) {
         $properties = db_properties($id);
         $property_ids = empty($properties) ? [] : array_values(array_column($properties,'id'));
         return DB::table('_master_properties')->whereIn('property',$property_ids)->get()->groupBy->property->map(fn($rows) => $rows->groupBy->data->map(fn($rows2) => array_column($rows2->toArray(),'value')));

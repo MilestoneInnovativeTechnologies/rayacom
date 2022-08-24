@@ -1,11 +1,15 @@
 import { defineStore } from 'pinia'
+import {useMasterStore} from "stores/master";
 
 export const useReviewStore = defineStore('review', {
   state: () => ({
       data: {},
   }),
   getters: {
-    reviews(state){ return state.data }
+    reviews(state){
+      const masterStore = useMasterStore(), customers = masterStore['CUSTOMER'];
+      return _.mapValues(state.data,review => Object.assign({},review,{ customer:_.get(customers,review.customer) }))
+    }
   },
   actions: {
     store(dArray){
