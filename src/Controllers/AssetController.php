@@ -69,7 +69,7 @@ SCRIPT;
                 return array_values(array_filter(db_master_data($id),fn($Ary) => $Ary[0] == $customer_area));
             }
             if($name === 'SALES_EXECUTIVE') {
-                $executives = Customer::find(session('auth_data'))->area();
+                $executives = Customer::find(session('auth_data'))->sales_executives();
                 return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$executives)));
             }
         }
