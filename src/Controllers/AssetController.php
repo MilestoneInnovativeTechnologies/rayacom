@@ -8,7 +8,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Milestone\Rayacom\Models\Customer;
 use Milestone\Rayacom\Models\Property;
+use Milestone\Rayacom\Models\SalesExecutive;
 
 class AssetController extends Controller
 {
@@ -60,42 +62,29 @@ SCRIPT;
     public function master($user,$time,$id,$name) {
         $auth_type = session('auth_type');
         if($auth_type === 'CUSTOMER') {
-            if($name === 'CUSTOMER') return array_values(array_filter(db_master_data($id),fn($Ary) => $Ary[0] == $user));
+            if($name === 'ADMIN') return [];
+            if($name === 'CUSTOMER') return [[session('auth_data'),session('auth_user.name')]];
             if($name === 'AREA') {
-                $property_id = DB::table('_properties')->where(['name' => 'area','master' => session('auth_master')])->value('id');
-                $customer_area = DB::table('_property_masters')->where(['property' => $property_id])->whereJsonContains('ids',intval($user))->value('data');
+                $customer_area = Customer::find(session('auth_data'))->area();
                 return array_values(array_filter(db_master_data($id),fn($Ary) => $Ary[0] == $customer_area));
             }
             if($name === 'SALES_EXECUTIVE') {
-                $property_id = DB::table('_properties')->where(['name' => 'area','master' => session('auth_master')])->value('id');
-                $customer_area = DB::table('_property_masters')->where(['property' => $property_id])->whereJsonContains('ids',intval($user))->value('data');
-                $se_area_property_id = DB::table('_properties')->where(['name' => 'areas','master' => array_flip(db_masters())['SALES_EXECUTIVE']])->value('id');
-                $customer_area_ses = json_decode(DB::table('_property_masters')->where(['property' => $se_area_property_id,'data' => $customer_area])->value('ids') ?: '[]');
-                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$customer_area_ses)));
-            }
-            if($name === 'ADMIN') {
-                return [];
+                $executives = Customer::find(session('auth_data'))->area();
+                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$executives)));
             }
         }
         if($auth_type === 'SALES_EXECUTIVE') {
             //CUSTOMER,AREA,ITEM,ADMIN,SALES_EXECUTIVE
             if($name === 'ADMIN') return [];
+            if($name === 'SALES_EXECUTIVE') return [[session('auth_data'),session('auth_user.name')]];
             if($name === 'AREA') {
-                $se_areas_prop_id = DB::table('_properties')->where(['name' => 'areas','master' => session('auth_master')])->value('id');
-                $areas = DB::table('_property_masters')->where(['property' => $se_areas_prop_id])->whereJsonContains('ids',intval($user))->pluck('data')->toArray();
+                $areas = SalesExecutive::find(session('auth_data'))->areas();
                 return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],(array) $areas)));
             }
             if($name === 'CUSTOMER') {
-                $se_areas_prop_id = DB::table('_properties')->where(['name' => 'areas','master' => session('auth_master')])->value('id');
-                $areas = DB::table('_property_masters')->where(['property' => $se_areas_prop_id])->whereJsonContains('ids',intval($user))->pluck('data')->toArray() ?: [];
-                $c_area_prop_id = DB::table('_properties')->where(['name' => 'area','master' => array_flip(db_masters())['CUSTOMER']])->value('id');
-                $area_customers = [];
-                DB::table('_property_masters')->where(['property' => $c_area_prop_id])->whereIn('data',$areas)->pluck('ids')->each(function($ids)use(&$area_customers){
-                    $area_customers = array_values(array_unique(array_merge($area_customers,json_decode($ids))));
-                });
-                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$area_customers)));
+                $customers = SalesExecutive::find(session('auth_data'))->customers();
+                return array_values(array_filter(db_master_data($id),fn($Ary) => in_array($Ary[0],$customers)));
             }
-            if($name === 'SALES_EXECUTIVE') return array_values(array_filter(db_master_data($id),fn($Ary) => $Ary[0] == $user));
         }
         return db_master_data($id);
     }
