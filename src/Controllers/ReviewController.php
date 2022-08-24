@@ -10,7 +10,7 @@ use Milestone\Rayacom\Models\Review;
 class ReviewController extends Controller
 {
   public function store(){
-    $data = new Review(request()->only(['customer', 'type', 'typeid', 'comment']));
+    $data = new Review(request()->only(['type', 'typeid', 'comment']));
     $data->save();
     return $data;
   }

@@ -16,8 +16,8 @@
         </div>
         <div class="col-4 text-center">
           <q-btn color="positive" no-caps @click="gotoItem(0)">
-            <q-icon left size="2em" name="open_in_new" />
-            NEW  <br>ITEM
+            <q-icon left size="xl" name="open_in_new" />
+            ADD ITEM
           </q-btn>
         </div>
       </div>

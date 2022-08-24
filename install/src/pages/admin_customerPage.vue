@@ -16,8 +16,8 @@
         </div>
         <div class="col-4 text-center">
           <q-btn color="positive" no-caps @click="gotoAction(0)">
-            <q-icon left size="2em" name="open_in_new" />
-            ADD <br>CUSTOMER
+            <q-icon left size="xl" name="open_in_new" />
+            ADD CUSTOMER
           </q-btn>
         </div>
       </div>

@@ -15,4 +15,11 @@ class Review extends Model
     'comment',
     'status'
   ];
+  protected static function boot()
+  {
+    parent::boot();
+    static::creating(function ($model) {
+        $model->customer = session('auth_data');
+    });
+  }
 }

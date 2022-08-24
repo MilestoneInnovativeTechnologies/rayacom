@@ -56,11 +56,8 @@ for( let n in ORDERS.value){
   orderid = ORDERS.value[n].id
   options3.push( { label:orderid +' - '+ ORDERS.value[n].date, value: orderid })
 }
-
-const ID = ref(10001)   // must change
-
 const obj = reactive({
-  id: '', customer: ID, type: '1', typeid: '',  comment: '',
+  id: '', type: '1', typeid: '',  comment: '',
 })
 function save(){
   if((obj.typeid != '') &&  (obj.description != '')){

@@ -81,7 +81,7 @@ import { computed, ref, reactive } from 'vue'
 import { date, useQuasar} from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { useOrderStore} from 'stores/order'
-import {post} from "boot/axios";
+import { post } from "boot/axios";
 const orderStore = useOrderStore()
 
 export default {
@@ -90,7 +90,6 @@ export default {
     const $route = useRoute()
     const router = useRouter()
     const myproducts = ref(JSON.parse($route.params.myproducts))
-    const customer = 10001
     const notes = ref('')
 
     const removeItem = function(){
@@ -117,7 +116,7 @@ export default {
         return field.quantity === 0;
       });
       if (!check) {
-        post('order','store',{ customer:customer, date:formattedString, narration:notes.value, items:myproducts.value })
+        post('order','store',{ date:formattedString, narration:notes.value, items:myproducts.value })
           // .then(console.log)
         myproducts.length = 0
         positivemsg('Order saved Successfully')

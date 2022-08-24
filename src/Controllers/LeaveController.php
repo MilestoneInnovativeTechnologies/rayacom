@@ -13,7 +13,7 @@ use Milestone\Rayacom\Models\LeaveRecord;
 class LeaveController extends Controller
 {
   public function store(){
-    $data = new LeaveRecord(request()->only(['executive', 'start_date', 'end_date', 'description']));
+    $data = new LeaveRecord(request()->only(['start_date', 'end_date', 'description']));
     $data->save();
     return $data;
   }

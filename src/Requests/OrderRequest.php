@@ -37,6 +37,7 @@ class  OrderRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
+            'customer' => session('auth_data'),
             'date' => $this->input('date',now()->toDateTimeString()),
             'status' => 'New',
             'created_user' => $this->auth_user(),
