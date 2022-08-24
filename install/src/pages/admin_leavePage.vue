@@ -5,11 +5,11 @@
       <q-card flat bordered
               class="my-card"
               v-for="(i, index) in getData" :key="i.id"
-              @click="openwindow(i.id, i.executive, i.start_date, i.end_date, i.description, i.status)">
+              @click="openwindow(i.id, i.executive.name, i.start_date, i.end_date, i.description, i.status)">
       <q-list>
         <q-item class="bg-grey-2 text-bold">
           <q-item-section>
-            <q-item-label>{{ i.executive }}</q-item-label>
+            <q-item-label>{{ i.executive.name }}</q-item-label>
             <q-item-label caption>{{ i.start_date }}</q-item-label>
              <q-item-label>
               <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
@@ -50,9 +50,7 @@
                 <q-item-section top class="col-7 gt-sm">
                   <q-item-label lines="1">{{ specificExecutive }}</q-item-label>
                   <q-item-label lines="2"></q-item-label>
-                  <q-item-label caption lines="3">
-                    <span class="text-weight-bold">{{ specificId }}</span>
-                  </q-item-label>
+                  <q-item-label caption lines="3">{{ specificId }}</q-item-label>
                 </q-item-section>
                 <q-item-section side >
                   <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
