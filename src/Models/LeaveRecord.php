@@ -25,10 +25,10 @@ class LeaveRecord extends Model
     }
 
     public function scopeRecent($q){
-        $q->where('updated_at','>',now()->subMonths(1)->toDateTimeString());
+        $q->where('updated_at','>',now()->subMonths(1)->toDateTimeString())->orWhereIn('status',['New','Progress','Accepted']);
     }
     public function scopeRecentAgain($q){
-
+        $q->where('updated_at','>',now()->subDays(14)->toDateTimeString())->orWhereIn('status',['New','Progress']);
     }
 
 }

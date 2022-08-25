@@ -7,27 +7,25 @@
         NEW REVIEW
       </q-btn>
     </div>
-
-  <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
-    <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
-      <q-list>
-        <q-item class="bg-brand text-white text-bold">
-          <q-item-section>
-            <q-item-label>Date</q-item-label>
-            <q-item-label caption>
-              <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
-              <q-badge color="secondary" v-else-if ="specificStatus === 'Progress'" >{{ specificStatus }}</q-badge>
-              <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
-              <q-badge color="negative" v-else-if="specificStatus === 'Rejected'" >{{ specificStatus }}</q-badge>
-              <q-badge color="primary" v-else>Unknown</q-badge>
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <div class="q-pa-xs row items-start q-gutter-md" v-if="totalcount">
+      <q-card flat bordered
+              class="my-card"
+              v-for="(i, index) in getData" :key="i.id"
+              @click="openwindow(i.id, i.customer.name, i.type, i.created_at, i.comment, i.status)">
+        <q-card-section class="bg-brand text-white">
+          <q-item-label class="Subtitle 2 text-weight-bolder"> {{ i.created_at }}</q-item-label>
+          <q-item-label>
+            <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
+            <q-badge color="secondary" v-else-if ="i.status === 'Progress'" >{{ i.status }}</q-badge>
+            <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
+            <q-badge color="negative" v-else-if="i.status === 'Rejected'" >{{ i.status }}</q-badge>
+            <q-badge color="primary" v-else>Unknown</q-badge>
+          </q-item-label>
+        </q-card-section>
     </q-card>
   </div>
 
-  <div class="q-pa-lg flex flex-center" v-if="myitemsLength">
+  <div class="q-pa-lg flex flex-center" v-if="totalcount">
     <q-pagination
       v-model="page"
       :min="currentPage"
@@ -42,45 +40,92 @@
       active-color="deep-orange-10"
     />
   </div>
+    <div class="q-pa-md q-gutter-sm">
+      <q-dialog v-model="card">
+        <q-card class="my-card" style="max-width: 400px">
+          <q-list bordered class="rounded-borders" style="min-width: 350px">
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar icon="fact_check" color="brand" text-color="white" />
+              </q-item-section>
+              <q-item-section top class="col-7 gt-sm">
+                <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
+                <q-item-label lines="2"></q-item-label>
+                <q-item-label caption lines="3">{{ specificcreateDate }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator/>
+            <q-item>
+              <q-item-section top class="col-1 gt-sm">
+                <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+              </q-item-section>
+              <q-item-section top class="col-4 gt-sm">
+                <q-item-label class="q-mt-sm">Type</q-item-label>
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label class="q-mt-sm flex-center text-left">{{ specificType }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section class="col-1 gt-sm">
+                <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+              </q-item-section>
+              <q-item-section top class="col-4 gt-sm">
+                <q-item-label class="q-mt-sm">Comment</q-item-label>
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label class="q-mt-sm flex-center text-left">{{ specificComment }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section top class="col-2 gt-sm">
+                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
+              </q-item-section>
+              <q-item-section class="col-3 q-pa-md q-gutter-xl">
+                <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
+                <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
+                <q-badge color="primary" v-else>Unknown</q-badge>
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label class="q-mt-sm">
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+          <q-card-actions align="right">
+            <q-btn flat label="Close" color="negative"  v-close-popup  />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
   </q-page>
 </template>
 
 <script>
 import { computed, ref  } from 'vue'
-import { useMasterStore } from 'stores/master'
+import { useReviewStore } from 'stores/review'
 import { useRouter } from 'vue-router'
-const master = useMasterStore()
+import {date} from "quasar";
+const reviewStore = useReviewStore()
 export default {
   setup () {
     const router = useRouter()
     let num1
     let num2
 
-    const MYITEMS =  computed(() => {
-      return  master.ITEM
+    const MYREVIEWS =  computed(() => {
+      return Object.values(reviewStore.reviews).reverse()
     })
-
-    const search = ref('')
-
-    const searchResult = computed(()=>{
-      if(search.value === ''){
-        return Object.values(MYITEMS.value)
-      }else{
-        let keyword = search.value.toLowerCase();
-        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
-      }
-    })
-
-    const myitemsLength = computed(()=>{
-      return searchResult.value.length
-    })
+    let totalcount = Object.values(MYREVIEWS.value).length
 
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
       num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = searchResult.value.slice(num1,num2)
+      let MYKEYS = MYREVIEWS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return e
+        return { id: e.id, customer: e.customer, type: e.type,
+          created_at: date.formatDate(e.created_at, 'MMMM d, YYYY '), comment: e.comment,
+          status: e.status, items: e.items }
       })
       return newArr
     })
@@ -91,27 +136,48 @@ export default {
       })
     }
 
+    let card = ref(false)
+    let specificId = ref('')
+    let specificCustomer = ref('')
+    let specificType = ref('')
+    let specificcreateDate = ref('')
+    let specificComment = ref('')
+    let specificStatus = ref('')
 
+    const openwindow = function (id, customer, type, created_at, comment, status){
+      specificId.value = id
+      specificCustomer.value = customer
+      specificType.value = type
+      specificcreateDate.value = date.formatDate(created_at, 'DD-MM-YYYY')
+      specificComment.value = comment
+      specificStatus.value = status
+      card.value = true
+    }
     let page = ref(1)
     let currentPage= ref(1)
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(myitemsLength.value/totalPages.value)
+      return Math.ceil(totalcount/totalPages.value)
     })
 
     return {
-      MYITEMS,
-      search,
-      searchResult,
-      myitemsLength,
+      MYREVIEWS,
+      totalcount,
       page,
       currentPage,
       totalPages,
       maxVal,
       getData,
       gotoAction,
-      specificStatus : ref('New')
+      openwindow,
+      specificId,
+      specificCustomer,
+      specificType,
+      specificcreateDate,
+      specificComment,
+      specificStatus,
+      card,
     }
   },
 }

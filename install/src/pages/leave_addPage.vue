@@ -76,7 +76,7 @@ const positivemsg = function (msg){
     message: msg,
     icon: 'cloud_done',
     position:'top-right',
-    timeout:2000
+    timeout:1000
   })
 }
 </script>

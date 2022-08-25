@@ -207,12 +207,17 @@ export default {
     let specificStatus = ref('')
 
     const showitems = function (customer, id, adate, status, items){
-      console.log(items)
+      // console.log(items)
       specificCustomer.value = customer
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
-      specificStatus.value = model.value = status
+      if(status == 'New'){
+        specificStatus.value = model.value = 'Viewed'
+        updateStatus()
+      }else{
+        specificStatus.value = model.value = status
+      }
       // console.log(specificItems)
       card.value = true
     }
@@ -222,7 +227,7 @@ export default {
         message: msg,
         icon: 'cloud_done',
         position:'top-right',
-        timeout:2000
+        timeout:1000
       })
     }
 
@@ -253,7 +258,7 @@ export default {
       card,
       model,
       options: [
-        'New','Viewed','Accepted','Packed','Dispatched','Delivered','Cancelled'
+        'Accepted','Packed','Dispatched','Delivered','Cancelled'
       ],
       updateStatus,
       positivemsg,

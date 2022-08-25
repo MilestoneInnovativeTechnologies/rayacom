@@ -15,7 +15,7 @@
         </q-item-section>
         <q-item-section>
           <q-item-label lines="1">{{ i.id }}</q-item-label>
-          <q-item-label caption>{{ i.date }}</q-item-label>
+          <q-item-label caption>{{ i.start_date }}</q-item-label>
           <q-item-label caption>{{ i.narration }}</q-item-label>
         </q-item-section>
 

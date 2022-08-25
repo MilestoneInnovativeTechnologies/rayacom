@@ -23,6 +23,7 @@ class PostController extends Controller
     public function latest(){
         $data = ['_next' => now()->toDateTimeString()];
         $data['ORDER'] = OrderController::orders();
+        $data['REVIEW'] = ReviewController::reviews();
         $data['LEAVE'] = LeaveController::leaves();
         if(request()->header('Latest-Date')){
             $latest_date = request()->header('Latest-Date',now()->toDateTimeString()) ?: now()->toDateTimeString();
