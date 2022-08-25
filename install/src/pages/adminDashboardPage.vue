@@ -2,7 +2,97 @@
   <q-page padding class="flex flex-center column q-gutter-y-sm">
     <div class="q-pa-md" >
       <q-toolbar class="bg-brand text-white shadow-2">
-        <q-toolbar-title>Dashboard</q-toolbar-title>
+        <q-toolbar-title>ORDERS</q-toolbar-title>
+      </q-toolbar>
+      <q-list bordered padding class="rounded-borders" style="max-width: 350px"
+              v-if="totalcount">
+        <!--      <q-item-label header>Dashboard</q-item-label>-->
+        <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
+                @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
+          <q-item-section avatar top>
+            <q-avatar icon="fact_check" color="brand" text-color="white" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label lines="1">{{ i.customer }}</q-item-label>
+            <q-item-label caption>{{ i.date }}</q-item-label>
+            <q-item-label caption>{{ i.narration }}</q-item-label>
+          </q-item-section>
+          <q-item-section side top>
+            <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
+            <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
+            <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
+            <q-badge color="info" v-else-if="i.status === 'Packed'" >{{ i.status }}</q-badge>
+            <q-badge color="blue-grey" v-else-if="i.status === 'Dispatched'" >{{ i.status }}</q-badge>
+            <q-badge color="primary" v-else>Unknown</q-badge>
+          </q-item-section>
+        </q-item>
+        <div class="q-pa-lg flex flex-center" v-if="totalcount">
+          <q-pagination
+            v-model="page"
+            :min="currentPage"
+            :max="maxVal"
+            :max-pages="7"
+            direction-links
+            boundary-links
+            icon-first="skip_previous"
+            icon-last="skip_next"
+            icon-prev="fast_rewind"
+            icon-next="fast_forward"
+            active-color="brand"
+          />
+        </div>
+      </q-list>
+
+
+
+    </div>
+    <div class="q-pa-md" >
+      <q-toolbar class="bg-brand text-white shadow-2">
+        <q-toolbar-title>LEAVES</q-toolbar-title>
+      </q-toolbar>
+      <q-list bordered padding class="rounded-borders" style="max-width: 350px"
+              v-if="totalcount2">
+        <!--      <q-item-label header>Dashboard</q-item-label>-->
+        <q-item clickable v-ripple  v-for="(i, index) in getLeaves" :key="i.id"
+                @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
+          <q-item-section avatar top>
+            <q-avatar icon="fact_check" color="brand" text-color="white" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label lines="1">{{ i.executive }}</q-item-label>
+            <q-item-label lines="1">{{ i.start_date }}</q-item-label>
+          </q-item-section>
+          <q-item-section side top>
+            <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
+            <q-badge color="secondary" v-else-if ="model === 's'" >{{ model }}</q-badge>
+            <q-badge color="positive" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
+            <q-badge color="negative" v-else-if="model === 'Rejected'" >{{ model }}</q-badge>
+            <q-badge color="primary" v-else>Unknown</q-badge>
+          </q-item-section>
+        </q-item>
+        <div class="q-pa-lg flex flex-center">
+          <q-pagination
+            v-model="page"
+            :min="currentPage"
+            :max="maxVal"
+            :max-pages="7"
+            direction-links
+            boundary-links
+            icon-first="skip_previous"
+            icon-last="skip_next"
+            icon-prev="fast_rewind"
+            icon-next="fast_forward"
+            active-color="brand"
+          />
+        </div>
+      </q-list>
+
+
+
+    </div>
+    <div class="q-pa-md" >
+      <q-toolbar class="bg-brand text-white shadow-2">
+        <q-toolbar-title>REVIEWS</q-toolbar-title>
       </q-toolbar>
       <q-list bordered padding class="rounded-borders" style="max-width: 350px"
               v-if="totalcount">
@@ -28,21 +118,23 @@
           </q-item-section>
         </q-item>
       </q-list>
-    </div>
-    <div class="q-pa-lg flex flex-center" v-if="totalcount">
-      <q-pagination
-        v-model="page"
-        :min="currentPage"
-        :max="maxVal"
-        :max-pages="7"
-        direction-links
-        boundary-links
-        icon-first="skip_previous"
-        icon-last="skip_next"
-        icon-prev="fast_rewind"
-        icon-next="fast_forward"
-        active-color="brand"
-      />
+
+      <div class="q-pa-lg flex flex-center" v-if="totalcount">
+        <q-pagination
+          v-model="page"
+          :min="currentPage"
+          :max="maxVal"
+          :max-pages="7"
+          direction-links
+          boundary-links
+          icon-first="skip_previous"
+          icon-last="skip_next"
+          icon-prev="fast_rewind"
+          icon-next="fast_forward"
+          active-color="brand"
+        />
+      </div>
+
     </div>
 
     <div class="q-pa-md q-gutter-sm">
@@ -137,7 +229,11 @@ import { useQuasar } from 'quasar'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOrderStore} from 'stores/order'
+import { useLeaveStore } from 'stores/leave'
+import { useReviewStore } from 'stores/review'
 const orderStore = useOrderStore()
+const leaveStore = useLeaveStore()
+const reviewStore = useReviewStore()
 import { date } from 'quasar'
 import { post } from "boot/axios";
 const { formatDate } = date
@@ -158,7 +254,7 @@ export default {
       let newArray = []
       for( let n in ORDERS.value){
         checkstatus = ORDERS.value[n]['status']
-        if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
+        if((checkstatus == 'New') || (checkstatus == 'Viewed')){
           newArray.push(ORDERS.value[n])
         }
       }
@@ -167,6 +263,41 @@ export default {
 
     const totalcount =  computed(() => {
       return Object.keys(MYORDERS.value).length
+    })
+    const LEAVES =  computed(() => {
+      return Object.values(leaveStore.leaves)
+    })
+
+    const MYLEAVES =  computed(() => {
+      let newArray = []
+      for( let n in LEAVES.value){
+        checkstatus = LEAVES.value[n]['status']
+        if(checkstatus == 'New'){
+          newArray.push(LEAVES.value[n])
+        }
+      }
+      return newArray.reverse();
+    })
+    console.log(MYLEAVES.value)
+    const totalcount2 =  computed(() => {
+      return Object.keys(MYLEAVES.value).length
+    })
+
+    const REVIEWS =  computed(() => {
+      return Object.values(reviewStore.reviews)
+    })
+    const MYREVIEWS =  computed(() => {
+      let newArray = []
+      for( let n in REVIEWS.value){
+        checkstatus = REVIEWS.value[n]['status']
+        if(checkstatus == 'New'){
+          newArray.push(REVIEWS.value[n])
+        }
+      }
+      return newArray.reverse();
+    })
+    const totalcount3 =  computed(() => {
+      return Object.keys(MYREVIEWS.value).length
     })
 
     let MYKEYS
@@ -186,11 +317,31 @@ export default {
       return newArr
     })
 
-    const gotoItempage = function (){
-      router.push({
-        name: 'ITEM'
+    const getLeaves =  computed(() => {
+      num1 = (page.value-1)*totalPages.value;
+      num2 = (page.value-1)*totalPages.value+totalPages.value;
+      let MYKEYS =  MYLEAVES.value.slice(num1,num2)
+      let newArr = MYKEYS.map((e) => {
+        return { id: e.id, executive: e.executive.name,
+          start_date: date.formatDate(e.start_date, 'MMMM d, YYYY '),
+          end_date: date.formatDate(e.end_date, 'MMMM d, YYYY '),
+          description: e.description, status: e.status
+        }
       })
-    }
+      return newArr
+    })
+
+    const getReviews =  computed(() => {
+      num1 = (page.value-1)*totalPages.value;
+      num2 = (page.value-1)*totalPages.value+totalPages.value;
+      let MYKEYS = MYREVIEWS.value.slice(num1,num2)
+      let newArr = MYKEYS.map((e) => {
+        return { id: e.id, customer: e.customer, type: e.type,
+          created_at: date.formatDate(e.created_at, 'MMMM d, YYYY '), comment: e.comment,
+          status: e.status, items: e.items }
+      })
+      return newArr
+    })
 
     const updateStatus = function (){
       post('order','status',{ order:specificId.value, status:model.value })
@@ -212,7 +363,12 @@ export default {
       specificId.value = id
       specificItems.value = items
       specificDate.value = adate
-      specificStatus.value = model.value = status
+      if(status == 'New'){
+        specificStatus.value = model.value = 'VIEWED'
+        updateStatus()
+      }else{
+        specificStatus.value = model.value = status
+      }
       // console.log(specificItems)
       card.value = true
     }
@@ -235,15 +391,13 @@ export default {
     })
 
     return {
-      ORDERS,
-      MYORDERS,
-      totalcount,
+      MYORDERS, MYLEAVES, MYREVIEWS,
+      totalcount, totalcount2, totalcount3,
       page,
       currentPage,
       totalPages,
       maxVal,
-      getOrders,
-      gotoItempage,
+      getOrders, getLeaves, getReviews,
       showitems,
       specificItems,
       specificId,
@@ -253,7 +407,7 @@ export default {
       card,
       model,
       options: [
-        'New','Viewed','Accepted','Packed','Dispatched','Delivered','Cancelled'
+        'Accepted','Packed','Dispatched','Delivered','Cancelled'
       ],
       updateStatus,
       positivemsg,

@@ -5,18 +5,18 @@
       <q-card flat bordered
               class="my-card"
               v-for="(i, index) in getData" :key="i.id"
-              @click="openwindow(i.id, i.executive.name, i.start_date, i.end_date, i.description, i.status)">
+              @click="openwindow(i.id, i.executive, i.start_date, i.end_date, i.description, i.status)">
       <q-list>
-        <q-item class="bg-grey-2 text-bold">
+        <q-item class="bg-brand text-white text-bold">
           <q-item-section>
-            <q-item-label>{{ i.executive.name }}</q-item-label>
-            <q-item-label caption>{{ i.start_date }}</q-item-label>
+            <q-item-label class="text-overline">{{ i.executive }}</q-item-label>
+            <q-item-label class="text-subtitle2">{{ i.start_date }}</q-item-label>
              <q-item-label>
               <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
               <q-badge color="secondary" v-else-if ="i.status === 'Progress'" >{{ i.status }}</q-badge>
               <q-badge color="positive" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
-              <q-badge color="negative" v-else-if="i.status === 'Rejected'" >{{ i.status }}</q-badge>
-              <q-badge color="primary" v-else>Unknown</q-badge>
+              <q-badge color="accent" v-else-if="i.status === 'Rejected'" >{{ i.status }}</q-badge>
+              <q-badge color="dark" v-else>Unknown</q-badge>
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -124,8 +124,9 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLeaveStore } from 'stores/leave'
 import { post } from "boot/axios";
-import { date,useQuasar } from "quasar";
+import { date, useQuasar } from "quasar";
 const leaveStore = useLeaveStore()
+
 
 export default {
   setup () {
@@ -145,7 +146,11 @@ export default {
       num2 = (page.value-1)*totalPages.value+totalPages.value;
       let MYKEYS =  MYLEAVES.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return e
+        return { id: e.id, executive: e.executive.name,
+          start_date: date.formatDate(e.start_date, 'MMMM d, YYYY '),
+          end_date: date.formatDate(e.end_date, 'MMMM d, YYYY '),
+          description: e.description, status: e.status
+        }
       })
       return newArr
     })
@@ -157,25 +162,24 @@ export default {
     }
     let card = ref(false)
     let specificId = ref('')
-    let specificCustomer = ref('')
-    let specificType = ref('')
-    let specificcreateDate = ref('')
-    let specificComment = ref('')
+    let specificstartDate = ref('')
+    let specificendDate = ref('')
+    let specificeDescription = ref('')
     let specificStatus = ref('')
-
-    const openwindow = function (id, customer, type, created_at, comment, status){
-      specificId.value = id
-      specificCustomer.value = customer
-      specificType.value = type
-      specificcreateDate.value = date.formatDate(created_at, 'DD-MM-YYYY')
-      specificComment.value = comment
-      if(status == 'New'){
-        specificStatus.value = model.value = 'Progress'
-        updateStatus()
-      }else{
-        specificStatus.value = model.value = status
-      }
-      card.value = true
+    let specificExecutive = ref('')
+    const openwindow = function (id, executive, start_date, end_date, description, status) {
+        specificId.value = id
+        specificExecutive.value = executive
+        specificstartDate.value = date.formatDate(start_date, 'DD-MM-YYYY')
+        specificendDate.value = date.formatDate(end_date, 'DD-MM-YYYY')
+        specificeDescription.value = description
+        if(status == 'New'){
+          specificStatus.value = model.value = 'Progress'
+          updateStatus()
+        }else{
+          specificStatus.value = model.value = status
+        }
+        card.value = true
     }
 
     const updateStatus = function (){
