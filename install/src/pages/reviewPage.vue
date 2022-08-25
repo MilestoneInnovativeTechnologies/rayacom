@@ -105,7 +105,7 @@
 import { computed, ref  } from 'vue'
 import { useReviewStore } from 'stores/review'
 import { useRouter } from 'vue-router'
-import {date} from "quasar";
+import { date } from "quasar";
 const reviewStore = useReviewStore()
 export default {
   setup () {

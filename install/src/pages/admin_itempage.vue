@@ -23,13 +23,6 @@
       </div>
     </div>
 
-    <div class="q-gutter-md" top>
-
-    </div>
-    <div class="row justify-end side">
-
-    </div>
-
   <div class="q-pa-md row items-start q-gutter-md" v-if="myitemsLength">
     <q-card flat bordered class="my-card" v-for="(i, index) in getData" :key="i.id">
       <q-list>

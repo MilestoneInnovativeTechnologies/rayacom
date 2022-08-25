@@ -116,49 +116,33 @@
 
 <script>
 import { computed, ref  } from 'vue'
-import { useMasterStore } from 'stores/master'
+import { useReviewStore } from 'stores/review'
 import { useRouter } from 'vue-router'
-const master = useMasterStore()
+import { date } from "quasar";
+const reviewStore = useReviewStore()
 export default {
   setup () {
     const router = useRouter()
     let num1
     let num2
 
-    const MYITEMS =  computed(() => {
-      return  master.ITEM
+    const MYREVIEWS =  computed(() => {
+      return Object.values(reviewStore.reviews).reverse()
     })
+    let totalcount = Object.values(MYREVIEWS.value).length
 
-    const search = ref('')
 
-    const searchResult = computed(()=>{
-      if(search.value === ''){
-        return Object.values(MYITEMS.value)
-      }else{
-        let keyword = search.value.toLowerCase();
-        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
-      }
-    })
-
-    const myitemsLength = computed(()=>{
-      return searchResult.value.length
-    })
 
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
       num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = searchResult.value.slice(num1,num2)
+      let MYKEYS = MYREVIEWS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return e
       })
       return newArr
     })
 
-    const gotoAction = function (){
-      router.push({
-        name: 'REVIEWADD'
-      })
-    }
     let card = ref(false)
     let specificItems = ref('')
     let specificId = ref('')

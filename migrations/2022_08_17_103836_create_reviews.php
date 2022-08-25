@@ -17,6 +17,7 @@ return new class extends Migration
           $table->id();
           $table->bigInteger('customer')->index();
           $table->enum('type',['Product','Order','SalesExecutive'])->default('Product');
+          $table->bigInteger('typeid');
           $table->string('comment',512)->nullable();
           $table->enum('status',['New','Viewed'])->default('New');
           $table->timestamps();

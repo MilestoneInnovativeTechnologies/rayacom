@@ -157,18 +157,18 @@ export default {
     }
     let card = ref(false)
     let specificId = ref('')
-    let specificstartDate = ref('')
-    let specificendDate = ref('')
-    let specificeDescription = ref('')
+    let specificCustomer = ref('')
+    let specificType = ref('')
+    let specificcreateDate = ref('')
+    let specificComment = ref('')
     let specificStatus = ref('')
-    let specificExecutive = ref('')
 
-    const openwindow = function (id, executive, start_date, end_date, description, status){
+    const openwindow = function (id, customer, type, created_at, comment, status){
       specificId.value = id
-      specificExecutive.value = executive
-      specificstartDate.value = date.formatDate(start_date, 'DD-MM-YYYY')
-      specificendDate.value = date.formatDate(end_date, 'DD-MM-YYYY')
-      specificeDescription.value = description
+      specificCustomer.value = customer
+      specificType.value = type
+      specificcreateDate.value = date.formatDate(created_at, 'DD-MM-YYYY')
+      specificComment.value = comment
       if(status == 'New'){
         specificStatus.value = model.value = 'Progress'
         updateStatus()
@@ -177,6 +177,7 @@ export default {
       }
       card.value = true
     }
+
     const updateStatus = function (){
       post('leave','status',{ id :specificId.value, status:model.value })
         .then(console.log)
