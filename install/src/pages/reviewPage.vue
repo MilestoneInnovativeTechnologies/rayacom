@@ -16,9 +16,7 @@
           <q-item-label class="Subtitle 2 text-weight-bolder"> {{ i.created_at }}</q-item-label>
           <q-item-label>
             <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
-            <q-badge color="secondary" v-else-if ="i.status === 'Progress'" >{{ i.status }}</q-badge>
-            <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
-            <q-badge color="negative" v-else-if="i.status === 'Rejected'" >{{ i.status }}</q-badge>
+            <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
             <q-badge color="primary" v-else>Unknown</q-badge>
           </q-item-label>
         </q-card-section>
@@ -124,7 +122,7 @@ export default {
       let MYKEYS = MYREVIEWS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, customer: e.customer, type: e.type,
-          created_at: date.formatDate(e.created_at, 'MMMM d, YYYY '), comment: e.comment,
+          created_at: date.formatDate(e.created_at, 'MMMM D, YYYY '), comment: e.comment,
           status: e.status, items: e.items }
       })
       return newArr
