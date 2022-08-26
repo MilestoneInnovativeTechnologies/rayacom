@@ -1,14 +1,16 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
     <div class="q-pa-md q-gutter-sm">
-      <q-btn color="white" text-color="primary" icon-right="sick" label="LEAVES">
+      <q-btn color="white" text-color="primary" icon-right="sick" label="LEAVES"
+             @click="gotoLeave()" v-if="leavecount">
         <q-badge color="positive" floating transparent>
-          4
+          {{ leavecount }}
         </q-badge>
       </q-btn>
-      <q-btn color="white" text-color="primary" icon-right="comment_bank" label="REVIEWS">
+      <q-btn color="white" text-color="primary" icon-right="comment_bank" label="REVIEWS"
+             @click="gotoReview()" v-if="reviewcount">
         <q-badge color="accent" floating transparent>
-          4
+          {{ reviewcount }}
         </q-badge>
       </q-btn>
     </div>
@@ -184,12 +186,33 @@ export default {
     const totalcount =  computed(() => {
       return Object.keys(MYORDERS.value).length
     })
-    const LEAVES =  computed(() => {
-      return Object.values(leaveStore.leaves)
+
+    const gotoLeave = function (){
+      router.push({
+        name: 'LEAVES'
+      })
+    }
+
+    const reviewData = computed(()=>{
+      return Object.values(reviewStore.reviews).filter(word => word.status  == 'New');
     })
+    const leaveData = computed(()=>{
+      return Object.values(leaveStore.leaves).filter(word => word.status  == 'New');
+    })
+    const reviewcount =  computed(() => {
+      return reviewData.value.length
+    })
+    const leavecount =  computed(() => {
+      return leaveData.value.length
+    })
+console.log(reviewcount.value +'-'+leavecount.value )
 
 
-
+    const gotoReview = function (){
+      router.push({
+        name: 'REVIEWS'
+      })
+    }
 
     let MYKEYS
     let newArr
@@ -208,38 +231,11 @@ export default {
       return newArr
     })
 
-    const getLeaves =  computed(() => {
-      num1 = (page.value-1)*totalPages.value;
-      num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS =  MYLEAVES.value.slice(num1,num2)
-      let newArr = MYKEYS.map((e) => {
-        return { id: e.id, executive: e.executive.name,
-          start_date: date.formatDate(e.start_date, 'MMMM d, YYYY '),
-          end_date: date.formatDate(e.end_date, 'MMMM d, YYYY '),
-          description: e.description, status: e.status
-        }
-      })
-      return newArr
-    })
-
-    const getReviews =  computed(() => {
-      num1 = (page.value-1)*totalPages.value;
-      num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = MYREVIEWS.value.slice(num1,num2)
-      let newArr = MYKEYS.map((e) => {
-        return { id: e.id, customer: e.customer, type: e.type,
-          created_at: date.formatDate(e.created_at, 'MMMM d, YYYY '), comment: e.comment,
-          status: e.status, items: e.items }
-      })
-      return newArr
-    })
-
     const updateStatus = function (){
       post('order','status',{ order:specificId.value, status:model.value })
         .then(console.log)
       positivemsg('Order status updated Successfully')
     }
-
 
     let card = ref(false)
     let specificItems = ref('')
@@ -289,11 +285,7 @@ export default {
       maxVal,
       getOrders,
       showitems,
-      specificItems,
-      specificId,
-      specificCustomer,
-      specificDate,
-      specificStatus,
+      specificItems, specificId, specificCustomer, specificDate, specificStatus,
       card,
       model,
       options: [
@@ -301,6 +293,10 @@ export default {
       ],
       updateStatus,
       positivemsg,
+      gotoLeave,
+      gotoReview,
+      leavecount,
+      reviewcount,
     }
   }
 }
