@@ -172,15 +172,19 @@ export default {
       return orderStore.all
     })
 
+    // const MYORDERS =  computed(() => {
+    //   let newArray = []
+    //   for( let n in ORDERS.value){
+    //     checkstatus = ORDERS.value[n]['status']
+    //     if((checkstatus == 'New') || (checkstatus == 'Viewed')){
+    //       newArray.push(ORDERS.value[n])
+    //     }
+    //   }
+    //   return newArray.reverse();
+    // })
+
     const MYORDERS =  computed(() => {
-      let newArray = []
-      for( let n in ORDERS.value){
-        checkstatus = ORDERS.value[n]['status']
-        if((checkstatus == 'New') || (checkstatus == 'Viewed')){
-          newArray.push(ORDERS.value[n])
-        }
-      }
-      return newArray.reverse();
+      return Object.values( ORDERS.value).filter(word => word.status  == 'New' && word.status  =='Viewed' ).reverse();
     })
 
     const totalcount =  computed(() => {
