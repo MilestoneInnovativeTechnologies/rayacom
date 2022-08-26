@@ -134,7 +134,10 @@ export default {
     const MYLEAVES =  computed(() => {
       return Object.values(leaveStore.leaves).reverse()
     })
-    let totalcount = Object.values(MYLEAVES.value).length
+
+    const totalcount =  computed(() => {
+      return Object.values(MYLEAVES.value).length
+    })
 
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value
@@ -178,7 +181,7 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(totalcount/totalPages.value)
+      return Math.ceil(totalcount.value/totalPages.value)
     })
 
     return {
