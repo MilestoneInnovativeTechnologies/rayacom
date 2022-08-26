@@ -8,7 +8,7 @@
       </q-btn>
     </div>
 
-    <q-list bordered padding class="rounded-borders">
+    <q-list bordered padding class="rounded-borders" style="width:80vw; max-width: 350px">
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
       <q-item-label header v-if="totalcount === 0">No Order</q-item-label>
       <q-item-label header v-else>Dashboard</q-item-label>

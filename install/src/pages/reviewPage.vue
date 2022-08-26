@@ -115,7 +115,10 @@ export default {
     const MYREVIEWS =  computed(() => {
       return Object.values(reviewStore.reviews).reverse()
     })
-    let totalcount = Object.values(MYREVIEWS.value).length
+
+    const totalcount =  computed(() => {
+      return Object.values(MYREVIEWS.value).length
+    })
 
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
