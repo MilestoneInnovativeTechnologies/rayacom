@@ -19,7 +19,7 @@
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-model="obj.end_date" :options="optionsFn">
+            <q-date v-model="obj.end_date" :options="optionsFn2">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
@@ -57,14 +57,17 @@ let today = date.formatDate(timestamp, 'YYYY/MM/DD')
 function optionsFn(date){
   return date >= today
 }
+function optionsFn2(date){
+  return date > obj.start_date
+}
 
 const obj = reactive({
-  id: '', start_date: today, end_date: today, description: '',
+  id: '', start_date: today, end_date: '', description: '',
 })
 function save(){
-  if((obj.start_date != '') && (obj.end_date != '') && (obj.description != '')){
+  if((obj.start_date != '')  && (obj.description != '')){
     post('leave','store', obj)
-    positivemsg('Your have added a leave successfully')
+    positivemsg('Your leave have added a leave successfully')
     router.push({
       name: 'SALESEXECUTIVELEAVES'
     })

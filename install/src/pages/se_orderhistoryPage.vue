@@ -11,18 +11,10 @@
             <q-avatar icon="fact_check" color="brand" text-color="white" />
           </q-item-section>
           <q-item-section>
-            <q-item-label lines="1">{{ i.id }}</q-item-label>
             <q-item-label>{{ i.customer}}</q-item-label>
-
-
             <q-item-label caption>{{ i.date }}</q-item-label>
-          </q-item-section>
-          <q-item-section>
-            <!--          <q-item-label lines="1"></q-item-label>-->
             <q-item-label caption>{{ i.narration }}</q-item-label>
           </q-item-section>
-
-
 
           <q-item-section side>
             <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
@@ -63,13 +55,9 @@
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
               <q-item-section top class="col-7 gt-sm">
-                <q-item-label lines="1">{{ specificDate }}</q-item-label>
                 <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
-
-                <q-item-label caption lines="2">
-                  <span class="text-weight-bold">{{ specificId }}</span>
-                </q-item-label>
-                <q-item-label caption lines="1">
+                <q-item-label lines="1">{{ specificDate }}</q-item-label>
+                <q-item-label side>
                   <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
                   <q-badge color="secondary" v-else-if ="specificStatus === 'Viewed'" >{{ specificStatus }}</q-badge>
                   <q-badge color="accent" v-else-if="specificStatus === 'Accepted'" >{{ specificStatus }}</q-badge>
@@ -161,7 +149,7 @@ export default {
       num2 = (page.value-1)*totalPages.value+totalPages.value;
       let MYKEYS = MYORDERS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '),
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM D, YYYY '),
           customer: e.customer.name,
           narration:e.narration, status:e.status, items:e.items }
       })
