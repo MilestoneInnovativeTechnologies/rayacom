@@ -69,7 +69,7 @@ const onSubmit = function(message)
 <template>
   <q-form
     @submit.prevent="onSubmit" class="">
-    <q-page padding class="flex flex-center column q-gutter-y-sm">
+    <q-page padding class="flex column q-gutter-y-sm">
 
 <!--    <div class="row justify-xl-center full-width">-->
     <q-input outlined
@@ -107,7 +107,7 @@ const onSubmit = function(message)
 
 
 <!--      <q-space></q-space>-->
-      <div class="row justify-md-center">
+<!--      <div class="row justify-md-center">-->
     <q-input outlined
              v-model="salesexecutive.phone"
              hint="Contact Number"
@@ -119,7 +119,7 @@ const onSubmit = function(message)
       </template>
     </q-input>
 
-    </div>
+<!--    </div>-->
 
 <!--      <div class="row justify-center full-width">-->
         <q-btn type="submit"

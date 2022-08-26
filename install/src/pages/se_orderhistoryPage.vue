@@ -1,10 +1,13 @@
 <template>
-  <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <div class="q-pa-md q-gutter-md">
-      <q-list bordered padding class="rounded-borders" style="max-width: 350px"
-              v-if="totalcount">
+  <q-page padding class="flex-center column q-col-gutter-y-lg">
+    <div class="q-pa-md" style="width:80vw; max-width: 350px">
+
         <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-        <q-item-label header>Order History</q-item-label>
+        <q-toolbar class="bg-brand text-white shadow-2">
+          <q-toolbar-title>Order History</q-toolbar-title>
+        </q-toolbar>
+        <q-list bordered padding class="rounded-borders"
+                v-if="totalcount">
         <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
                 @click="showitems(i.id, i.date, i.status, i.items,  i.customer)">
           <q-item-section avatar top>
