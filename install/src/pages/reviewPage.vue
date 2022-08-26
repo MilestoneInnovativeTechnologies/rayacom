@@ -14,11 +14,10 @@
               @click="openwindow(i.id, i.customer.name, i.type, i.created_at, i.comment, i.status)">
         <q-card-section class="bg-brand text-white">
           <q-item-label class="Subtitle 2 text-weight-bolder"> {{ i.created_at }}</q-item-label>
+          <q-item-label> {{ i.type }}</q-item-label>
           <q-item-label>
             <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
-            <q-badge color="secondary" v-else-if ="i.status === 'Progress'" >{{ i.status }}</q-badge>
-            <q-badge color="accent" v-else-if="i.status === 'Accepted'" >{{ i.status }}</q-badge>
-            <q-badge color="negative" v-else-if="i.status === 'Rejected'" >{{ i.status }}</q-badge>
+            <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
             <q-badge color="primary" v-else>Unknown</q-badge>
           </q-item-label>
         </q-card-section>
@@ -105,7 +104,7 @@
 import { computed, ref  } from 'vue'
 import { useReviewStore } from 'stores/review'
 import { useRouter } from 'vue-router'
-import {date} from "quasar";
+import { date } from "quasar";
 const reviewStore = useReviewStore()
 export default {
   setup () {
@@ -124,7 +123,7 @@ export default {
       let MYKEYS = MYREVIEWS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, customer: e.customer, type: e.type,
-          created_at: date.formatDate(e.created_at, 'MMMM d, YYYY '), comment: e.comment,
+          created_at: date.formatDate(e.created_at, 'MMMM D, YYYY '), comment: e.comment,
           status: e.status, items: e.items }
       })
       return newArr

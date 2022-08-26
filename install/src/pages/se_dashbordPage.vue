@@ -13,8 +13,7 @@
           <q-avatar icon="fact_check" color="brand" text-color="white" />
         </q-item-section>
         <q-item-section>
-          <q-item-label lines="1">{{ i.customer }}</q-item-label>
-          <q-item-label lines="1">{{ i.id }}</q-item-label>
+          <q-item-label>{{ i.customer }}</q-item-label>
           <q-item-label caption>{{ i.date }}</q-item-label>
           <q-item-label caption>{{ i.narration }}</q-item-label>
         </q-item-section>
@@ -56,9 +55,6 @@
           <q-item-section top class="col-7 gt-sm">
             <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
             <q-item-label lines="2">{{ specificDate }}</q-item-label>
-            <q-item-label caption lines="3">
-              <span class="text-weight-bold">{{ specificId }}</span>
-            </q-item-label>
           </q-item-section>
             <q-item-section side >
               <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
@@ -180,7 +176,7 @@ export default {
       MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
       newArr = MYKEYS.map((e) => {
         status = e.status
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration: e.narration,
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM D, YYYY '), narration: e.narration,
           customer: e.customer.name, status: e.status, items: e.items }
       })
       return newArr

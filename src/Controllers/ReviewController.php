@@ -19,6 +19,15 @@ class ReviewController extends Controller
     return $data;
   }
 
+  public function status(){
+    $id = request('id');
+    $status = request('status');
+    $data = Review::find($id);
+    $data->status = $status;
+    $data->save();
+    return $data;
+  }
+
   public static function reviews(){
       $latest_date = request()->header('Latest-Date','2000-01-01 00:00:01') ?: '2000-01-01 00:00:01';
       if(Carbon::parse($latest_date)->lessThan(Carbon::parse(Cache::get(rayacom_config('cache_key.db_reviews_last_updated_time'))))){

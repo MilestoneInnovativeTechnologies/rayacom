@@ -55,22 +55,19 @@
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
               <q-item-section top class="col-7 gt-sm">
+                <q-item-label> </q-item-label><q-item-label> </q-item-label>
                 <q-item-label lines="1">{{ specificExecutive }}</q-item-label>
-                <q-item-label lines="2"></q-item-label>
-                <q-item-label caption lines="3">
-                  <span class="text-weight-bold">{{ specificId }}</span>
-                </q-item-label>
               </q-item-section>
             </q-item>
             <q-separator/>
             <q-item>
-              <q-item-section top class="col-1 gt-sm">
+              <q-item-section  class="col-1 gt-sm">
                 <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-3 gt-sm">
+              <q-item-section class="col-3 gt-sm">
                 <q-item-label class="q-mt-sm">Start Date</q-item-label>
               </q-item-section>
-              <q-item-section top>
+              <q-item-section>
                 <q-item-label class="q-mt-sm flex-center text-center">{{ specificstartDate }}</q-item-label>
               </q-item-section>
             </q-item>
@@ -144,7 +141,11 @@ export default {
       num2 = (page.value-1)*totalPages.value+totalPages.value
       let MYKEYS =Object.values(MYLEAVES.value).slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return e
+        return { id: e.id, executive: e.executive.name,
+          start_date: date.formatDate(e.start_date, 'MMMM d, YYYY '),
+          end_date: date.formatDate(e.end_date, 'MMMM D, YYYY '),
+          description: e.description, status: e.status
+        }
       })
       return newArr
     })

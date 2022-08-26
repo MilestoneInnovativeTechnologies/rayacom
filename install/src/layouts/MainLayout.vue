@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
         <q-toolbar-title>Rayaheen  <span class="text-subtitle2">{{ $route.meta.title }} </span></q-toolbar-title>
-        <q-btn flat round dense @click="logout"><q-icon name="power" /></q-btn>
+        <q-btn flat round dense @click="logout"><q-icon name="logout" /></q-btn>
         <q-btn flat round dense @click="router.push({ name:'home' })"><q-icon name="home" /></q-btn>
       </q-toolbar>
     </q-header>
