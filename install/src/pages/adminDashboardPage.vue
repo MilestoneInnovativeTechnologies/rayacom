@@ -164,28 +164,29 @@ export default {
   setup() {
     const router = useRouter()
     const $q = useQuasar()
-    let checkstatus
+
     let num1
     let num2
 
-    const ORDERS =  computed(() => {
-      return orderStore.all
-    })
-
-    const MYORDERS =  computed(() => {
-      let newArray = []
-      for( let n in ORDERS.value){
-        checkstatus = ORDERS.value[n]['status']
-        if((checkstatus == 'New') || (checkstatus == 'Viewed')){
-          newArray.push(ORDERS.value[n])
-        }
-      }
-      return newArray.reverse();
-    })
+    // const ORDERS =  computed(() => {
+    //   return orderStore.all
+    // })
 
     // const MYORDERS =  computed(() => {
-    //   return Object.values( ORDERS.value).filter(word => word.status  == 'New' && word.status  =='Viewed' ).reverse();
+    //   let newArray = []
+    //   let checkstatus
+    //   for( let n in ORDERS.value){
+    //     checkstatus = ORDERS.value[n]['status']
+    //     if((checkstatus == 'New') || (checkstatus == 'Viewed')){
+    //       newArray.push(ORDERS.value[n])
+    //     }
+    //   }
+    //   return newArray.reverse();
     // })
+
+    const MYORDERS =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'New'|| word.status  =='Viewed').reverse();
+    })
 
     const totalcount =  computed(() => {
       return Object.keys(MYORDERS.value).length
@@ -209,8 +210,6 @@ export default {
     const leavecount =  computed(() => {
       return leaveData.value.length
     })
-console.log(reviewcount.value +'-'+leavecount.value )
-
 
     const gotoReview = function (){
       router.push({
@@ -229,7 +228,7 @@ console.log(reviewcount.value +'-'+leavecount.value )
       MYKEYS = Object.values(MYORDERS.value).slice(num1,num2)
       newArr = MYKEYS.map((e) => {
         status = e.status
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), narration: e.narration,
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM D, YYYY '), narration: e.narration,
           customer: e.customer.name, status: e.status, items: e.items }
       })
       return newArr
@@ -282,7 +281,7 @@ console.log(reviewcount.value +'-'+leavecount.value )
 
     return {
       MYORDERS,
-      totalcount,
+      totalcount, leavecount, reviewcount,
       page,
       currentPage,
       totalPages,
@@ -299,8 +298,6 @@ console.log(reviewcount.value +'-'+leavecount.value )
       positivemsg,
       gotoLeave,
       gotoReview,
-      leavecount,
-      reviewcount,
     }
   }
 }
