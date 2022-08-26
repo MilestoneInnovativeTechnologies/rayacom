@@ -1,16 +1,16 @@
 <template>
   <q-page padding class="flex column q-gutter-y-sm">
     <div class="q-pa-md">
-    <q-radio name="shape" v-model="obj.type" val="1" label="PRODUCTS" />
-    <q-radio name="shape" v-model="obj.type" val="2" label="SALES EXECUTIVE" />
-    <q-radio name="shape" v-model="obj.type" val="3" label="ORDER" />
+    <q-radio name="shape" v-model="obj.type" val="Product" label="PRODUCTS" />
+    <q-radio name="shape" v-model="obj.type" val="SalesExecutive" label="SALES EXECUTIVE" />
+    <q-radio name="shape" v-model="obj.type" val="Order" label="ORDERS" />
     </div>
 
-    <q-select outlined v-model="obj.typeid" :options="options1" label="Products" v-if="obj.type ==1">
+    <q-select outlined v-model="obj.typeid" :options="options1" label="Products" v-if="obj.type === 'Product'">
     </q-select>
-    <q-select outlined v-model="obj.typeid" :options="options2" label="Sales Executive" v-if="obj.type == 2">
+    <q-select outlined v-model="obj.typeid" :options="options2" label="Sales Executive" v-if="obj.type === 'SalesExecutive'">
     </q-select>
-    <q-select outlined v-model="obj.typeid" :options="options3" label="Orders" v-if="obj.type == 3">
+    <q-select outlined v-model="obj.typeid" :options="options3" label="Orders" v-if="obj.type === 'Order'">
     </q-select>
 
     <q-input outlined label="Comment" v-model="obj.comment" type="text"
@@ -57,7 +57,7 @@ for( let n in ORDERS.value){
   options3.push( { label:orderid +' - '+ ORDERS.value[n].date, value: orderid })
 }
 const obj = reactive({
-  id: '', type: '1', typeid: '',  comment: '',
+  id: '', type: 'Product', typeid: '',  comment: '',
 })
 function save(){
   if((obj.typeid != '') &&  (obj.description != '')){

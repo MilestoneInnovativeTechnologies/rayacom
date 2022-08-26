@@ -14,6 +14,7 @@
               @click="openwindow(i.id, i.customer.name, i.type, i.created_at, i.comment, i.status)">
         <q-card-section class="bg-brand text-white">
           <q-item-label class="Subtitle 2 text-weight-bolder"> {{ i.created_at }}</q-item-label>
+          <q-item-label> {{ i.type }}</q-item-label>
           <q-item-label>
             <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
             <q-badge color="secondary" v-else-if ="i.status === 'Viewed'" >{{ i.status }}</q-badge>
