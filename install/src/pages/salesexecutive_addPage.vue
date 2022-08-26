@@ -1,11 +1,11 @@
 <template>
-  <q-page padding class="q-gutter-y-xs">
+  <q-page padding class="flex column q-gutter-y-sm">
     <q-input v-model="executive.name" label="Name" outlined/>
     <q-input v-model="executive.phone" label="Phone" outlined/>
     <q-input v-model="executive.email" label="Email" outlined/>
     <q-input v-model="executive.password" label="Password" outlined/>
     <q-select v-model="executive.areas" label="Areas" multiple use-chips stack-label outlined :options="area_options" emit-value map-options />
-    <q-btn label="Update" @click="save" color="primary" align="right" />
+    <q-btn label="Submit" @click="save" color="positive" icon="camera_enhance" />
   </q-page>
 </template>
 

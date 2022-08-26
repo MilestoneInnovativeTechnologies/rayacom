@@ -17,7 +17,7 @@
         <div class="col-4 text-center">
           <q-btn color="positive" no-caps @click="gotoAction(0)">
             <q-icon left size="xl" name="open_in_new" />
-            ADD CUSTOMER
+            ADD SALESEXECUTIVE
           </q-btn>
         </div>
       </div>
