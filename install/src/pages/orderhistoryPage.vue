@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <div class="q-pa-md" >
+    <div class="q-pa-md" style="width:80vw; max-width: 350px">
     <q-toolbar class="bg-brand text-white shadow-2">
       <q-toolbar-title>Order History</q-toolbar-title>
     </q-toolbar>
