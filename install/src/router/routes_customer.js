@@ -1,6 +1,6 @@
 export default [
-  { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
-  { name: 'DASHBOARD', path: '/dashboard', props: true, component: () => import('pages/dashboardPage.vue'),
+  // { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
+  { name: 'DASHBOARD', path: '', props: true, component: () => import('pages/dashboardPage.vue'),
     meta:{ title: 'DASHBOARD'}, menu:{title: 'DASHBOARD', caption: ' ', icon: 'home' } },
   { name:'ITEM', path:'/item', props: true, component: () => import('pages/itemPage.vue'), meta:{ title: 'Items'} },
   { name: 'ORDER', path: '/order', props: true, component: () => import('pages/orderPage.vue'), meta:{ title: 'Order'} },

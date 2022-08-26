@@ -1,8 +1,8 @@
 export default [
-  { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
-  { name:'firose', path:'/firose', component: () => import('pages/Firose.vue'), meta:{ title:'Firose Page' },
-    menu: { title:'Firose',caption:'Firose Experiment Page',icon:'beach_access' } },
-  { name: 'ADMINDASHBOARD', path: '/admin_dashbord', props: true, component: () => import('pages/adminDashboardPage.vue'),
+  // { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
+  // { name:'firose', path:'/firose', component: () => import('pages/Firose.vue'), meta:{ title:'Firose Page' },
+  //   menu: { title:'Firose',caption:'Firose Experiment Page',icon:'beach_access' } },
+  { name: 'ADMINDASHBOARD', path: '', props: true, component: () => import('pages/adminDashboardPage.vue'),
     meta:{ title: 'DASHBOARD'}, menu: { title:'DASHBOARD',caption:'DASHBOARD',icon:'home' } },
   { name: 'REVIEWS', path: '/reviews', props: true, component: () => import('pages/admin_reviewPage.vue'),
     meta:{ title: 'REVIEWS'}, menu: { title:'REVIEWS',caption:'REVIEWS',icon:'comment_bank' } },

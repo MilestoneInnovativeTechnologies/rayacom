@@ -1,7 +1,7 @@
 export default [
-  { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
+  // { name:'home', path: '', component: () => import('pages/IndexPage.vue') },
 
-  { name: 'SALESEXECUTIVEDASHBOARD', path: '/salesexecutive_dashbord', props: true,
+  { name: 'SALESEXECUTIVEDASHBOARD', path: '', props: true,
     component: () => import('pages/se_dashbordPage.vue'), meta:{ title: 'DASHBOARD'},
     menu: { title:'DASHBOARD',caption:' ',icon:'manage_accounts' } },
   { name: 'SALESEXECUTIVEORDEHISTORY', path: '/salesexecutive_orderhistory', props: true,
