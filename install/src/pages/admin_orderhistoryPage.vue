@@ -1,6 +1,6 @@
 <template>
-  <q-page padding class="flex column q-col-gutter-y-lg">
-    <div class="q-pa-md" >
+  <q-page padding class="flex-center column q-col-gutter-y-lg">
+    <div class="q-pa-md" style="width:80vw; max-width: 350px">
       <q-toolbar class="bg-brand text-white shadow-2">
         <q-toolbar-title>Order History</q-toolbar-title>
       </q-toolbar>
@@ -13,20 +13,10 @@
           <q-item-section avatar top>
             <q-avatar icon="fact_check" color="brand" text-color="white" />
           </q-item-section>
-          <q-card-section horizontal>
-            <q-card-section
-
-            >
-              {{ i.id }}
-            </q-card-section>
-            <q-card-section class="col-2">
-              {{ i.customer }}
-            </q-card-section>
-          </q-card-section>
-          <q-card-section class="col-2">
-            {{ i.date }}
-          </q-card-section>
           <q-item-section>
+            <q-item-label lines="1">{{ i.id }}</q-item-label>
+            <q-item-label>{{ i.customer }}</q-item-label>
+            <q-item-label caption>{{ i.date }}</q-item-label>
             <q-item-label caption>{{ i.narration }}</q-item-label>
           </q-item-section>
 
@@ -155,7 +145,7 @@ export default {
       num2 = (page.value-1)*totalPages.value+totalPages.value;
       let MYKEYS = MYORDERS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
-        return { id: e.id, date: date.formatDate(e.date, 'MMMM d, YYYY '), customer: e.customer.name,
+        return { id: e.id, date: date.formatDate(e.date, 'MMMM D, YYYY '), customer: e.customer.name,
           narration: e.narration, status: e.status, items: e.items }
       })
       console.log(newArr);
