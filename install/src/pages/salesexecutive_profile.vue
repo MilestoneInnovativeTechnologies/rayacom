@@ -75,7 +75,7 @@ const onSubmit = function(message)
     <q-input outlined
              v-model="salesexecutive.name"
              type="text"
-             hint="Full Name"
+             label="Full Name"
              :rules="[ val => val && val.length > 0 || 'Please type your name']" >
       <template v-slot:append>
         <q-icon name="account_box" />
@@ -84,7 +84,7 @@ const onSubmit = function(message)
 <!--      <q-space></q-space>-->
       <q-input outlined
              v-model="salesexecutive.password"
-             hint="Password"
+               label="Password"
              type="password"
              :rules="[ val => val && val.length > 0  || 'must  fill this field',
              val => val.length > 5 || 'Minimum length is 6']" >
@@ -96,7 +96,7 @@ const onSubmit = function(message)
 <!--      <q-space></q-space>-->
       <q-input  outlined
              v-model="salesexecutive.email"
-             hint="E-Mail"
+             label="E-Mail"
              type="text"
              :rules="[ val => !!val ||  'Email is missing', isValidEmail ]">
       <template v-slot:append>
@@ -110,7 +110,7 @@ const onSubmit = function(message)
 <!--      <div class="row justify-md-center">-->
     <q-input outlined
              v-model="salesexecutive.phone"
-             hint="Contact Number"
+             label="Contact Number"
              type="text"
              :rules="[ val => val && val.length > 0 || 'please enter your PH no']">
       <template v-slot:append>
