@@ -1,6 +1,75 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
-    <div class="q-pa-md" style="width:80vw; max-width: 350px">
+    <div class="q-pa-md row items-start q-gutter-md">
+      <q-card class="my-card text-white" style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);width:80vw;">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="local_bar" size="md" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ newCount }}</q-item-label>
+              <q-item-label caption>New</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, #f5b38b 0%, rgb(162,66,6) 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="travel_explore" size="md" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ viewedCount }}</q-item-label>
+              <q-item-label caption>Viewed</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, #ee9bfa 0%, rgb(83,2,94) 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="done_all" size="md" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ acceptedCount }}</q-item-label>
+              <q-item-label caption>Accepted</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, rgba(250,237,118,0.93) 0%, rgb(140,129,7) 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="work" size="md" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ packedCount }}</q-item-label>
+              <q-item-label caption>Packed</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, #86f6ed 0%, #046558 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="local_shipping" size="md" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ dispatchedCount }}</q-item-label>
+              <q-item-label caption>Dispatched</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+    </div>
+
+
+    <div class="q-pa-md" style="width:80vw; max-width: 350px" v-if="totalcount">
     <q-toolbar class="bg-brand text-white shadow-2">
       <q-toolbar-title>Dashboard</q-toolbar-title>
     </q-toolbar>
@@ -48,7 +117,7 @@
 
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="card">
-      <q-card class="my-card" style="width: 400px">
+      <q-card style="width: 400px">
         <q-list bordered class="rounded-borders" style="min-width: 350px">
         <q-item>
           <q-item-section avatar>
@@ -167,6 +236,39 @@ export default {
       return Object.keys(MYORDERS.value).length
     })
 
+    const NEW =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'New').reverse();
+    })
+    const VIEWED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Viewed').reverse();
+    })
+    const ACCEPTED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Accepted').reverse();
+    })
+    const PACKED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Packed').reverse();
+    })
+    const DISPATCHED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Dispatched').reverse();
+    })
+
+    const newCount =  computed(() => {
+      return Object.keys(NEW.value).length
+    })
+    const viewedCount =  computed(() => {
+      return Object.keys(VIEWED.value).length
+    })
+    const acceptedCount =  computed(() => {
+      return Object.keys(ACCEPTED.value).length
+    })
+    const packedCount =  computed(() => {
+      return Object.keys(PACKED.value).length
+    })
+    const dispatchedCount =  computed(() => {
+      return Object.keys(DISPATCHED.value).length
+    })
+
+
     let MYKEYS
     let newArr
     let status
@@ -240,6 +342,7 @@ export default {
     return {
       ORDERS,
       MYORDERS,
+      newCount, viewedCount, acceptedCount,packedCount, dispatchedCount,
       totalcount,
       page,
       currentPage,
@@ -265,3 +368,8 @@ export default {
 }
 
 </script>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 250px
+</style>
