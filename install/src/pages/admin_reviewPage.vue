@@ -131,7 +131,7 @@ export default {
       let MYKEYS = MYREVIEWS.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, customer: e.customer, type: e.type,
-          created_at: date.formatDate(e.created_at, 'MMMM d, YYYY '), comment: e.comment,
+          created_at: date.formatDate(e.created_at, 'MMMM D, YYYY '), comment: e.comment,
           status: e.status, items: e.items }
       })
       return newArr

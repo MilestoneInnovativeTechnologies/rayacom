@@ -25,22 +25,6 @@
       </template>
     </q-input>
 
-    <q-input outlined v-model="customer.phone" type="tel" label="Contact number"
-             mask="(###) ### - ######"
-             lazy-rules
-             :rules="[ val => val && val.length > 0 || 'Please type Contact number']" >
-      <template v-slot:append>
-        <q-icon name="settings_phone" />
-      </template>
-    </q-input>
-
-    <q-input outlined v-model="customer.address" type="text" label="Address" autogrow
-             lazy-rules
-             :rules="[ val => val && val.length > 0 || 'Please type Address']" >
-      <template v-slot:append>
-        <q-icon name="home" />
-      </template>
-    </q-input>
     <q-btn color="positive" label="Submit" @click="updateMyself" icon="camera_enhance" />
 
 
@@ -137,8 +121,8 @@ export default {
     }
 
     const updateMyself = function() {
-      if( (customer.value.name != '') && (customer.value.password != '')  && (customer.value.phone != '')
-        && (emailPattern.test(customer.value.email)) && (customer.value.address != '')){
+      if( (customer.value.name != '') && (customer.value.password != '')
+        && (emailPattern.test(customer.value.email)) ){
         console.warn(customer.value);
         let cus = _.omit(customer.value, ['area'])
         post('master', 'update', cus)
