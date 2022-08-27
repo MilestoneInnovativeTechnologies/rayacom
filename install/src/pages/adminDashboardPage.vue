@@ -1,5 +1,73 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
+    <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card text-white" style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);width:80vw;">
+      <q-list>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon color="primary" name="local_bar" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-h5 text-bold text-white">{{ newCount }}</q-item-label>
+            <q-item-label caption>New</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, #f6a472 0%, rgb(162,66,6) 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="travel_explore" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ viewedCount }}</q-item-label>
+              <q-item-label caption>Viewed</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, #e889f5 0%, rgb(83,2,94) 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="done_all" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ acceptedCount }}</q-item-label>
+              <q-item-label caption>Accepted</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, rgba(248,232,54,0.93) 0%, rgb(129,120,4) 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="shopping_bag" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ packedCount }}</q-item-label>
+              <q-item-label caption>Packed</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+      <q-card class="my-card" style="background: radial-gradient(circle, #39dccd 0%, #03675a 100%)">
+        <q-list>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="local_shipping" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5 text-bold text-white">{{ dispatchedCount }}</q-item-label>
+              <q-item-label caption>Dispatched</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+    </div>
+
     <div class="q-pa-md q-gutter-sm">
       <q-btn color="white" text-color="primary" icon-right="sick" label="LEAVES"
              @click="gotoLeave()" v-if="leavecount">
@@ -189,9 +257,40 @@ export default {
     const MYORDERS =  computed(() => {
       return Object.values(orderStore.all).filter(word => word.status  == 'New'|| word.status  =='Viewed').reverse();
     })
-
     const totalcount =  computed(() => {
       return Object.keys(MYORDERS.value).length
+    })
+
+    const NEW =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'New').reverse();
+    })
+    const VIEWED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Viewed').reverse();
+    })
+    const ACCEPTED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Accepted').reverse();
+    })
+    const PACKED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Packed').reverse();
+    })
+    const DISPATCHED =  computed(() => {
+      return Object.values(orderStore.all).filter(word => word.status  == 'Dispatched').reverse();
+    })
+
+    const newCount =  computed(() => {
+      return Object.keys(NEW.value).length
+    })
+    const viewedCount =  computed(() => {
+      return Object.keys(VIEWED.value).length
+    })
+    const acceptedCount =  computed(() => {
+      return Object.keys(ACCEPTED.value).length
+    })
+    const packedCount =  computed(() => {
+      return Object.keys(PACKED.value).length
+    })
+    const dispatchedCount =  computed(() => {
+      return Object.keys(DISPATCHED.value).length
     })
 
     const gotoLeave = function (){
@@ -283,6 +382,7 @@ export default {
 
     return {
       MYORDERS,
+      newCount, viewedCount, acceptedCount,packedCount, dispatchedCount,
       totalcount, leavecount, reviewcount,
       page,
       currentPage,
@@ -303,5 +403,11 @@ export default {
     }
   }
 }
-
 </script>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 250px
+</style>
+
+
