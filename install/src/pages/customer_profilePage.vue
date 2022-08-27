@@ -26,7 +26,7 @@
     </q-input>
 
     <q-input outlined v-model="customer.phone" type="tel" label="Contact number"
-             mask="(###) ### - ######"
+             mask="## ##########"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Contact number']" >
       <template v-slot:append>

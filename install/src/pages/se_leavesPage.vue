@@ -145,7 +145,7 @@ export default {
       let MYKEYS =Object.values(MYLEAVES.value).slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, executive: e.executive.name,
-          start_date: date.formatDate(e.start_date, 'MMMM d, YYYY '),
+          start_date: date.formatDate(e.start_date, 'MMMM D, YYYY '),
           end_date: date.formatDate(e.end_date, 'MMMM D, YYYY '),
           description: e.description, status: e.status
         }

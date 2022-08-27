@@ -14,7 +14,7 @@
         </q-badge>
       </q-btn>
     </div>
-    <div class="q-pa-md" >
+    <div class="q-pa-md" v-if="totalcount" >
       <q-toolbar class="bg-brand text-white shadow-2">
         <q-toolbar-title>ORDERS</q-toolbar-title>
       </q-toolbar>
@@ -24,7 +24,9 @@
         <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
                 @click="showitems(i.customer, i.id, i.date, i.status, i.items)">
           <q-item-section avatar top>
-            <q-avatar icon="fact_check" color="brand" text-color="white" />
+            <q-avatar color="brand" text-color="white">
+              {{ i.customer.charAt(0) }}
+            </q-avatar>
           </q-item-section>
           <q-item-section>
             <q-item-label lines="1">{{ i.customer }}</q-item-label>

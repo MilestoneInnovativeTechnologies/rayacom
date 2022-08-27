@@ -160,7 +160,7 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(totalcount/totalPages.value)
+      return Math.ceil(totalcount.value/totalPages.value)
     })
 
     return {

@@ -11,7 +11,9 @@
         <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
                 @click="showitems(i.id, i.date, i.status, i.items, i.customer)">
           <q-item-section avatar top>
-            <q-avatar icon="fact_check" color="brand" text-color="white" />
+            <q-avatar color="brand" text-color="white">
+              {{ i.customer.charAt(0) }}
+            </q-avatar>
           </q-item-section>
           <q-item-section>
             <q-item-label lines="1">{{ i.id }}</q-item-label>
