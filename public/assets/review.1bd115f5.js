@@ -1,1 +1,0 @@
-import{d as r}from"./index.8d7e61fd.js";import{u as o}from"./master.58f94054.js";const u=r("review",{state:()=>({data:{}}),getters:{reviews(s){const e=o(),t=e.CUSTOMER;return _.mapValues(s.data,a=>Object.assign({},a,{customer:_.get(t,a.customer)}))}},actions:{store(s){_.forEach(s,e=>{let t=e.id;_.has(this.data,t)||(this.data[t]={}),this.data[t]=e})}}});export{u};

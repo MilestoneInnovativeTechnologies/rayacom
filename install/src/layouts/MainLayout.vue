@@ -11,7 +11,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header>Menu</q-item-label>
+        <q-item-label header class="bg-grey-3">{{ name }}</q-item-label>
         <EssentialLink v-for="link in links" :key="link.title" v-bind="link" @navigate="leftDrawerOpen = false"/>
       </q-list>
     </q-drawer>
@@ -73,13 +73,17 @@ export default defineComponent({
 </script>
 -->
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import { useRouter } from 'vue-router'
+import { get } from 'lodash'
 import Routes from "src/router/routes";
 import EssentialLink from 'components/EssentialLink.vue'
+import {useMasterStore} from "stores/master";
 const router = useRouter()
+const masterStore = useMasterStore()
 const links = _(Routes).flatMap('children').filter(route => route && route.menu).map(route => Object.assign({},route.menu,{ route:route.name })).value()
 const leftDrawerOpen = ref(false)
+const name = computed(() => get(masterStore[AUTH_TYPE],[AUTH_DATA,'name']))
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
