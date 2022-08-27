@@ -5,7 +5,7 @@
       <q-list>
         <q-item clickable>
           <q-item-section avatar>
-            <q-icon color="primary" name="local_bar" />
+            <q-icon color="primary" name="local_bar" size="md" />
           </q-item-section>
           <q-item-section>
             <q-item-label class="text-h5 text-bold text-white">{{ newCount }}</q-item-label>
@@ -14,11 +14,11 @@
         </q-item>
       </q-list>
     </q-card>
-      <q-card class="my-card" style="background: radial-gradient(circle, #f6a472 0%, rgb(162,66,6) 100%)">
+      <q-card class="my-card" style="background: radial-gradient(circle, #f5b38b 0%, rgb(162,66,6) 100%)">
         <q-list>
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon color="primary" name="travel_explore" />
+              <q-icon color="primary" name="travel_explore" size="md" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-h5 text-bold text-white">{{ viewedCount }}</q-item-label>
@@ -27,11 +27,11 @@
           </q-item>
         </q-list>
       </q-card>
-      <q-card class="my-card" style="background: radial-gradient(circle, #e889f5 0%, rgb(83,2,94) 100%)">
+      <q-card class="my-card" style="background: radial-gradient(circle, #ee9bfa 0%, rgb(83,2,94) 100%)">
         <q-list>
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon color="primary" name="done_all" />
+              <q-icon color="primary" name="done_all" size="md" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-h5 text-bold text-white">{{ acceptedCount }}</q-item-label>
@@ -40,11 +40,11 @@
           </q-item>
         </q-list>
       </q-card>
-      <q-card class="my-card" style="background: radial-gradient(circle, rgba(248,232,54,0.93) 0%, rgb(129,120,4) 100%)">
+      <q-card class="my-card" style="background: radial-gradient(circle, rgba(250,237,118,0.93) 0%, rgb(140,129,7) 100%)">
         <q-list>
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon color="primary" name="shopping_bag" />
+              <q-icon color="primary" name="work" size="md" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-h5 text-bold text-white">{{ packedCount }}</q-item-label>
@@ -53,11 +53,11 @@
           </q-item>
         </q-list>
       </q-card>
-      <q-card class="my-card" style="background: radial-gradient(circle, #39dccd 0%, #03675a 100%)">
+      <q-card class="my-card" style="background: radial-gradient(circle, #86f6ed 0%, #046558 100%)">
         <q-list>
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon color="primary" name="local_shipping" />
+              <q-icon color="primary" name="local_shipping" size="md" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-h5 text-bold text-white">{{ dispatchedCount }}</q-item-label>
@@ -131,7 +131,7 @@
 
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="card">
-        <q-card class="my-card" style="width: 400px">
+        <q-card style="width: 400px">
           <q-list bordered class="rounded-borders" style="min-width: 350px">
             <q-item>
               <q-item-section avatar>
