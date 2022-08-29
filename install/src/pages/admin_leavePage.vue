@@ -1,38 +1,22 @@
 <template>
     <q-page padding class="flex column q-col-gutter-y-lg">
-      <q-btn-dropdown class="q-pa-md " color="white" label="Select Item Here" size="lg">
+
         <q-list>
           <q-input v-model="search"
                    placeholder="Search Here"
                    debounce="600"
                    filled
-                   class="col" >
-            <template v-slot:append>
-
-              <q-btn
-
-                color="primary"
-                size="lg"
-                icon="search"
-              />
-            </template>
-
-
+                   class="col">
           </q-input>
           <q-item flat bordered
-
-                  v-for="(i, index) in searchResult" :key="i.id"   >
-
-            <q-item-section class="bg-purple-10 text-white" @click="notificationResult(i.id,i.name)" >
+                  v-for="(i, index) in searchResult" :key="i.id"  v-if="searchcard" >
+            <q-item-section class="bg-secondary text-white" @click="notificationResult(i.id,i.name)" >
               <div >{{ i.name }}</div>
             </q-item-section>
           </q-item>
         </q-list>
-      </q-btn-dropdown>
 
-  <q-item-section class="text-bold" @click="notificationResult(i.id,i.name)" >
-<!--    <div>{{myArr}}</div>-->
-  </q-item-section>
+
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
       <q-card flat bordered
@@ -170,7 +154,17 @@ export default {
     // const router = useRouter()
     let MYITEMS = ref(SALES)
     const search = ref('')
-    // const myArr= []
+    let searchflag = ref('true')
+console.log(searchflag.value)
+    const searchcard =  computed(() => {
+      if ((search.value === '')  || (searchflag.value == false) ){
+        return false
+      }else{
+        return true
+      }
+    })
+
+
 
     const searchResult = computed(() => {
       if (search.value === '') {
@@ -183,9 +177,8 @@ export default {
 
 
     const notificationResult= function (id, item) {
-      console.log(id, item)
-      // myArr.push(id, item)
-
+      search.value = item
+      searchflag.value = false
     }
 
     const router = useRouter()
@@ -288,7 +281,8 @@ export default {
       MYITEMS,
       search,
       searchResult,
-      // myArr,
+      searchcard,
+      searchflag
     }
   },
 }
