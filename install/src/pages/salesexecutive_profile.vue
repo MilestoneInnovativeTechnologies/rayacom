@@ -111,6 +111,7 @@ const onSubmit = function(message)
     <q-input outlined
              v-model="salesexecutive.phone"
              label="Contact Number"
+             mask="## ##########"
              type="text"
              :rules="[ val => val && val.length > 0 || 'please enter your PH no']">
       <template v-slot:append>

@@ -155,7 +155,7 @@ export default {
     let MYITEMS = ref(SALES)
     const search = ref('')
     let searchflag = ref('true')
-console.log(searchflag.value)
+
     const searchcard =  computed(() => {
       if ((search.value === '')  || (searchflag.value == false) ){
         return false
