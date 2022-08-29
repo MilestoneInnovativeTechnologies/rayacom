@@ -1,43 +1,90 @@
 <template>
-  <div class="q-pa-md">
-    <div class="q-gutter-md">
-      <q-date
-        v-model="date"
-        :options="options"
-      />
+  <q-page padding>
 
-      <q-date
-        v-model="date"
-        :options="optionsFn"
-      />
+    <q-btn-dropdown class="q-pa-md full-width" color="primary" label="Select Item Here" size="lg">
+      <q-list>
+        <q-input v-model="search"
+                 placeholder="Search Here"
+                 debounce="600"
+                 filled
+                 class="col" >
+          <template v-slot:append>
 
-      <q-date
-        v-model="date"
-        :options="optionsFn2"
-      />
-    </div>
-  </div>
+            <q-btn
+
+              color="primary"
+              size="lg"
+              icon="search"
+            />
+          </template>
+
+
+        </q-input>
+        <q-item flat bordered
+
+                v-for="(i, index) in searchResult" :key="i.id"   >
+
+          <q-item-section class="bg-purple-10 text-white" @click="notificationResult(i.id,i.name)" >
+            <div >{{ i.name }}</div>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+  </q-page>
+  <q-item-section class="text-bold" @click="notificationResult(i.id,i.name)" >
+    <div>{{myArr}}</div>
+  </q-item-section>
+
+
 </template>
 
+<style>
+
+</style>
+
 <script>
-import { ref } from 'vue'
-
+import { computed, ref  } from 'vue'
+import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
+import { useMasterStore } from 'stores/master'
+const master = useMasterStore()
+const ITEMS = master.ITEM
 export default {
-  setup () {
-    return {
-      date: ref('2019/02/01'),
+  setup() {
+    const $q = useQuasar()
+    const router = useRouter()
+    let MYITEMS = ref(ITEMS)
+    const search = ref('')
+    const myArr= []
 
-      options: [ '2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23' ],
-
-      optionsFn (date) {
-        return date >= '2019/02/03' && date <= '2019/02/15'
-      },
-
-      optionsFn2 (date) {
-        const parts = date.split('/')
-        return parts[ 2 ] % 2 === 0
+    const searchResult = computed(() => {
+      if (search.value === '') {
+        return Object.values(MYITEMS.value)
+      } else {
+        let keyword = search.value.toLowerCase();
+        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
       }
+    })
+
+
+    const notificationResult= function (id, item) {
+      console.log(id, item)
+      myArr.push(id, item)
+
     }
-  }
+
+
+
+
+
+    return {
+      notificationResult,
+      MYITEMS,
+      search,
+      searchResult,
+      myArr,
+    }
+  },
+
 }
 </script>
