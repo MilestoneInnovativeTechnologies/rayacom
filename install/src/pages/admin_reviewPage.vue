@@ -1,10 +1,10 @@
 <template>
-  <q-page padding class="flex column q-col-gutter-y-lg">
-    <div class="q-pa-md">
-        <q-radio name="radio" v-model="radio" val="" label="All" />
-        <q-radio name="radio" v-model="radio" val="Product" label="Product" />
-        <q-radio name="radio" v-model="radio" val="SalesExecutive" label="SalesExecutive" />
-        <q-radio name="radio" v-model="radio" val="Order" label="Order" />
+<q-page padding class="flex column q-col-gutter-y-lg">
+    <div class="q-pa-md flex flex-center">
+        <q-radio name="radio" v-model="radio" val="" label="All " color="secondary" />
+        <q-radio name="radio" v-model="radio" val="Product" label="Product " color="secondary" />
+        <q-radio name="radio" v-model="radio" val="SalesExecutive" label="SalesExecutive " color="secondary" />
+        <q-radio name="radio" v-model="radio" val="Order" label="Order " color="secondary" />
     </div>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
@@ -127,16 +127,12 @@ export default {
     let num2
     let radio = ref('')
 
-    const MYREVIEWS =  computed(() => {
-      return Object.values(reviewStore.reviews).reverse()
-    })
-
     const searchResult = computed(()=>{
       if(radio.value === ''){
-        return Object.values(MYREVIEWS.value)
+        return Object.values(reviewStore.reviews).reverse()
       }else{
         let keyword = radio.value.toLowerCase();
-        return Object.values(MYREVIEWS.value).filter(word => word.type.toLowerCase().indexOf(keyword) > -1);
+        return Object.values(reviewStore.reviews).filter(word => word.type.toLowerCase().indexOf(keyword) > -1).reverse();
       }
     })
 
@@ -193,7 +189,6 @@ export default {
     })
 
     return {
-      MYREVIEWS,
       totalcount,
       page,
       currentPage,
