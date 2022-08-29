@@ -40,7 +40,7 @@
           </q-item>
         </q-list>
       </q-card>
-      <q-card class="my-card" style="background: radial-gradient(circle, rgba(250,237,118,0.93) 0%, rgb(140,129,7) 100%)">
+      <q-card class="my-card" style="background: radial-gradient(circle, rgba(248,232,54,0.93) 0%, rgba(103,95,8,0.93) 100%)">
         <q-list>
           <q-item clickable>
             <q-item-section avatar>

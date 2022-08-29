@@ -1,5 +1,11 @@
 <template>
   <q-page padding class="flex column q-col-gutter-y-lg">
+    <div class="q-pa-md">
+        <q-radio name="radio" v-model="radio" val="" label="All" />
+        <q-radio name="radio" v-model="radio" val="Product" label="Product" />
+        <q-radio name="radio" v-model="radio" val="SalesExecutive" label="SalesExecutive" />
+        <q-radio name="radio" v-model="radio" val="Order" label="Order" />
+    </div>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
       <q-card flat bordered
@@ -119,16 +125,29 @@ export default {
     const router = useRouter()
     let num1
     let num2
+    let radio = ref('')
 
     const MYREVIEWS =  computed(() => {
       return Object.values(reviewStore.reviews).reverse()
     })
-    let totalcount = Object.values(MYREVIEWS.value).length
+
+    const searchResult = computed(()=>{
+      if(radio.value === ''){
+        return Object.values(MYREVIEWS.value)
+      }else{
+        let keyword = radio.value.toLowerCase();
+        return Object.values(MYREVIEWS.value).filter(word => word.type.toLowerCase().indexOf(keyword) > -1);
+      }
+    })
+
+    const totalcount = computed(()=>{
+      return searchResult.value.length
+    })
 
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
       num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS = MYREVIEWS.value.slice(num1,num2)
+      let MYKEYS = searchResult.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, customer: e.customer, type: e.type,
           created_at: date.formatDate(e.created_at, 'MMMM D, YYYY '), comment: e.comment,
@@ -170,7 +189,7 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(totalcount/totalPages.value)
+      return Math.ceil(totalcount.value/totalPages.value)
     })
 
     return {
@@ -190,6 +209,8 @@ export default {
       specificComment,
       specificStatus,
       card,
+      radio,
+      // search
     }
   },
 }
