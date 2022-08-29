@@ -1,5 +1,38 @@
 <template>
     <q-page padding class="flex column q-col-gutter-y-lg">
+      <q-btn-dropdown class="q-pa-md " color="white" label="Select Item Here" size="lg">
+        <q-list>
+          <q-input v-model="search"
+                   placeholder="Search Here"
+                   debounce="600"
+                   filled
+                   class="col" >
+            <template v-slot:append>
+
+              <q-btn
+
+                color="primary"
+                size="lg"
+                icon="search"
+              />
+            </template>
+
+
+          </q-input>
+          <q-item flat bordered
+
+                  v-for="(i, index) in searchResult" :key="i.id"   >
+
+            <q-item-section class="bg-purple-10 text-white" @click="notificationResult(i.id,i.name)" >
+              <div >{{ i.name }}</div>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
+
+  <q-item-section class="text-bold" @click="notificationResult(i.id,i.name)" >
+<!--    <div>{{myArr}}</div>-->
+  </q-item-section>
 
   <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
       <q-card flat bordered
@@ -125,11 +158,36 @@ import { useRouter } from 'vue-router'
 import { useLeaveStore } from 'stores/leave'
 import { post } from "boot/axios";
 import { date, useQuasar } from "quasar";
+import { useMasterStore } from 'stores/master'
+const master = useMasterStore()
+const SALES = master.SALES_EXECUTIVE
 const leaveStore = useLeaveStore()
 
 
 export default {
   setup () {
+    // const $q = useQuasar()
+    // const router = useRouter()
+    let MYITEMS = ref(SALES)
+    const search = ref('')
+    // const myArr= []
+
+    const searchResult = computed(() => {
+      if (search.value === '') {
+        return Object.values(MYITEMS.value)
+      } else {
+        let keyword = search.value.toLowerCase();
+        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+      }
+    })
+
+
+    const notificationResult= function (id, item) {
+      console.log(id, item)
+      // myArr.push(id, item)
+
+    }
+
     const router = useRouter()
     const $q = useQuasar()
     let num1
@@ -226,6 +284,11 @@ export default {
       model,
       updateStatus,
       positivemsg,
+      notificationResult,
+      MYITEMS,
+      search,
+      searchResult,
+      // myArr,
     }
   },
 }

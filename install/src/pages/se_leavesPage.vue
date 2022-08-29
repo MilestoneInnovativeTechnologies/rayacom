@@ -1,5 +1,12 @@
 <template>
-  <q-page padding class="flex column q-col-gutter-y-lg">
+  <q-page padding class="flex column q-col-gutter-y-lg"><div class="q-pa-sm">
+    <div class="row q-pa-md">
+      <div class="col-8">
+
+      </div>
+
+    </div>
+  </div>
 
     <div class="q-pa-md text-center">
       <q-btn color="positive" no-caps @click="gotoAction()">
