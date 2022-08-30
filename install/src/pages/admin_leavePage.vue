@@ -179,6 +179,7 @@ console.log(searchflag.value)
     const notificationResult= function (id, item) {
       search.value = item
       searchflag.value = false
+      return searchResult.value.length
     }
 
     const router = useRouter()
