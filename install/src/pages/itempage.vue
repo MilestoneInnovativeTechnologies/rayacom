@@ -2,21 +2,13 @@
 
   <div class="q-pa-md fullwidth">
     <div class="q-gutter-md">
-      <div>
-<!--        <q-badge color="teal">Model: "{{ search }}"</q-badge>-->
-      </div>
-
       <q-input
         v-model="search"
         debounce="500"
         filled
         placeholder="Search"
-      >
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
+      >        <template v-slot:append><q-icon name="search" /></template>
       </q-input>
-
     </div>
   </div>
 
