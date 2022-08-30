@@ -238,59 +238,28 @@ export default {
     let num1
     let num2
 
-    // const ORDERS =  computed(() => {
-    //   return orderStore.all
-    // })
-
-    // const MYORDERS =  computed(() => {
-    //   let newArray = []
-    //   let checkstatus
-    //   for( let n in ORDERS.value){
-    //     checkstatus = ORDERS.value[n]['status']
-    //     if((checkstatus == 'New') || (checkstatus == 'Viewed')){
-    //       newArray.push(ORDERS.value[n])
-    //     }
-    //   }
-    //   return newArray.reverse();
-    // })
-
     const MYORDERS =  computed(() => {
-      return Object.values(orderStore.all).filter(word => word.status  == 'New'|| word.status  =='Viewed').reverse();
+      return Object.values(orderStore.all).filter(word => word.status  != 'Delivered' && word.status  !='Cancelled').reverse();
     })
     const totalcount =  computed(() => {
       return Object.keys(MYORDERS.value).length
     })
 
-    const NEW =  computed(() => {
-      return Object.values(orderStore.all).filter(word => word.status  == 'New').reverse();
-    })
-    const VIEWED =  computed(() => {
-      return Object.values(orderStore.all).filter(word => word.status  == 'Viewed').reverse();
-    })
-    const ACCEPTED =  computed(() => {
-      return Object.values(orderStore.all).filter(word => word.status  == 'Accepted').reverse();
-    })
-    const PACKED =  computed(() => {
-      return Object.values(orderStore.all).filter(word => word.status  == 'Packed').reverse();
-    })
-    const DISPATCHED =  computed(() => {
-      return Object.values(orderStore.all).filter(word => word.status  == 'Dispatched').reverse();
-    })
-
     const newCount =  computed(() => {
-      return Object.keys(NEW.value).length
+      return Object.values(orderStore.all).filter(word => word.status  == 'New').length
     })
     const viewedCount =  computed(() => {
-      return Object.keys(VIEWED.value).length
+      // return Object.keys(VIEWED.value).length
+      return Object.values(orderStore.all).filter(word => word.status  == 'Viewed').length
     })
     const acceptedCount =  computed(() => {
-      return Object.keys(ACCEPTED.value).length
+      return Object.values(orderStore.all).filter(word => word.status  == 'Accepted').length
     })
     const packedCount =  computed(() => {
-      return Object.keys(PACKED.value).length
+      return Object.values(orderStore.all).filter(word => word.status  == 'Packed').length
     })
     const dispatchedCount =  computed(() => {
-      return Object.keys(DISPATCHED.value).length
+      return Object.values(orderStore.all).filter(word => word.status  == 'Dispatched').length
     })
 
     const gotoLeave = function (){
@@ -369,7 +338,7 @@ export default {
         message: msg,
         icon: 'cloud_done',
         position:'top-right',
-        timeout:2000
+        timeout:1000
       })
     }
 
