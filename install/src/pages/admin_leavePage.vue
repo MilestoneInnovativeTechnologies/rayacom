@@ -336,7 +336,7 @@ export default {
           padding: 5px;
           background-color: #fff;
           cursor: pointer;
-          font-size: 16px;
+          font-size: 12px;
           &:hover{
             background: lightgray;
             color: #fff;
