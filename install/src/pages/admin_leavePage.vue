@@ -1,7 +1,6 @@
 <template>
   <q-page padding class="flex column q-col-gutter-y-lg">
     <q-list>
-
       <q-input
         v-model="search"
         debounce="500"
@@ -11,11 +10,6 @@
       </q-input>
       <section class="dropdown-wrapper">
         <div v-if="isVisible" class="dropdown-popover">
-          <input v-model="searchQuery"
-                 type="text"
-                 outlined
-                 filled
-                 placeholder="Enter Name" >
           <div class="options">
             <ul>
               <li @click="selectExecutive(executive.name, executive.id)"
@@ -25,8 +19,6 @@
         </div>
       </section>
     </q-list>
-
-
 
     <div class="q-pa-md row items-start q-gutter-md" v-if="totalcount">
       <q-card flat bordered
@@ -167,12 +159,11 @@ export default {
     const search = ref('')
     const searchQuery = ref('')
 
-
     const searchExecutives = computed(() => {
-      if (searchQuery.value === '') {
+      if (search.value === '') {
         return Object.values(MYSALESEXECUTIVES.value)
       } else {
-        let keyword = searchQuery.value.toLowerCase();
+        let keyword = search.value.toLowerCase();
         return Object.values(MYSALESEXECUTIVES.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
       }
     })
@@ -191,10 +182,10 @@ export default {
       isVisible.value = !isVisible.value
     }
 
-
     const totalcount = computed(()=>{
       return searchResult.value.length
     })
+
     let num1
     let num2
     const getData =  computed(() => {
@@ -258,7 +249,7 @@ export default {
     const totalPages= ref(10)
 
     const maxVal =  computed(() => {
-      return Math.ceil(totalcount/totalPages.value)
+      return Math.ceil(totalcount.value/totalPages.value)
     })
 
     return {
