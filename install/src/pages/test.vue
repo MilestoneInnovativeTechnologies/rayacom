@@ -1,6 +1,7 @@
 <template>
-  <section class="dropdown-wrapper">
+
     <div class="q-px-lg q-pt-xl q-mb-md">
+      <section class="dropdown-wrapper">
       <div @click="isVisible = !isVisible" class="search">
         <span v-if="selectedItem" >{{selectedItem.name}}</span>
         <span v-else>SEARCH</span>
@@ -23,8 +24,9 @@
           </ul>
         </div>
       </div>
-    </div>
   </section>
+    </div>
+
 
 </template>
 <script>

@@ -1,20 +1,21 @@
 <template>
     <q-page padding class="flex column q-col-gutter-y-lg">
         <q-list>
+
           <q-input
             v-model="search"
             debounce="500"
             filled
-            placeholder="Search" @click="isVisible = !isVisible"
-          >
+            placeholder="Search" @click="isVisible = !isVisible">
             <template v-slot:append><q-icon name="search" /></template>
           </q-input>
+          <section class="dropdown-wrapper">
           <div v-if="isVisible" class="dropdown-popover">
             <input v-model="searchQuery"
                    type="text"
                    outlined
                    filled
-                   placeholder="Search here" >
+                   placeholder="Enter Name" >
             <div class="options">
               <ul>
                 <li @click="selectExecutive(executive.name, executive.id)"
@@ -22,6 +23,7 @@
               </ul>
             </div>
           </div>
+          </section>
         </q-list>
 
 
@@ -341,11 +343,11 @@ export default {
           width: 100%;
           border-bottom: 1px solid lightgray;
           padding: 5px;
-          background-color: #dce6ec;
+          background-color: #fff;
           cursor: pointer;
           font-size: 16px;
           &:hover{
-            background: #70878a;
+            background: orange;
             color: #fff;
             font-weight: bold;
           }
