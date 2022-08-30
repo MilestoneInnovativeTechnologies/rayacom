@@ -157,7 +157,6 @@ export default {
     let MYSALESEXECUTIVES= ref(SALES)
     let isVisible = ref(false)
     const search = ref('')
-    const searchQuery = ref('')
 
     const searchExecutives = computed(() => {
       if (search.value === '') {
@@ -273,7 +272,7 @@ export default {
       searchExecutives,
       isVisible,
       selectExecutive,
-      searchQuery
+
     }
   },
 }
