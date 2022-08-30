@@ -26,4 +26,7 @@ export default [
     meta:{ title: 'ORDER HISTORY'}, menu: { title:'ORDER HISTORY',caption:'View the statuses of all the orders placed by your customers',icon:'history' } },
   { name: 'ADMINPROFILE', path: '/admin_profile', props: true, component: () => import('pages/admin_profilePage.vue'),
     meta:{ title: 'Profile'}, menu: { title:'PROFILE',caption:'Update your detail and stay upto date..',icon:'manage_accounts' } },
+
+  { name: 'TEST', path: '/test', props: true, component: () => import('pages/test.vue'),
+    meta:{ title: 'Profile'}, menu: { title:'TEST',caption:'test',icon:'manage_accounts' } },
 ]

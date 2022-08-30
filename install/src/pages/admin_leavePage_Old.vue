@@ -1,27 +1,19 @@
 <template>
     <q-page padding class="flex column q-col-gutter-y-lg">
+
         <q-list>
-          <q-input
-            v-model="search"
-            debounce="500"
-            filled
-            placeholder="Search" @click="isVisible = !isVisible"
-          >
-            <template v-slot:append><q-icon name="search" /></template>
-          </q-input>
-          <div v-if="isVisible" class="dropdown-popover">
-            <input v-model="searchQuery"
-                   type="text"
-                   outlined
+          <q-input v-model="search"
+                   placeholder="Search Here"
+                   debounce="600"
                    filled
-                   placeholder="Search here" >
-            <div class="options">
-              <ul>
-                <li @click="selectExecutive(executive.name, executive.id)"
-                    v-for="(executive, index) in searchExecutives" :key="`user-${index}`">{{ executive.name }}</li>
-              </ul>
-            </div>
-          </div>
+                   class="col">
+          </q-input>
+          <q-item flat bordered
+                  v-for="(i, index) in searchResult" :key="i.id"  v-if="searchcard" >
+            <q-item-section class="bg-secondary text-white" @click="notificationResult(i.id,i.name)" >
+              <div >{{ i.name }}</div>
+            </q-item-section>
+          </q-item>
         </q-list>
 
 
@@ -158,47 +150,53 @@ const leaveStore = useLeaveStore()
 
 export default {
   setup () {
-    const router = useRouter()
-    const $q = useQuasar()
-    let MYSALESEXECUTIVES= ref(SALES)
-    let isVisible = ref(false)
+    // const $q = useQuasar()
+    // const router = useRouter()
+    let MYITEMS = ref(SALES)
     const search = ref('')
-    const searchQuery = ref('')
-
-
-    const searchExecutives = computed(() => {
-      if (searchQuery.value === '') {
-        return Object.values(MYSALESEXECUTIVES.value)
-      } else {
-        let keyword = searchQuery.value.toLowerCase();
-        return Object.values(MYSALESEXECUTIVES.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
-      }
-    })
-
-    const searchResult = computed(()=>{
-      if(search.value === ''){
-        return Object.values(leaveStore.leaves).reverse()
+    let searchflag = ref('true')
+console.log(searchflag.value)
+    const searchcard =  computed(() => {
+      if ((search.value === '')  || (searchflag.value == false) ){
+        return false
       }else{
-        let keyword = search.value.toLowerCase();
-        return Object.values(leaveStore.leaves).filter(word => word.executive.name.toLowerCase().indexOf(keyword) > -1);
+        return true
       }
     })
 
-    const selectExecutive = function (executive, id){
-      search.value = executive
-      isVisible.value = !isVisible.value
+
+
+    const searchResult = computed(() => {
+      if (search.value === '') {
+        return Object.values(MYITEMS.value)
+      } else {
+        let keyword = search.value.toLowerCase();
+        return Object.values(MYITEMS.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+      }
+    })
+
+
+    const notificationResult= function (id, item) {
+      search.value = item
+      searchflag.value = false
+      return searchResult.value.length
     }
 
-
-    const totalcount = computed(()=>{
-      return searchResult.value.length
-    })
+    const router = useRouter()
+    const $q = useQuasar()
     let num1
     let num2
+    let model = ref(null)
+
+    const MYLEAVES =  computed(() => {
+      return Object.values(leaveStore.leaves).reverse()
+    })
+    let totalcount = Object.values(MYLEAVES.value).length
+
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
       num2 = (page.value-1)*totalPages.value+totalPages.value;
-      let MYKEYS =  searchResult.value.slice(num1,num2)
+      let MYKEYS =  MYLEAVES.value.slice(num1,num2)
       let newArr = MYKEYS.map((e) => {
         return { id: e.id, executive: e.executive.name,
           start_date: date.formatDate(e.start_date, 'MMMM D, YYYY '),
@@ -221,7 +219,6 @@ export default {
     let specificeDescription = ref('')
     let specificStatus = ref('')
     let specificExecutive = ref('')
-    let model = ref(null)
     const openwindow = function (id, executive, start_date, end_date, description, status) {
         specificId.value = id
         specificExecutive.value = executive
@@ -260,6 +257,7 @@ export default {
     })
 
     return {
+      MYLEAVES,
       totalcount,
       page,
       currentPage,
@@ -267,7 +265,12 @@ export default {
       maxVal,
       getData,
       openwindow,
-      specificId, specificExecutive, specificstartDate, specificendDate, specificeDescription, specificStatus,
+      specificId,
+      specificExecutive,
+      specificstartDate,
+      specificendDate,
+      specificeDescription,
+      specificStatus,
       card,
       options: [
         'Accepted','Rejected'
@@ -275,12 +278,12 @@ export default {
       model,
       updateStatus,
       positivemsg,
-      MYSALESEXECUTIVES,
+      notificationResult,
+      MYITEMS,
       search,
-      searchExecutives,
-      isVisible,
-      selectExecutive,
-      searchQuery
+      searchResult,
+      searchcard,
+      searchflag
     }
   },
 }
@@ -291,70 +294,5 @@ export default {
   width: 100%
   max-width: 250px
 </style>
-
-<style scoped lang="scss">
-.dropdown-wrapper {
-  color: #d720ac;
-  max-width: 330px;
-  .search {
-    height: 60px;
-    length:10px;
-    width: 500px;
-    border: 2px solid lightgray;
-    border-radius: 10px;
-    padding: 5px 10px;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  .dropdown-popover{
-    position: center;
-    border: 2px solid lightgray;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    max-width: 100%;
-    padding: 20px;
-    input{
-      width: 100%;
-      height: 30px;
-      border: 0.1px solid lightgray;
-      font-size: 16px;
-      padding-right: 8px;
-    }
-    .options{
-      width: 100%;
-      ul{
-        list-style: none;
-        text-align: left;
-        padding-left: 5px;
-        max-height: 180px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        //border: 1px solid lightgray;
-
-
-        li{
-          width: 100%;
-          border-bottom: 1px solid lightgray;
-          padding: 5px;
-          background-color: #dce6ec;
-          cursor: pointer;
-          font-size: 16px;
-          &:hover{
-            background: #70878a;
-            color: #fff;
-            font-weight: bold;
-          }
-        }
-      }
-    }
-  }
-}
-</style>
-
 
 
