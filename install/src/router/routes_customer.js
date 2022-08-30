@@ -2,7 +2,7 @@ export default [
   { name: 'DASHBOARD', path: '', props: true, component: () => import('pages/dashboardPage.vue'),
     meta:{ title: 'DASHBOARD' }, menu:{title: 'DASHBOARD', caption: 'Ongoing orders and attention required data at a glance', icon: 'home' } },
   { name:'home', path: 'home', component: () => import('pages/dashboardPage.vue') },
-  { name:'ITEM', path:'/item', props: true, component: () => import('pages/itemPage.vue'), meta:{ title: 'Items'} },
+  { name:'ITEM', path:'/item', props: true, component: () => import('pages/itempage.vue'), meta:{ title: 'Items'} },
   { name: 'ORDER', path: '/order', props: true, component: () => import('pages/orderPage.vue'), meta:{ title: 'Order'} },
   { name: 'REVIEWS', path: '/reviews', props: true, component: () => import('pages/reviewPage.vue'),
     meta:{ title: 'REVIEWS'}, menu:{title: 'REVIEWS', caption: 'The reviews you made on Products, Orders and on Your Sales Executives', icon: 'comment' } },
