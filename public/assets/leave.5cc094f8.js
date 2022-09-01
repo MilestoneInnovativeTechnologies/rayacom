@@ -1,1 +1,0 @@
-import{d as r}from"./index.246a4b9a.js";import{u as i}from"./master.9f86e441.js";const c=r("leave",{state:()=>({data:{}}),getters:{leaves(a){const t=i(),e=t.SALES_EXECUTIVE;return _.mapValues(a.data,s=>Object.assign({},s,{executive:_.get(e,s.executive)}))}},actions:{store(a){_.forEach(a,t=>{let e=t.id;_.has(this.data,e)||(this.data[e]={}),this.data[e]=t})}}});export{c as u};
