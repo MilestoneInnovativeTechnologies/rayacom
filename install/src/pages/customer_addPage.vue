@@ -7,6 +7,13 @@
         <q-icon name="account_box" />
       </template>
     </q-input>
+      <q-input outlined v-model="obj.email" type="email" label="Email"
+               lazy-rules
+               :rules="[val => !!val || 'Please type Email', isValidEmail ]">
+        <template v-slot:append>
+          <q-icon name="email" />
+        </template>
+      </q-input>
     <q-input outlined v-model="obj.password" type="password" label="Password"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Password',
@@ -15,15 +22,9 @@
         <q-icon name="visibility_off" />
       </template>
     </q-input>
-    <q-input outlined v-model="obj.email" type="email" label="Email"
-             lazy-rules
-             :rules="[val => !!val || 'Please type Email', isValidEmail ]">
-      <template v-slot:append>
-        <q-icon name="email" />
-      </template>
-    </q-input>
+
     <q-input outlined v-model="obj.phone" type="tel" label="Contact number"
-             mask="(###) ### - ######"
+             mask="## ##########"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Contact number']" >
       <template v-slot:append>

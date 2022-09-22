@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="flex column q-gutter-y-sm">
     <q-input v-model="executive.name" label="Name" outlined/>
-    <q-input v-model="executive.phone" label="Phone" outlined/>
+    <q-input v-model="executive.phone"  mask="## ##########" label="Phone" outlined/>
     <q-input v-model="executive.email" label="Email" outlined/>
     <q-input v-model="executive.password" label="Password" outlined/>
     <q-select v-model="executive.areas" label="Areas" multiple use-chips stack-label outlined :options="area_options" emit-value map-options />
