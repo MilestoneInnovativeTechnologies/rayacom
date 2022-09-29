@@ -34,7 +34,7 @@ class Install extends Command
         exec(self::sps('mklink','/D',public_path('static'),self::rp('public','static'))); $bar->advance();
         exec(self::sps('mklink','/H',public_path('favicon.ico'),self::rp('public','favicon.ico'))); $bar->advance();
         exec(self::sps('mklink','/D',base_path('src'),self::rp('install','src'))); $bar->advance();
-        foreach(["AREA_CUSTOMERS","AREAS","CUSTOMERS","EXECUTIVE_AREAS","ITEMS","SALES_EXECUTIVES"] as $file){
+        foreach(["ADMINS","AREA_CUSTOMERS","AREAS","CUSTOMERS","EXECUTIVE_AREAS","ITEMS","SALES_EXECUTIVES"] as $file){
             exec(self::sps('mklink','/H',storage_path(self::ps('app',$file . '.txt')),self::rp('install','storage','app',$file.'.txt')));
             $bar->advance();
         }
