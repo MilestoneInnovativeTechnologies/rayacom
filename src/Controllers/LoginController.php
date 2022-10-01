@@ -24,11 +24,13 @@ class LoginController extends Controller
             $CREDs = Property::where(['master' => $MNameId[$Master]])->whereIn('name',array_keys($credentials))->pluck('id','name')->toArray();
             $success = true; $data = null;
             foreach ($credentials as $dbField => $requestKey) {
-                $property = $CREDs[$dbField]; $value = request($requestKey);
                 if($success){
-                    $cData = MasterProperty::where(compact('property','value'))->value('data');
-                    if($data === null) $data = $cData;
-                    $success = $cData && ($data === $cData);
+                    $property = $CREDs[$dbField]; $value = request($requestKey);
+                    if($data) $success = MasterProperty::where(compact('property','value','data'))->exists();
+                    else {
+                        $data = MasterProperty::where(compact('property','value'))->value('data');
+                        if(!$data) $success = false;
+                    }
                 }
             }
             if($success && $data) {
