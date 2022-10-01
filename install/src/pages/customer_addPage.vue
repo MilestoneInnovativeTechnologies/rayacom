@@ -56,13 +56,13 @@ import { useRouter } from 'vue-router'
 const masterStore = useMasterStore()
 
 export default {
-  props: ['id'],
-  setup (props) {
+  // props: ['id'],
+  setup () {
     const $q = useQuasar()
     const router = useRouter()
-
-
-    const ID = ref(props.id)
+    console.log(history.state.id)
+    // const ID = ref(props.id)
+    const ID = ref(history.state.id)
     const AREA = ref(masterStore.AREA)
     const options = []
     const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;

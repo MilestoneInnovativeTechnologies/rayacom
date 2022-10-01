@@ -103,7 +103,8 @@ export default {
 
     const gotoAction = function (id){
       router.push({
-        name: 'CUSTOMERADD', params: { id : id }
+        // name: 'CUSTOMERADD', params: { id : id }
+        name: 'CUSTOMERADD', state: { id }
       })
     }
 

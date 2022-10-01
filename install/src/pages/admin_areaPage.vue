@@ -103,7 +103,8 @@ export default {
 
     const gotoAction = function (id){
       router.push({
-        name: 'AREAADD', params: { id : id }
+        // name: 'AREAADD', params: { id : id }
+        name: 'AREAADD', state: { id }
       })
     }
 

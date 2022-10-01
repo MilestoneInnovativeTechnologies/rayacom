@@ -20,12 +20,14 @@ const masterStore = useMasterStore()
 
 
 export default {
-  props: ['id'],
-  setup (props) {
+  // props: ['id'],
+  setup () {
     const $q = useQuasar()
     const router = useRouter()
 
-    const ID = ref(props.id)
+    // const ID = ref(props.id)
+    const ID = ref(history.state.id)
+    console.log(ID.value)
 
     const item = reactive({
       id: '', name: ''

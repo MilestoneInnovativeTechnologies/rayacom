@@ -1,13 +1,13 @@
 <template>
   <q-page padding class="flex-center column q-col-gutter-y-lg">
-    <div class="q-pa-md" style="width:80vw; max-width: 350px">
+    <div class="q-pa-md" style="width:80vw; max-width: 350px" v-if="totalcount">
 
         <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
         <q-toolbar class="bg-brand text-white shadow-2">
           <q-toolbar-title>Order History</q-toolbar-title>
         </q-toolbar>
         <q-list bordered padding class="rounded-borders"
-                v-if="totalcount">
+                >
         <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
                 @click="showitems(i.id, i.date, i.status, i.items,  i.customer)">
           <q-item-section avatar top>
@@ -142,11 +142,10 @@ export default {
     let num1
     let num2
 
-    const ORDERS =  computed(() => {
+    const MYORDERS =  computed(() => {
       return orderStore.all.reverse()
     })
 
-    let MYORDERS = ref(ORDERS.value)
     let totalcount = Object.values(MYORDERS.value).length
 
     const getOrders =  computed(() => {

@@ -12,7 +12,7 @@ export default [
     menu:{title: 'LEAVES', caption: 'Apply for new leaves or view statuses of leaves you applied', icon: 'sick'} },
   { name: 'LEAVEADD', path: '/leave_add', props: true, component: () => import('pages/leave_addPage.vue'),
     meta:{ title: 'ADD LEAVE'} },
-  { name:'SALESEXECUTIVEPROFILE', path:'/profile', component: () => import('pages/salesexecutive_profile.vue'),
+  { name:'SALESEXECUTIVEPROFILE', path:'/profile', component: () => import('pages/se_profile.vue'),
     menu:{title: 'PROFILE', caption: 'Update your details and become upto date..', icon: 'account_circle'} },
 
 

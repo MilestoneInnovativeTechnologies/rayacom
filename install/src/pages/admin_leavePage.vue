@@ -154,10 +154,12 @@ export default {
   setup () {
     const router = useRouter()
     const $q = useQuasar()
-    let MYSALESEXECUTIVES= ref(SALES)
     let isVisible = ref(false)
     const search = ref('')
 
+    const MYSALESEXECUTIVES = computed(()=>{
+      return SALES
+    })
     const searchExecutives = computed(() => {
       if (search.value === '') {
         return Object.values(MYSALESEXECUTIVES.value)

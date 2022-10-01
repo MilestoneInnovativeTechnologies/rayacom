@@ -103,7 +103,8 @@ export default {
 
     const gotoAction = function (id){
       router.push({
-        name: 'SALESEXECUTIVEADD', params: { id : id }
+        // name: 'SALESEXECUTIVEADD', params: { id : id }
+        name: 'SALESEXECUTIVEADD', state: { id }
       })
     }
 

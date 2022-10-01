@@ -217,19 +217,22 @@ export default {
     let num1
     let num2
 
-    const ORDERS =  computed(() => {
-      return orderStore.all
-    })
+    // const ORDERS =  computed(() => {
+    //   return orderStore.all
+    // })
 
+    // const MYORDERS =  computed(() => {
+    //   let newArray = []
+    //   for( let n in ORDERS.value){
+    //     checkstatus = ORDERS.value[n]['status']
+    //     if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
+    //       newArray.push(ORDERS.value[n])
+    //     }
+    //   }
+    //   return newArray.reverse();
+    // })
     const MYORDERS =  computed(() => {
-      let newArray = []
-      for( let n in ORDERS.value){
-        checkstatus = ORDERS.value[n]['status']
-        if((checkstatus != 'Delivered') && (checkstatus != 'Cancelled')){
-          newArray.push(ORDERS.value[n])
-        }
-      }
-      return newArray.reverse();
+      return Object.values(orderStore.all).filter(word => word.status  != 'Delivered' && word.status  !='Cancelled').reverse();
     })
 
     const totalcount =  computed(() => {
@@ -340,7 +343,7 @@ export default {
     })
 
     return {
-      ORDERS,
+      // ORDERS,
       MYORDERS,
       newCount, viewedCount, acceptedCount,packedCount, dispatchedCount,
       totalcount,

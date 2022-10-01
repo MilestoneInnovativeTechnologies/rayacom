@@ -65,8 +65,12 @@ export default {
     const myproducts = ref([] )
     let num1
     let num2
-    let MYITEMS = ref(ITEMS)
+    // let MYITEMS = ref(ITEMS)
     const search = ref('')
+
+    const MYITEMS = computed(()=>{
+      return ITEMS
+    })
 
     const searchResult = computed(()=>{
       if(search.value === ''){

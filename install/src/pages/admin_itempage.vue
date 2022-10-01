@@ -103,7 +103,8 @@ export default {
 
     const gotoItem = function (id){
       router.push({
-        name: 'ITEMADD', params: { id : id }
+        // name: 'ITEMADD', params: { id : id }
+        name: 'ITEMADD', state: { id }
       })
     }
 

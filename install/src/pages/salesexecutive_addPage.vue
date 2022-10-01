@@ -17,7 +17,8 @@ import {get, map, uniq} from 'lodash'
 import {useQuasar} from "quasar";
 import {useRouter} from "vue-router/dist/vue-router";
 
-const props = defineProps(['id'])
+// const props = defineProps(['id'])
+const ID = ref(history.state.id)
 
 const $q = useQuasar()
 const router = useRouter()
@@ -26,10 +27,12 @@ const masterStore = useMasterStore()
 const area_options = computed(() => map(masterStore['AREA'],({ id,name }) => ({ label:name,value:id }) ))
 
 const executives = masterStore['SALES_EXECUTIVE']
-const executive = reactive(Object.assign({},get(executives,props.id),{ areas:uniq(map(get(executives,[props.id,'areas']),({ data }) => String(data))) }))
+// const executive = reactive(Object.assign({},get(executives,props.id),{ areas:uniq(map(get(executives,[props.id,'areas']),({ data }) => String(data))) }))
+const executive = reactive(Object.assign({},get(executives,ID.value),{ areas:uniq(map(get(executives,[ID.value,'areas']),({ data }) => String(data))) }))
 
 function save(){
-  if(props.id && props.id > 0){
+  // if(ID.id && props.id > 0){
+  if(ID.value && ID.value > 0){
     post('master', 'update',executive).then(() => {
       positivemsg('Updated Successfully');
       router.push({ name: 'ADMINSALESXECUTIVEPAGE' })

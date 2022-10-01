@@ -135,12 +135,14 @@ export default {
     let num1
     let num2
 
-    const ORDERS =  computed(() => {
+    const MYORDERS =  computed(() => {
       return orderStore.all.reverse()
     })
 
-    let MYORDERS = ref(ORDERS.value)
-    let totalcount = Object.values(MYORDERS.value).length
+    const totalcount = computed(()=>{
+      return MYORDERS.value.length
+    })
+
 
     const getOrders =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
