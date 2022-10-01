@@ -121,8 +121,10 @@ export default {
     }
 
     const order = function (){
+      var products = JSON.stringify(myproducts.value)
       router.push({
-        name: 'ORDER', params: { myproducts : JSON.stringify( myproducts.value) }
+        // name: 'ORDER', params: { myproducts : JSON.stringify( myproducts.value) }
+        name: 'ORDER', state: { products }
       })
     }
 

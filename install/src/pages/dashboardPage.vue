@@ -10,7 +10,7 @@
 
     <q-list bordered padding class="rounded-borders" style="width:80vw; max-width: 350px">
 <!--      <q-item-label header>{{ i.date }}</q-item-label>-->
-      <q-item-label header v-if="totalcount === 0">No Order</q-item-label>
+      <q-item-label header v-if="totalcount === 0">The best products is waiting to be order. So start shopping now.</q-item-label>
       <q-item-label header v-else>Dashboard</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
               @click="showitems(i.id, i.date, i.status, i.items)">

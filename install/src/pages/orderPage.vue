@@ -85,11 +85,14 @@ import { post } from "boot/axios";
 const orderStore = useOrderStore()
 
 export default {
-  setup (props) {
+  // setup (props) {
+  setup () {
     const $q = useQuasar()
     const $route = useRoute()
     const router = useRouter()
-    const myproducts = ref(JSON.parse($route.params.myproducts))
+    // console.log(history.state.products)
+    // const myproducts = ref(JSON.parse($route.params.myproducts))
+    const myproducts = ref(JSON.parse(history.state.products))
     const notes = ref('')
 
     const removeItem = function(){

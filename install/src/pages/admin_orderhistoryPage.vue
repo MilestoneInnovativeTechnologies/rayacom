@@ -1,8 +1,11 @@
 <template>
   <q-page padding class="flex-center column q-col-gutter-y-lg">
     <div class="q-pa-md" style="width:80vw; max-width: 350px">
-      <q-toolbar class="bg-brand text-white shadow-2">
+      <q-toolbar class="bg-brand text-white shadow-2" v-if="totalcount">
         <q-toolbar-title>Order History</q-toolbar-title>
+      </q-toolbar>
+      <q-toolbar class="bg-grey-5 text-white shadow-2" v-else>
+        <q-toolbar-title>No records...</q-toolbar-title>
       </q-toolbar>
 
       <q-list bordered padding class="rounded-borders"
