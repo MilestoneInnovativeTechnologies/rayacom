@@ -47,7 +47,7 @@
               <q-item-section avatar>
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
                 <q-item-label lines="2"></q-item-label>
                 <q-item-label caption lines="3">{{ specificcreateDate }}</q-item-label>
@@ -55,10 +55,10 @@
             </q-item>
             <q-separator/>
             <q-item>
-              <q-item-section top class="col-1 gt-sm">
+              <q-item-section avatar>
                 <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-4 gt-sm">
+              <q-item-section top >
                 <q-item-label class="q-mt-sm">Type</q-item-label>
               </q-item-section>
               <q-item-section top>
@@ -66,10 +66,10 @@
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section class="col-1 gt-sm">
+              <q-item-section avatar>
                 <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-4 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm">Comment</q-item-label>
               </q-item-section>
               <q-item-section top>
@@ -77,8 +77,8 @@
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
+              <q-item-section avatar>
+                <q-item-label class="q-mt-sm text-weight-medium">&nbsp;</q-item-label>
               </q-item-section>
               <q-item-section class="col-3 q-pa-md q-gutter-xl">
                 <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>
@@ -86,8 +86,7 @@
                 <q-badge color="primary" v-else>Unknown</q-badge>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm">
-                </q-item-label>
+                <q-item-label class="q-mt-sm">&nbsp;</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>

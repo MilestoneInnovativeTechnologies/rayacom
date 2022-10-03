@@ -34,12 +34,12 @@ function save(){
   // if(ID.id && props.id > 0){
   if(ID.value && ID.value > 0){
     post('master', 'update',executive).then(() => {
-      positivemsg('Updated Successfully');
+      positivemsg('You have updated a salesexecutive successfully');
       router.push({ name: 'ADMINSALESXECUTIVEPAGE' })
     })
   } else {
     post('executive', 'store',executive).then(() => {
-      positivemsg('Added a new Sales Executive');
+      positivemsg('You have added a new SalesExecutive successfully');
       router.push({ name: 'ADMINSALESXECUTIVEPAGE' })
     })
   }

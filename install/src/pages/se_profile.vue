@@ -39,7 +39,7 @@ const onSubmit = function(message)
     color: 'green',
     textColor: 'white',
     icon: 'cloud_done',
-    message: 'Your Profile Successfully Updated',
+    message: 'Your profile have updated successfully',
     position:'top-right',
 
   })

@@ -27,6 +27,6 @@ export default [
   { name: 'ADMINPROFILE', path: '/admin_profile', props: true, component: () => import('pages/admin_profilePage.vue'),
     meta:{ title: 'Profile'}, menu: { title:'PROFILE',caption:'Update your detail and stay upto date..',icon:'manage_accounts' } },
 
-  { name: 'TEST', path: '/test', props: true, component: () => import('pages/test.vue'),
-    meta:{ title: 'Profile'}, menu: { title:'DEVELOPMENT PAGE',caption:'Testing',icon:'manage_accounts' } },
+  // { name: 'TEST', path: '/test', props: true, component: () => import('pages/test.vue'),
+  //   meta:{ title: 'Profile'}, menu: { title:'DEVELOPMENT PAGE',caption:'Testing',icon:'manage_accounts' } },
 ]

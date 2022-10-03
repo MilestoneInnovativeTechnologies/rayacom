@@ -3,7 +3,7 @@
 
     <q-list bordered>
       <q-item clickable class="text-subtitle2 bg-deep-orange-10 text-white">
-        <q-item-section class="text-white"><q-item-label lines="1">#</q-item-label></q-item-section>
+        <q-item-section class="text-white" avatar><q-item-label lines="1">#</q-item-label></q-item-section>
         <q-item-section><q-item-label lines="1">Item</q-item-label></q-item-section>
 <!--        <q-item-section class="col-3 gt-sm">-->
         <q-item-section>
@@ -12,8 +12,8 @@
         <q-item-section class="text-white" side></q-item-section>
       </q-item>
       <q-item clickable v-for="(i, index) in myproducts" :key="i.id">
-        <q-item-section class="text-black" side>
-          <q-item-label lines="1">{{index+1}}</q-item-label>
+        <q-item-section class="text-black" avatar>
+          <q-item-label>{{index+1}}</q-item-label>
         </q-item-section>
          <q-item-section>
            <q-item-label lines="1">{{ i.itemname }}</q-item-label>
@@ -40,8 +40,11 @@
       </q-item>
       <q-separator />
       <q-item clickable class="text-subtitle2">
+        <q-item-section avatar>&nbsp;</q-item-section>
         <q-item-section>Total Items:</q-item-section>
-        <q-item-section>{{ myproducts.length }}</q-item-section>
+        <q-item-section>
+          <q-item-label>{{ myproducts.length }}</q-item-label>
+        </q-item-section>
       </q-item>
       <q-separator />
       <q-item clickable class="text-subtitle2">
@@ -122,7 +125,7 @@ export default {
         post('order','store',{ date:formattedString, narration:notes.value, items:myproducts.value })
           // .then(console.log)
         myproducts.length = 0
-        positivemsg('Order saved Successfully')
+        positivemsg('Your Order have saved successfully')
         router.push({
           name: 'DASHBOARD'
         })

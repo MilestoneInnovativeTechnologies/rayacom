@@ -104,10 +104,10 @@ export default {
         newObj.area = obj.area.value
         if(ID.value > 0){
           post('master','update', newObj)
-          msg = 'Your Item have updated successfully'
+          msg = 'Your have updated a customer successfully'
         }else{
           post('customer', 'store', newObj)
-          msg = 'Your have added a new item successfully'
+          msg = 'Your have added a new customer successfully'
         }
         positivemsg(msg)
         router.push({

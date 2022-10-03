@@ -63,7 +63,7 @@
               <q-item-section avatar>
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label lines="1">{{ specificDate }}</q-item-label>
                 <q-item-label>{{ specificCustomer }}</q-item-label>
                 <q-item-label caption>
@@ -82,10 +82,10 @@
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section top class="col-1 gt-sm">
+              <q-item-section avatar>
                 <q-item-label class="q-mt-sm text-weight-medium">#</q-item-label>
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section tops>
                 <q-item-label class="q-mt-sm text-weight-medium">Item</q-item-label>
               </q-item-section>
               <q-item-section top>
@@ -94,10 +94,10 @@
             </q-item>
             <q-separator/>
             <q-item v-for="(j, ind) in specificItems">
-              <q-item-section top class="col-1 gt-sm">
+              <q-item-section avatar>
                 <q-item-label class="q-mt-sm">{{ ind + 1 }}</q-item-label>
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm">{{ j['item']['name'] }}</q-item-label>
               </q-item-section>
               <q-item-section top>
@@ -106,10 +106,10 @@
             </q-item>
             <q-separator/>
             <q-item>
-              <q-item-section top class="col-1 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
+              <q-item-section top>
+                <q-item-label class="q-mt-sm text-weight-medium"> &nbsp;</q-item-label>
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm text-weight-medium">Total Items</q-item-label>
               </q-item-section>
               <q-item-section top>
