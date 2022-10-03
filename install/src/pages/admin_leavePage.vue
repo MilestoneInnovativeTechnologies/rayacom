@@ -81,32 +81,32 @@
             </q-item>
             <q-separator/>
             <q-item>
-              <q-item-section top class="col-1 gt-sm">
-                <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+              <q-item-section avatar>
+                <q-item-label><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-3 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm">Start Date</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm flex-center text-center">{{ specificstartDate }}</q-item-label>
+                <q-item-label class="q-mt-sm flex-center text-left">{{ specificstartDate }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section class="col-1 gt-sm">
-                <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+              <q-item-section avatar>
+                <q-item-label><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-3 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm">End Date</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm flex-center text-center">{{ specificendDate}}</q-item-label>
+                <q-item-label class="q-mt-sm flex-center text-left">{{ specificendDate}}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section class="col-1 gt-sm">
-                <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+              <q-item-section avatar>
+                <q-item-label><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-3 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm">Description</q-item-label>
               </q-item-section>
               <q-item-section top>
@@ -114,10 +114,10 @@
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section top class="col-2 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label class="q-mt-sm text-weight-medium">
                   <q-select filled  v-model="model" :options="options" label="Status"
                             @update:model-value="updateStatus()"  />
