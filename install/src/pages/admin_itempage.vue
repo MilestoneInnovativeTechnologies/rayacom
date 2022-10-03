@@ -66,8 +66,10 @@ import { computed, ref  } from 'vue'
 import { useMasterStore } from 'stores/master'
 import { useRouter } from 'vue-router'
 const master = useMasterStore()
+
 export default {
   setup () {
+
     const router = useRouter()
     let num1
     let num2

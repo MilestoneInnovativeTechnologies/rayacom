@@ -149,7 +149,6 @@ const master = useMasterStore()
 const SALES = master.SALES_EXECUTIVE
 const leaveStore = useLeaveStore()
 
-
 export default {
   setup () {
     const router = useRouter()
