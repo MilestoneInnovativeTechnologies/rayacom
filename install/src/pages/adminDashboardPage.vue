@@ -131,20 +131,20 @@
 
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="card">
-        <q-card style="width: 400px">
-          <q-list bordered class="rounded-borders" style="min-width: 350px">
+        <q-card style="min-width: 400px;">
+          <q-list bordered class="rounded-borders">
             <q-item>
               <q-item-section avatar>
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label lines="1">{{ specificCustomer }}</q-item-label>
                 <q-item-label lines="2">{{ specificDate }}</q-item-label>
                 <q-item-label caption lines="3">
                   <span class="text-weight-bold">{{ specificId }}</span>
                 </q-item-label>
               </q-item-section>
-              <q-item-section side >
+              <q-item-section side>
                 <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
                 <q-badge color="secondary" v-else-if ="model === 'Viewed'" >{{ model }}</q-badge>
                 <q-badge color="accent" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
@@ -156,23 +156,23 @@
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section avatar>
-                <q-item-label class="q-mt-sm text-weight-medium">#</q-item-label>
+              <q-item-section top>
+                <q-item-label class="text-weight-medium">#</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium">Item</q-item-label>
+                <q-item-label class="text-weight-medium">Item</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium text-center">Quantity</q-item-label>
+                <q-item-label class="text-weight-medium text-center">Quantity</q-item-label>
               </q-item-section>
             </q-item>
             <q-separator/>
             <q-item v-for="(j, ind) in specificItems">
-              <q-item-section avatar>
-                <q-item-label class="q-mt-sm">{{ ind + 1 }}</q-item-label>
+              <q-item-section avatar top>
+                <q-item-label>{{ ind + 1 }}</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm">{{ j['item']['name'] }}</q-item-label>
+                <q-item-label>{{ j['item']['name'] }}</q-item-label>
               </q-item-section>
               <q-item-section top>
                 <q-item-label class="q-mt-sm flex-center text-center">{{ j.quantity }}</q-item-label>
@@ -181,32 +181,20 @@
             <q-separator/>
             <q-item>
               <q-item-section avatar>
-                <q-item-label class="q-mt-sm text-weight-medium">&nbsp;</q-item-label>
+                <q-item-label>&nbsp;</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium">Total Items</q-item-label>
+                <q-item-label class="text-weight-medium">Total Items</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium text-center">{{ specificItems.length }}</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item>
-              <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
-              </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
-                <q-item-label class="q-mt-sm text-weight-medium">
-                  <q-select filled  v-model="model" :options="options" label="Status"
-                            @update:model-value="updateStatus()"  />
-                </q-item-label>
-              </q-item-section>
-              <q-item-section top>
-                <q-item-label class="q-mt-sm">
-                </q-item-label>
+                <q-item-label class="text-weight-medium text-center">{{ specificItems.length }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
+          <q-card-section>
+          <q-select filled  v-model="model" :options="options" label="Status"
+                    @update:model-value="updateStatus()"/>
+          </q-card-section>
           <q-card-actions align="right">
             <q-btn flat label="Close" color="negative"  v-close-popup  />
           </q-card-actions>

@@ -42,7 +42,7 @@
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="card">
         <q-card class="my-card" style="max-width: 400px">
-          <q-list bordered class="rounded-borders" style="min-width: 350px">
+          <q-list bordered class="rounded-borders">
             <q-item>
               <q-item-section avatar>
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
@@ -56,13 +56,13 @@
             <q-separator/>
             <q-item>
               <q-item-section avatar>
-                <q-item-label avatar><q-icon color="primary" name="lens" /></q-item-label>
+                <q-item-label><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
               <q-item-section top >
-                <q-item-label class="q-mt-sm">Type</q-item-label>
+                <q-item-label>Type</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm flex-center text-left">{{ specificType }}</q-item-label>
+                <q-item-label class="flex-center text-left">{{ specificType }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
@@ -78,7 +78,7 @@
             </q-item>
             <q-item>
               <q-item-section avatar>
-                <q-item-label class="q-mt-sm text-weight-medium">&nbsp;</q-item-label>
+                <q-item-label class="text-weight-medium">&nbsp;</q-item-label>
               </q-item-section>
               <q-item-section class="col-3 q-pa-md q-gutter-xl">
                 <q-badge color="blue" v-if="specificStatus === 'New'" >{{ specificStatus }}</q-badge>

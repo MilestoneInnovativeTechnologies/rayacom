@@ -54,7 +54,7 @@
   <div class="q-pa-md q-gutter-sm">
     <q-dialog v-model="card">
       <q-card class="my-card" style="width: 400px">
-        <q-list bordered class="rounded-borders" style="min-width: 350px">
+        <q-list bordered class="rounded-borders">
         <q-item>
           <q-item-section avatar>
             <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />

@@ -46,7 +46,7 @@
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="card">
         <q-card class="my-card" style="max-width: 400px">
-          <q-list bordered class="rounded-borders" style="min-width: 350px">
+          <q-list bordered class="rounded-borders">
             <q-item>
               <q-item-section avatar>
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
@@ -63,26 +63,26 @@
                 <q-item-label><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm">Type</q-item-label>
+                <q-item-label>Type</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm flex-center text-left">{{ specificType }}</q-item-label>
+                <q-item-label class="flex-center text-left">{{ specificType }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
-              <q-item-section avatar>
+              <q-item-section avatar top>
                 <q-item-label><q-icon color="primary" name="lens" /></q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm">Comment</q-item-label>
+                <q-item-label>Comment</q-item-label>
               </q-item-section>
               <q-item-section top>
-                <q-item-label class="q-mt-sm flex-center text-left">{{ specificComment }}</q-item-label>
+                <q-item-label class="flex-center text-left">{{ specificComment }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section avatar>
-                <q-item-label class="q-mt-sm text-weight-medium">&nbsp;</q-item-label>
+                <q-item-label>&nbsp;</q-item-label>
               </q-item-section>
               <q-item-section top>
                 <q-item-label>
@@ -92,17 +92,6 @@
                 </q-item-label>
               </q-item-section>
             </q-item>
-<!--            <q-item>-->
-<!--              <q-item-section top class="col-2 gt-sm">-->
-<!--                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>-->
-<!--              </q-item-section>-->
-<!--              <q-item-section top class="col-7 gt-sm">-->
-<!--                <q-item-label class="q-mt-sm text-weight-medium">-->
-<!--                  <q-select filled  v-model="model" :options="options" label="Status"-->
-<!--                            @update:model-value="updateStatus()"  />-->
-<!--                </q-item-label>-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
           </q-list>
           <q-card-actions align="right">
             <q-btn flat label="Close" color="negative"  v-close-popup  />

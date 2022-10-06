@@ -61,17 +61,17 @@
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="card">
         <q-card class="my-card" style="max-width: 400px">
-          <q-list bordered class="rounded-borders" style="min-width: 350px">
+          <q-list bordered class="rounded-borders">
             <q-item>
               <q-item-section avatar>
                 <q-avatar icon="fact_check" color="brand" text-color="white" />
               </q-item-section>
-              <q-item-section top class="col-7 gt-sm">
+              <q-item-section top>
                 <q-item-label lines="1">{{ specificExecutive }}</q-item-label>
                 <q-item-label lines="2"></q-item-label>
                 <q-item-label caption lines="3">{{ specificId }}</q-item-label>
               </q-item-section>
-              <q-item-section side >
+              <q-item-section side>
                 <q-badge color="blue" v-if="model === 'New'" >{{ model }}</q-badge>
                 <q-badge color="secondary" v-else-if ="model === 'Progress'" >{{ model }}</q-badge>
                 <q-badge color="positive" v-else-if="model === 'Accepted'" >{{ model }}</q-badge>
@@ -113,22 +113,11 @@
                 <q-item-label class="q-mt-sm flex-center text-left">{{ specificeDescription }}</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item>
-              <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium"></q-item-label>
-              </q-item-section>
-              <q-item-section top>
-                <q-item-label class="q-mt-sm text-weight-medium">
-                  <q-select filled  v-model="model" :options="options" label="Status"
-                            @update:model-value="updateStatus()"  />
-                </q-item-label>
-              </q-item-section>
-              <q-item-section top>
-                <q-item-label class="q-mt-sm">
-                </q-item-label>
-              </q-item-section>
-            </q-item>
           </q-list>
+          <q-card-section>
+            <q-select filled  v-model="model" :options="options" label="Status"
+                      @update:model-value="updateStatus()"  />
+          </q-card-section>
           <q-card-actions align="right">
             <q-btn flat label="Close" color="negative"  v-close-popup  />
           </q-card-actions>
