@@ -57,7 +57,6 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useMasterStore } from 'stores/master'
 const master = useMasterStore()
-const ITEMS = master.ITEM
 export default {
   setup () {
     const $q = useQuasar()
@@ -65,11 +64,11 @@ export default {
     const myproducts = ref([] )
     let num1
     let num2
-    // let MYITEMS = ref(ITEMS)
+
     const search = ref('')
 
     const MYITEMS = computed(()=>{
-      return ITEMS
+      return master.ITEM
     })
 
     const searchResult = computed(()=>{

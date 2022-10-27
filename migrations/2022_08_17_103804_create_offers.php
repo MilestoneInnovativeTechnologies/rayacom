@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('minimum_quantity');
             $table->integer('offer_quantity');
             $table->enum('type',['Public','Private'])->default('Public');
-            $table->string('customers')->nullable();
+            $table->text('customers')->nullable();
             $table->enum('status',['New','Approved','Published','Inactive'])->default('New');
             $table->timestamps();
         });

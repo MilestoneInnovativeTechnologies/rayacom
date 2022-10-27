@@ -8,6 +8,13 @@ export default [
     meta:{ title: 'REVIEWS'}, menu: { title:'REVIEWS',caption:'View the reviews that customers made on Products, Orders and Sales Executives',icon:'comment_bank' } },
   { name: 'LEAVES', path: '/admin_leave', props: true, component: () => import('pages/admin_leavePage.vue'),
     meta:{ title: 'LEAVES'}, menu: { title:'LEAVES',caption:'Take actions on leaves that your sales executives applies',icon:'sick' } },
+
+  { name: 'OFFERS', path: '/admin_offer', props: true, component: () => import('pages/admin_offerPage.vue'),
+    meta:{ title: 'OFFERS'}, menu: { title:'OFFERS',caption:'Create Offers ',icon:'redeem' } },
+  { name: 'OFFERADD', path: '/offer_add', props: true, component: () => import('pages/offer_addPage.vue'),
+    meta:{ title: 'OFFER'} },
+
+
   { name: 'ADMINAREA', path: '/admin_area', props: true, component: () => import('pages/admin_areaPage.vue'),
     meta:{ title: 'AREA'}, menu: { title:'AREA',caption:'Add or update areas where you serve',icon:'area_chart' } },
   { name: 'AREAADD', path: '/area_add', props: true, component: () => import('pages/area_addPage.vue'),
