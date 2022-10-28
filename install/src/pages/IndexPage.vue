@@ -20,6 +20,10 @@
           <q-item-section>LEAVES</q-item-section>
           <q-item-section side class="text-secondary text-bold">{{ size(leaveStore.leaves) }}</q-item-section>
         </q-item>
+        <q-item>
+          <q-item-section>OFFERS</q-item-section>
+          <q-item-section side class="text-secondary text-bold">{{ size(offerStore.offers) }}</q-item-section>
+        </q-item>
       </q-list>
     </q-card>
   </q-page>
@@ -27,13 +31,15 @@
 
 <script setup>
 import { useMasterStore } from 'stores/master'
-const master = useMasterStore()
 import { useOrderStore } from 'stores/order'
 import { useReviewStore } from 'stores/review'
 import { useLeaveStore } from 'stores/leave'
+import { useOfferStore } from 'stores/offers'
+const master = useMasterStore()
 const orderStore = useOrderStore()
 const leaveStore = useLeaveStore()
 const reviewStore = useReviewStore()
+const offerStore = useOfferStore()
 const master_master = _.map(MASTERS);
 const size = _.size
 </script>

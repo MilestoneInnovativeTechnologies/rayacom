@@ -25,6 +25,7 @@ class PostController extends Controller
         $data['ORDER'] = OrderController::orders();
         $data['REVIEW'] = ReviewController::reviews();
         $data['LEAVE'] = LeaveController::leaves();
+        $data['OFFER'] = OfferController::offers();
         if(request()->header('Latest-Date')){
             $latest_date = request()->header('Latest-Date',now()->toDateTimeString()) ?: now()->toDateTimeString();
             $data = array_merge($data,$this->latest_masters($latest_date));

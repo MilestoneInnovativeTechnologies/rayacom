@@ -3,6 +3,7 @@ import { useMasterStore } from "stores/master";
 import { useOrderStore } from "stores/order";
 import { useLeaveStore } from "stores/leave";
 import { useReviewStore } from "stores/review";
+import { useOfferStore } from "stores/offers";
 
 export default boot(async (ctx) => {
   if(typeof AssetWorker === 'undefined') {
@@ -14,6 +15,7 @@ export default boot(async (ctx) => {
       const orderStore = useOrderStore();
       const leaveStore = useLeaveStore()
       const reviewStore = useReviewStore()
+      const offerStore = useOfferStore()
       switch (store){
         case 'master':
           masterStore[action](payload);
@@ -26,6 +28,9 @@ export default boot(async (ctx) => {
           break;
         case 'review':
           reviewStore[action](payload);
+          break;
+        case 'offer':
+          offerStore[action](payload);
           break;
       }
     }
