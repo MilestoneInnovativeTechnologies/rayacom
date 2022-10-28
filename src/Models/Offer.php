@@ -13,12 +13,14 @@ class Offer extends Model
 
     protected static function booted() {
         parent::booted();
+        static::creating(function ($model) {
+            $model->created_at = session('auth_data');
+        });
         static::saved(function(){
             $max = DB::table('offers')->select(DB::raw('max(updated_at) max'))->value('max');
             Cache::forever(rayacom_config('cache_key.db_offers_last_updated_time'),$max);
         });
     }
-
     public function item(){
         return $this->belongsTo(Item::class,'item','id');
     }
