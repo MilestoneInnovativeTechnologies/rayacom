@@ -23,7 +23,7 @@
       </template>
     </q-input>
 
-    <q-input outlined v-model="obj.phone" type="tel" label="Contact number"
+    <q-input outlined v-model="obj.phone"  label="Contact number"
              mask="## ##########"
              lazy-rules
              :rules="[ val => val && val.length > 0 || 'Please type Contact number']" >
@@ -60,8 +60,7 @@ export default {
   setup () {
     const $q = useQuasar()
     const router = useRouter()
-    console.log(history.state.id)
-    // const ID = ref(props.id)
+    // console.log(history.state.id)
     const ID = ref(history.state.id)
     const AREA = ref(masterStore.AREA)
     const options = []

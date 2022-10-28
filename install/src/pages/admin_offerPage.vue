@@ -28,8 +28,17 @@
       <q-list>
         <q-item class="bg-brand text-white text-bold">
           <q-item-section>
-            <q-item-label>{{ i.name }}</q-item-label>
+            <q-item-label>{{ i.item.name }}</q-item-label>
+            <q-item-label class="text-subtitle2">Qty: {{ i.minimum_quantity }}</q-item-label>
+            <q-item-label>
+              <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
+              <q-badge color="secondary" v-else-if ="i.status === 'Approved'" >{{ i.status }}</q-badge>
+              <q-badge color="positive" v-else-if="i.status === 'Published'" >{{ i.status }}</q-badge>
+              <q-badge color="accent" v-else-if="i.status === 'Inactive'" >{{ i.status }}</q-badge>
+              <q-badge color="dark" v-else>Unknown</q-badge>
+            </q-item-label>
           </q-item-section>
+
           <q-item-section avatar>
             <q-btn flat round color="primary" icon="mode_edit" @click="gotoAction(i.id)">
             <q-tooltip> Edit </q-tooltip>   </q-btn>
@@ -39,9 +48,6 @@
     </q-card>
   </div>
 
-<!--  <div class="q-mt-sm">-->
-<!--    {{myproducts}}-->
-<!--  </div>-->
 
   <div class="q-pa-lg flex flex-center" v-if="myarrayLength">
     <q-pagination
@@ -63,30 +69,24 @@
 
 <script>
 import { computed, ref  } from 'vue'
-import { useMasterStore } from 'stores/master'
+import { useOfferStore } from 'stores/offers'
 import { useRouter } from 'vue-router'
-const master = useMasterStore()
+const offerStore = useOfferStore()
 export default {
   setup () {
     const router = useRouter()
     let num1
     let num2
 
-    const MYARRAY =  computed(() => {
-      return  master.AREA
-    })
-
     const search = ref('')
-
     const searchResult = computed(()=>{
       if(search.value === ''){
-        return Object.values(MYARRAY.value)
+        return Object.values(offerStore.offers)
       }else{
         let keyword = search.value.toLowerCase();
-        return Object.values(MYARRAY.value).filter(word => word.name.toLowerCase().indexOf(keyword) > -1);
+        return Object.values(offerStore.offers).filter(word => word.item.name.toLowerCase().indexOf(keyword) > -1);
       }
     })
-
     const myarrayLength = computed(()=>{
       return searchResult.value.length
     })
@@ -107,7 +107,6 @@ export default {
       })
     }
 
-
     let page = ref(1)
     let currentPage= ref(1)
     const totalPages= ref(10)
@@ -117,7 +116,6 @@ export default {
     })
 
     return {
-      MYARRAY,
       search,
       searchResult,
       myarrayLength,

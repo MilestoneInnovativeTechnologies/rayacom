@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Milestone\Elements\Models\Customers;
 use Milestone\Rayacom\Models\Offer;
 
 
@@ -14,6 +15,11 @@ class OfferController extends Controller
     public function store(){
         $data = new Offer(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'status']));
         $data->save();
+        return $data;
+    }
+    public function update(){
+        $data = Offer::find(request('id'))
+                ->update(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'status']));
         return $data;
     }
 

@@ -7,21 +7,23 @@
     >
 
     <q-select outlined v-model="obj.item" :options="product_options" label="Product"
+              type="number"
               lazy-rules
               :rules="[val => val !== null && val !== '' || 'Please select a Product',]" />
-    <q-input outlined label="Quantity" v-model="obj.minimum_quantity" type="text"
+    <q-input outlined label="Quantity" v-model="obj.minimum_quantity"
+             type="number"
              lazy-rules
              mask="##########"
-             :rules="[ val => val && val.length > 0 || 'Please type Offer']" >
+             :rules="[ val => val && val.length > 0 || 'Please type Quantity']" >
     </q-input>
-    <q-input outlined label="Offer Quantity" v-model="obj.offer_quantity" type="text"
+    <q-input outlined label="Offer Quantity" v-model="obj.offer_quantity"
              lazy-rules
              mask="##########"
-             :rules="[ val => val && val.length > 0 || 'Please type Offer']" >
+             :rules="[ val => val && val.length > 0 || 'Please type Quantity']" >
     </q-input>
     <div class="q-pa-sm flex flex-left">
       <q-radio name="radio" v-model="obj.type" val="Public" label="Public" color="secondary" />
-      <q-radio name="radio" v-model="obj.type" val="Private" label="Private " color="secondary" />
+      <q-radio name="radio" v-model="obj.type" val="Private" label="Private" color="secondary" />
     </div>
     <q-select v-model="item.customers" label="Customers" multiple use-chips stack-label outlined
               :options="customer_options" emit-value map-options v-if="obj.type === 'Private'"/>
@@ -36,14 +38,17 @@
 <script setup>
 import { post } from 'boot/axios'
 import { useMasterStore } from 'stores/master'
+import { useOfferStore } from 'stores/offers'
 import {computed, reactive, ref, watchEffect} from "vue";
 import {get, map, uniq} from 'lodash'
 import { useQuasar } from "quasar";
 import { useRouter } from 'vue-router'
+
 const masterStore = useMasterStore()
+const offerStore = useOfferStore()
+
 const customer_options = computed(() => map(masterStore['CUSTOMER'],({ id,name }) => ({ label:name,value:id }) ))
 const product_options = computed(() => map(masterStore['ITEM'],({ id,name }) => ({ label:name,value:id }) ))
-const ITEMS = ref(masterStore.ITEM)
 
 const $q = useQuasar()
 const router = useRouter()
@@ -55,15 +60,15 @@ const obj = reactive({
 
 watchEffect(()=>{
   if(ID.value == 0){
-    obj.id = obj.item = obj.minimum_quantity = obj.offer_quantity =  obj.customers  =  ''
-    obj.type = 'Public'
+    obj.id = obj.item = obj.minimum_quantity = obj.offer_quantity = obj.type =  obj.customers  =  ''
     obj.status = 'Approved'
   }else{
-    let aOFFER = masterStore.AREA[ID.value]
+    let aOFFER = offerStore.offers[ID.value]
+    console.log(aOFFER)
     obj.id = ID.value
-    obj.item = aOFFER.item
-    obj.minimum_quantity = aOFFER.minimum_quantity
-    obj.offer_quantity = aOFFER.offer_quantity
+    obj.item = { label: aOFFER.item.name, value: aOFFER.item.id }
+    obj.minimum_quantity = String(aOFFER.minimum_quantity)
+    obj.offer_quantity = String(aOFFER.offer_quantity)
     obj.type = aOFFER.type
     obj.status = aOFFER.status
   }
@@ -83,7 +88,7 @@ function onSubmit () {
   post('offer', fun, newObj)
   positivemsg(msg)
   router.push({
-    name: 'ADMINOFFER'
+    name: 'ADMINOFFERS'
   })
 }
 function  onReset () {

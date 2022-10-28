@@ -9,7 +9,7 @@ export default [
   { name: 'LEAVES', path: '/admin_leave', props: true, component: () => import('pages/admin_leavePage.vue'),
     meta:{ title: 'LEAVES'}, menu: { title:'LEAVES',caption:'Take actions on leaves that your sales executives applies',icon:'sick' } },
 
-  { name: 'OFFERS', path: '/admin_offer', props: true, component: () => import('pages/admin_offerPage.vue'),
+  { name: 'ADMINOFFERS', path: '/admin_offer', props: true, component: () => import('pages/admin_offerPage.vue'),
     meta:{ title: 'OFFERS'}, menu: { title:'OFFERS',caption:'Create Offers ',icon:'redeem' } },
   { name: 'OFFERADD', path: '/offer_add', props: true, component: () => import('pages/offer_addPage.vue'),
     meta:{ title: 'OFFER'} },
