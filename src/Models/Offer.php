@@ -14,7 +14,7 @@ class Offer extends Model
     protected static function booted() {
         parent::booted();
         static::creating(function ($model) {
-            $model->created_at = session('auth_data');
+            $model->created_by = session('auth_data');
         });
         static::saved(function(){
             $max = DB::table('offers')->select(DB::raw('max(updated_at) max'))->value('max');

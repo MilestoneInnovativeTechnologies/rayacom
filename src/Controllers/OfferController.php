@@ -11,11 +11,11 @@ use Milestone\Rayacom\Models\Offer;
 
 class OfferController extends Controller
 {
-  public function store(){
-    $data = new Review(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'Approved']));
-    $data->save();
-    return $data;
-  }
+    public function store(){
+        $data = new Offer(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'status']));
+        $data->save();
+        return $data;
+    }
 
     public static function offers(){
         $latest_date = request()->header('Latest-Date','2000-01-01 00:00:01') ?: '2000-01-01 00:00:01';
