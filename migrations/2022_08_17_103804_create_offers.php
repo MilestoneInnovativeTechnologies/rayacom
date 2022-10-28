@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('type',['Public','Private'])->default('Public');
             $table->text('customers')->nullable();
             $table->enum('status',['New','Approved','Published','Inactive'])->default('New');
+            $table->bigInteger('created_by');
             $table->timestamps();
         });
     }

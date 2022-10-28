@@ -12,7 +12,7 @@ use Milestone\Rayacom\Models\Offer;
 class OfferController extends Controller
 {
   public function store(){
-    $data = new Review(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'status']));
+    $data = new Review(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'Approved']));
     $data->save();
     return $data;
   }

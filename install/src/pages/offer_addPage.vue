@@ -18,7 +18,7 @@
     </div>
     <q-select v-model="model2" label="Customers" multiple use-chips stack-label outlined
               :options="customer_options" emit-value map-options v-if="model3 === 'Private'"/>
-    <q-select outlined v-model="model" :options="option" label="Status" />
+<!--    <q-select outlined v-model="model" :options="option" label="Status" />-->
     <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />
   </q-page>
 </template>
@@ -35,30 +35,28 @@ const customer_options = computed(() => map(masterStore['CUSTOMER'],({ id,name }
 const product_options = computed(() => map(masterStore['ITEM'],({ id,name }) => ({ label:name,value:id }) ))
 const ITEMS = ref(masterStore.ITEM)
 
-
 const $q = useQuasar()
 const router = useRouter()
 const ID = ref(history.state.id)
 
+const item = reactive({
+  id: '', name: ''
+})
 
-    const item = reactive({
-      id: '', name: ''
-    })
-
-    watchEffect(()=>{
-      if(ID.value == 0){
-        item.id = item.name = ''
-      }else{
-        let aITEM = masterStore.AREA[ID.value]
-        item.id = ID.value
-        item.name = aITEM.name
-      }
-    })
+watchEffect(()=>{
+  if(ID.value == 0){
+    item.id = item.name = ''
+  }else{
+    let aITEM = masterStore.AREA[ID.value]
+    item.id = ID.value
+    item.name = aITEM.name
+  }
+})
 let model = ref(null)
 let model1 = ref(null)
 let model2 = ref(null)
 let model3 = ref(null)
-const option =  ['New','Approved','Published','Inactive']
+// const option =  ['New','Approved','Published','Inactive']
 
 let msg
 let fun
