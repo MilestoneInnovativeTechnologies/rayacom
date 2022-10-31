@@ -25,7 +25,7 @@
       <q-radio name="radio" v-model="obj.type" val="Public" label="Public" color="secondary" />
       <q-radio name="radio" v-model="obj.type" val="Private" label="Private" color="secondary" />
     </div>
-    <q-select v-model="item.customers" label="Customers" multiple use-chips stack-label outlined
+    <q-select v-model="obj.customers" label="Customers" multiple use-chips stack-label outlined
               :options="customer_options" emit-value map-options v-if="obj.type === 'Private'"/>
 <!--    <q-select outlined v-model="model" :options="option" label="Status" />-->
 <!--    <q-btn color="positive" label="Submit" @click="save" icon="camera_enhance" />-->
@@ -60,24 +60,28 @@ const obj = reactive({
 
 watchEffect(()=>{
   if(ID.value == 0){
-    obj.id = obj.item = obj.minimum_quantity = obj.offer_quantity = obj.type =  obj.customers  =  ''
+    obj.id = obj.item = obj.minimum_quantity = obj.offer_quantity = ''
+    obj.customers  =  null
+    obj.type = 'Public'
     obj.status = 'Approved'
   }else{
     let aOFFER = offerStore.offers[ID.value]
-    console.log(aOFFER)
     obj.id = ID.value
     obj.item = { label: aOFFER.item.name, value: aOFFER.item.id }
     obj.minimum_quantity = String(aOFFER.minimum_quantity)
     obj.offer_quantity = String(aOFFER.offer_quantity)
     obj.type = aOFFER.type
+    obj.customers = aOFFER.customers;
     obj.status = aOFFER.status
   }
 })
 
 // const option =  ['New','Approved','Published','Inactive']
 function onSubmit () {
-  let newObj = _.omit(obj, ['item'])
+  let newObj = _.omit(obj, ['item', 'customers'])
   newObj.item = obj.item.value
+  let str1 =','
+  newObj.customers = str1.concat( obj.customers.join(),',')
   if(ID.value == 0){
     fun = 'store'
     msg = 'Your have added a new item successfully'
@@ -92,8 +96,8 @@ function onSubmit () {
   })
 }
 function  onReset () {
-  item.id = item.item = item.minimum_quantity = item.offer_quantity = item.customers  = item.status = null
-  item.type = 'Public'
+  obj.id = obj.item = obj.minimum_quantity = obj.offer_quantity = obj.customers  = obj.status = null
+  obj.type = 'Public'
 }
 
 let msg
