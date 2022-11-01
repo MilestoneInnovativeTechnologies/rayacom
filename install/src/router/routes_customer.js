@@ -4,6 +4,7 @@ export default [
   { name:'home', path: 'home', component: () => import('pages/dashboardPage.vue') },
   { name:'ITEM', path:'/item', props: true, component: () => import('pages/itempage.vue'), meta:{ title: 'Items'} },
   { name: 'ORDER', path: '/order', props: true, component: () => import('pages/orderPage.vue'), meta:{ title: 'Order'} },
+  { name: 'OFFER', path: '/customer_offer', props: true, component: () => import('pages/customer_offerPage.vue'), meta:{ title: 'Offers'} },
   { name: 'REVIEWS', path: '/reviews', props: true, component: () => import('pages/reviewPage.vue'),
     meta:{ title: 'REVIEWS'}, menu:{title: 'REVIEWS', caption: 'The reviews you made on Products, Orders and on Your Sales Executives', icon: 'comment' } },
   { name: 'REVIEWADD', path: '/review_add', props: true, component: () => import('pages/review_addPage.vue'),

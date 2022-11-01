@@ -69,12 +69,13 @@ import { computed, ref  } from 'vue'
 import { useOfferStore } from 'stores/offers'
 import { useRouter } from 'vue-router'
 const offerStore = useOfferStore()
+import { useMasterStore } from 'stores/master'
+const master = useMasterStore()
 export default {
   setup () {
     const router = useRouter()
     let num1
     let num2
-
     const search = ref('')
     const searchResult = computed(()=>{
       if(search.value === ''){
