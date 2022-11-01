@@ -1,6 +1,5 @@
 <template>
   <q-page padding class="flex column q-col-gutter-y-lg">
-
     <div class="q-pa-sm">
       <div class="row q-pa-md">
         <div class="col-8">
@@ -38,7 +37,6 @@
               <q-badge color="dark" v-else>Unknown</q-badge>
             </q-item-label>
           </q-item-section>
-
           <q-item-section avatar>
             <q-btn flat round color="primary" icon="mode_edit" @click="gotoAction(i.id)">
             <q-tooltip> Edit </q-tooltip>   </q-btn>
@@ -47,7 +45,6 @@
       </q-list>
     </q-card>
   </div>
-
 
   <div class="q-pa-lg flex flex-center" v-if="myarrayLength">
     <q-pagination
@@ -129,7 +126,6 @@ export default {
   },
 }
 </script>
-
 <style lang="sass" scoped>
 .my-card
   width: 100%
