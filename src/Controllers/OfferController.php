@@ -28,7 +28,7 @@ class OfferController extends Controller
         if(Carbon::parse($latest_date)->lessThan(Carbon::parse(Cache::get(rayacom_config('cache_key.db_offers_last_updated_time'))))){
             $master = session('auth_type'); $auth_data = session('auth_data');
             if($master === 'CUSTOMER') {
-                return Offer::where(['status' => 'Published'])->where(function($Q)use($latest_date){
+                return Offer::where(['status' => 'Approved'])->where(function($Q)use($latest_date){
                     $Q->where('created_at','>',$latest_date)->orWhere(function($QQ)use($latest_date){
                         $QQ->where('created_at','<=',$latest_date)->where('updated_at','>',$latest_date);
                     });
