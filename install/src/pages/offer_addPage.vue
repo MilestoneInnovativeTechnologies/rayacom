@@ -80,8 +80,10 @@ watchEffect(()=>{
 function onSubmit () {
   let newObj = _.omit(obj, ['item', 'customers'])
   newObj.item = obj.item.value
-  let str1 =','
-  newObj.customers = str1.concat( obj.customers.join(),',')
+  if(obj.type == 'Private'){
+    let str1 =','
+    newObj.customers = str1.concat( obj.customers.join(),',')
+  }
   if(ID.value == 0){
     fun = 'store'
     msg = 'Your have added a new item successfully'
