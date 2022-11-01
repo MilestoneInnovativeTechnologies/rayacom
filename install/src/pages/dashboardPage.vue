@@ -1,6 +1,24 @@
 <template>
   <q-page padding class="flex flex-center column q-gutter-y-sm">
 
+<!--    <div class="q-pa-md q-gutter-sm">-->
+<!--      <q-banner inline-actions rounded class="bg-orange text-white " >-->
+<!--        Today offer-->
+
+<!--        <template v-slot:action>-->
+<!--          <q-btn flat label="Go to shop" />-->
+<!--          <q-btn flat label="Dismiss" />-->
+<!--        </template>-->
+<!--      </q-banner>-->
+<!--    </div>-->
+
+    <div class="row justify-end side">
+      <q-btn color="positive" no-caps @click="gotoOfferpage()">
+        <q-icon left size="xl" name="shop" />
+          TODAY OFFER
+      </q-btn>
+    </div>
+
     <div class="row justify-end side">
       <q-btn color="positive" no-caps @click="gotoItempage()">
         <q-icon left size="xl" name="open_in_new" />
@@ -174,13 +192,17 @@ export default {
       return newArr
     })
 
+    const gotoOfferpage = function(){
+      router.push({
+        name: 'OFFER'
+      })
+    }
+
     const gotoItempage = function (){
         router.push({
           name: 'ITEM'
         })
     }
-
-
     let card = ref(false)
     let specificItems = ref('')
     let specificId = ref('')
@@ -213,6 +235,7 @@ export default {
       maxVal,
       getOrders,
       gotoItempage,
+      gotoOfferpage,
       showitems,
       specificItems,
       specificId,

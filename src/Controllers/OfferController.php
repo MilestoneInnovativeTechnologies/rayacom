@@ -17,6 +17,16 @@ class OfferController extends Controller
         $data->save();
         return $data;
     }
+
+  public function status(){
+    $id = request('id');
+    $status = request('status');
+    $data = Offer::find($id);
+    $data->status = $status;
+    $data->save();
+    return $data;
+  }
+
     public function update(){
         $data = Offer::find(request('id'))
                 ->update(request()->only(['item', 'minimum_quantity', 'offer_quantity', 'type', 'customers', 'status']));
@@ -32,6 +42,7 @@ class OfferController extends Controller
                     $Q->where('created_at','>',$latest_date)->orWhere(function($QQ)use($latest_date){
                         $QQ->where('created_at','<=',$latest_date)->where('updated_at','>',$latest_date);
                     });
+
                 })->where(function($Q) use($auth_data) {
                     $Q->where('type','Public')->orWhere(function($QQ) use($auth_data) {
                         $QQ->where('type','Private')->where('customers','like','%,'. $auth_data .',%');

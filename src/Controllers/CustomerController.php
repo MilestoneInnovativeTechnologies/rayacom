@@ -14,4 +14,5 @@ class CustomerController extends Controller
       $data->save();
       return $data;
     }
+
 }
