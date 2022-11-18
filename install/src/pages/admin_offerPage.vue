@@ -28,7 +28,8 @@
         <q-item class="bg-brand text-white text-bold">
           <q-item-section>
             <q-item-label>{{ i.item.name }}</q-item-label>
-            <q-item-label class="text-subtitle2">Qty: {{ i.minimum_quantity }}</q-item-label>
+            <q-item-label class="text-subtitle2">Buy: {{ i.minimum_quantity }}</q-item-label>
+
             <q-item-label>
               <q-badge color="blue" v-if="i.status === 'New'" >{{ i.status }}</q-badge>
               <q-badge color="secondary" v-else-if ="i.status === 'Approved'" >{{ i.status }}</q-badge>

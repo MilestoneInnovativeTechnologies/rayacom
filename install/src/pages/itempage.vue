@@ -34,11 +34,16 @@
 
 <!--        <div class="Subtitle 2 text-weight-bolder">{{ i.name }}</div>-->
         <div class="Subtitle 2 text-weight-bolder">{{ i.name }}
+
           <q-icon name="star" color="yellow" label="offer" size="1.5rem" style="border-right: #F2C037"
                   v-if="MYOFFERS.includes(i.id)">
           <q-tooltip>Offered Item</q-tooltip>
           </q-icon>
+          <q-item-label class="text-subtitle2">Buy: {{newobj[item.id].minimum_quantity}} </q-item-label>
+<!--          <q-item-label class="text-subtitle2">Get: {{newobj.offer_qty }}</q-item-label>-->
         </div>
+<!--        <q-item-label class="text-subtitle2">Buy: {{newobj.minimum_quantity}} </q-item-label>-->
+<!--        <q-item-label class="text-subtitle2">Get: {{newobj.offer_qty }}</q-item-label>-->
 
 <!--        <div class="Subtitle 2 text-weight-bolder">Quantity :{{ i.minimum_quantity }}</div>-->
 <!--        <div class="Subtitle 2 text-weight-bolder">Offer :{{ i.offer_quantity  }}</div>-->
@@ -110,7 +115,18 @@ export default {
         return e.item.id
         })
     })
-    console.log(MYOFFERS.value)
+    // console.log(MYOFFERS.value)
+
+
+
+    let oi={}
+    const newobj=computed(()=>{
+      for (let i in offerStore.offers){
+        oi[i]= { item : offerStore.offers[i].item.id, min_qty: offerStore.offers[i].minimum_quantity, offer_qty: offerStore.offers[i].offer_quantity}
+      }
+      return oi;
+    })
+    console.log(newobj.value)
 
 
     const searchResult = computed(()=>{
@@ -127,14 +143,14 @@ export default {
     // })
     // console.log(MYOFFERS)
 
-    const showofferItem = computed(()=> {
-
-      // if (id == 'star') {
-      //   return Object.values(MYOFFERS.value)
-      // } else {
-      //   return Object.values(MYITEMS.value)
-      // }
-    })
+    // const showofferItem = computed(()=> {
+    //
+    //   // if (id == 'star') {
+    //   //   return Object.values(MYOFFERS.value)
+    //   // } else {
+    //   //   return Object.values(MYITEMS.value)
+    //   // }
+    // })
 
 
 
@@ -186,6 +202,8 @@ export default {
 
 
 
+
+
     const getData =  computed(() => {
       num1 = (page.value-1)*totalPages.value;
       num2 = (page.value-1)*totalPages.value+totalPages.value;
@@ -195,6 +213,8 @@ export default {
       })
       return newArr
     })
+
+
 
 
     const selectedProducts = function(item, itemname ){
@@ -250,7 +270,8 @@ export default {
       myproducts,
       selectedProducts,
       order,
-      showofferItem,
+      newobj,
+
 
 
 
