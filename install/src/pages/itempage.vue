@@ -35,12 +35,14 @@
 <!--        <div class="Subtitle 2 text-weight-bolder">{{ i.name }}</div>-->
         <div class="Subtitle 2 text-weight-bolder">{{ i.name }}
 
-          <q-icon name="star" color="yellow" label="offer" size="1.5rem" style="border-right: #F2C037"
+          <q-icon name="star" color="yellow" label="offer" size="1rem" style="border-right: #F2C037"
                   v-if="MYOFFERS.includes(i.id)">
           <q-tooltip>Offered Item</q-tooltip>
           </q-icon>
-          <q-item-label class="text-subtitle2">Buy: {{newobj[item.id].minimum_quantity}} </q-item-label>
-<!--          <q-item-label class="text-subtitle2">Get: {{newobj.offer_qty }}</q-item-label>-->
+          <q-item-label class="text-subtitle2" v-if="MYOFFERS.includes(i.id)">
+            Buy: {{newobj[i.id].min_qty}} , Get: {{newobj[i.id].offer_qty }}</q-item-label>
+<!--          <q-item-label class="text-subtitle2" v-if="MYOFFERS.includes(i.id)">-->
+<!--            Get: {{newobj[i.id].offer_qty }}</q-item-label>-->
         </div>
 <!--        <q-item-label class="text-subtitle2">Buy: {{newobj.minimum_quantity}} </q-item-label>-->
 <!--        <q-item-label class="text-subtitle2">Get: {{newobj.offer_qty }}</q-item-label>-->
@@ -116,13 +118,15 @@ export default {
         })
     })
     // console.log(MYOFFERS.value)
+    // console.log(offerStore.offers)
+
 
 
 
     let oi={}
     const newobj=computed(()=>{
       for (let i in offerStore.offers){
-        oi[i]= { item : offerStore.offers[i].item.id, min_qty: offerStore.offers[i].minimum_quantity, offer_qty: offerStore.offers[i].offer_quantity}
+        oi[offerStore.offers[i].item.id]= {  min_qty: offerStore.offers[i].minimum_quantity, offer_qty: offerStore.offers[i].offer_quantity}
       }
       return oi;
     })
@@ -217,13 +221,13 @@ export default {
 
 
 
-    const selectedProducts = function(item, itemname ){
+    const selectedProducts = function(item, itemname, minimum_quantity, offer_quantity){
       var msg =''
       var exists = myproducts.value.some(function(field) {
         return field.item === item;
       });
       if (!exists) {
-        myproducts.value.push({ item, itemname, quantity: 1 });
+        myproducts.value.push({ item, itemname, minimum_quantity, offer_quantity,  quantity: 1 });
         msg = 'New item added'
       }else{
         myproducts.value.find(x => x.item === item).quantity+=1;

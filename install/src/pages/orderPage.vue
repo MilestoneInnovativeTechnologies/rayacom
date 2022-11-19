@@ -17,6 +17,8 @@
         </q-item-section>
          <q-item-section>
            <q-item-label lines="1">{{ i.itemname }}</q-item-label>
+           Buy: {{i.quantity}}  Get:
+
            </q-item-section>
         <q-item-section side top>
           <q-input
@@ -41,7 +43,15 @@
       <q-separator />
       <q-item clickable class="text-subtitle2">
         <q-item-section avatar>&nbsp;</q-item-section>
-        <q-item-section>Total Items:</q-item-section>
+        <q-item-section>Free Quantity:</q-item-section>
+        <q-item-section>
+          <q-item-label></q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-separator />
+      <q-item clickable class="text-subtitle2">
+        <q-item-section avatar>&nbsp;</q-item-section>
+        <q-item-section>Total Items :</q-item-section>
         <q-item-section>
           <q-item-label>{{ myproducts.length }}</q-item-label>
         </q-item-section>
@@ -82,6 +92,8 @@
 <script>
 import { computed, ref, reactive } from 'vue'
 import { date, useQuasar} from 'quasar'
+import { useOfferStore } from 'stores/offers'
+const offerStore = useOfferStore()
 import { useRoute, useRouter } from 'vue-router'
 import { useOrderStore} from 'stores/order'
 import { post } from "boot/axios";
@@ -93,7 +105,8 @@ export default {
     const $q = useQuasar()
     const $route = useRoute()
     const router = useRouter()
-    // console.log(history.state.products)
+
+    console.log(history.state.products)
     // const myproducts = ref(JSON.parse($route.params.myproducts))
     const myproducts = ref(JSON.parse(history.state.products))
     const notes = ref('')
@@ -103,6 +116,22 @@ export default {
       myproducts.value.splice(index, 1)
       confirm.value = false
     }
+
+    // const MYOFFERS = computed(()=>{
+    //   return Object.values(offerStore.offers).map((e)=> {
+    //     return e.item.id
+    //   })
+    // })
+    // console.log(MYOFFERS.value)
+
+    // let oi={}
+    // const myoffer=computed(()=>{
+    //   for (let i in offerStore.offers){
+    //     oi[offerStore.offers[i].item.id]= {offer_qty: offerStore.offers[i].offer_quantity}
+    //   }
+    //   return oi;
+    // })
+    // console.log(myoffer.value)
 
     const confirm = ref(false)
     const myindex = ref(null)
@@ -144,12 +173,15 @@ export default {
 
     return{
       myproducts,
+      // myoffer,
       removeItem,
       confirm,
       confirmBox,
       confirmOrder,
       notes,
-      positivemsg
+      positivemsg,
+      // MYOFFERS,
+
     }
   }
 
