@@ -17,7 +17,7 @@
         </q-item-section>
          <q-item-section>
            <q-item-label lines="1">{{ i.itemname }}</q-item-label>
-           Buy: {{i.quantity}}  Get:
+           Buy:{{i.min_qty}} , Get:{{i.offer_qty}}
 
            </q-item-section>
         <q-item-section side top>
@@ -27,6 +27,7 @@
             maxlength="4"
             style="max-width: 60px"
             v-model.number="myproducts[index].quantity"
+            text-align: right
             mask="#"
             fill-mask="0"
             reverse-fill-mask
@@ -35,7 +36,14 @@
                     val => val > 0  || 'Please type a real number'
                     ]"
           />
+          <div>
+            <q-badge color="black">FOC: {{((myproducts[index].quantity/i.min_qty)*i.offer_qty).toFixed(0)}}</q-badge>
+          </div>
         </q-item-section>
+
+
+
+
         <q-item-section avatar side top>
           <q-icon name="cancel" @click="confirmBox(index)"  class="cursor-pointer"  />
         </q-item-section>
@@ -45,7 +53,7 @@
         <q-item-section avatar>&nbsp;</q-item-section>
         <q-item-section>Free Quantity:</q-item-section>
         <q-item-section>
-          <q-item-label></q-item-label>
+          <q-item-label>{{offerqty}}</q-item-label>
         </q-item-section>
       </q-item>
       <q-separator />
@@ -66,6 +74,7 @@
     <q-btn color="positive" label="Save" type="submit" icon="camera_enhance"
            @click="confirmOrder()" v-if="myproducts.length">
     </q-btn>
+
 
   <q-dialog v-model="confirm" persistent>
     <q-card>
@@ -117,22 +126,6 @@ export default {
       confirm.value = false
     }
 
-    // const MYOFFERS = computed(()=>{
-    //   return Object.values(offerStore.offers).map((e)=> {
-    //     return e.item.id
-    //   })
-    // })
-    // console.log(MYOFFERS.value)
-
-    // let oi={}
-    // const myoffer=computed(()=>{
-    //   for (let i in offerStore.offers){
-    //     oi[offerStore.offers[i].item.id]= {offer_qty: offerStore.offers[i].offer_quantity}
-    //   }
-    //   return oi;
-    // })
-    // console.log(myoffer.value)
-
     const confirm = ref(false)
     const myindex = ref(null)
 
@@ -140,9 +133,13 @@ export default {
       confirm.value = true
       myindex.value = index
     }
+    const onchnage = computed(()=>{
+
+    })
 
     let timeStamp
     let formattedString
+    console.log(myproducts.value)
 
     const confirmOrder = function (){
       timeStamp = Date.now()
@@ -151,7 +148,7 @@ export default {
         return field.quantity === 0;
       });
       if (!check) {
-        post('order','store',{ date:formattedString, narration:notes.value, items:myproducts.value })
+        post('order','store',{ date:formattedString, narration:notes.value, items:myproducts.value})
           // .then(console.log)
         myproducts.length = 0
         positivemsg('Your Order have saved successfully')
@@ -160,6 +157,14 @@ export default {
         })
       }
     }
+
+    const offerqty = computed(()=>{
+      let sum = 0
+      myproducts.value.map(item => sum+= item['offer_qty'])
+
+      return sum
+      })
+
 
     const positivemsg = function (msg){
       $q.notify({
@@ -178,8 +183,10 @@ export default {
       confirm,
       confirmBox,
       confirmOrder,
+      // totaloffer,
       notes,
       positivemsg,
+      offerqty
       // MYOFFERS,
 
     }

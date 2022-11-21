@@ -16,7 +16,7 @@
     <q-card flat bordered
             class="my-card"
             v-for="(i, index) in getData" :key="i.id"
-            @click="selectedProducts(i.id, i.name)">
+            @click="selectedProducts(i.id, i.name, newobj[i.id].min_qty, newobj[i.id].offer_qty)">
 <!--            @click="showofferItem( i.id, i.name)">-->
 <!--           -->
 <!--            -->
@@ -219,15 +219,13 @@ export default {
     })
 
 
-
-
-    const selectedProducts = function(item, itemname, minimum_quantity, offer_quantity){
+    const selectedProducts = function(item, itemname, min_qty, offer_qty, foc){
       var msg =''
       var exists = myproducts.value.some(function(field) {
         return field.item === item;
       });
       if (!exists) {
-        myproducts.value.push({ item, itemname, minimum_quantity, offer_quantity,  quantity: 1 });
+        myproducts.value.push({ item, itemname, min_qty, offer_qty, foc, quantity: 1 });
         msg = 'New item added'
       }else{
         myproducts.value.find(x => x.item === item).quantity+=1;
@@ -235,6 +233,7 @@ export default {
       }
       positivemsg(msg)
     }
+    console.log(myproducts)
 
     const positivemsg = function (msg){
       $q.notify({
