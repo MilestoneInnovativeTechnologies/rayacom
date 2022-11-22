@@ -15,11 +15,11 @@
         <q-item-section class="text-black" avatar>
           <q-item-label>{{index+1}}</q-item-label>
         </q-item-section>
-         <q-item-section>
+         <q-item-section style="font-size: small">
            <q-item-label lines="1">{{ i.itemname }}</q-item-label>
-           Buy:{{i.min_qty}} , Get:{{i.offer_qty}}
+           <q-item-label lines="1" style="font-size: x-small" v-if="i.offer_qty>0">Buy:{{i.min_qty}} &nbsp; Get:{{i.offer_qty}}</q-item-label>
 
-           </q-item-section>
+         </q-item-section>
         <q-item-section side top>
           <q-input
             outlined
@@ -36,9 +36,7 @@
                     val => val > 0  || 'Please type a real number'
                     ]"
           />
-          <div>
-            <q-badge color="black">FOC: {{((myproducts[index].quantity/i.min_qty)*i.offer_qty).toFixed(0)}}</q-badge>
-          </div>
+          <q-badge color="black" style="font-size: xx-small" v-if="i.min_qty>0">FOC: {{parseInt((i.quantity/i.min_qty)*i.offer_qty)}}</q-badge>
         </q-item-section>
 
 
@@ -49,14 +47,14 @@
         </q-item-section>
       </q-item>
       <q-separator />
-      <q-item clickable class="text-subtitle2">
-        <q-item-section avatar>&nbsp;</q-item-section>
-        <q-item-section>Free Quantity:</q-item-section>
-        <q-item-section>
-          <q-item-label>{{offerqty}}</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-separator />
+<!--      <q-item clickable class="text-subtitle2">-->
+<!--        <q-item-section avatar>&nbsp;</q-item-section>-->
+<!--        <q-item-section>Free Quantity:</q-item-section>-->
+<!--        <q-item-section>-->
+<!--          <q-item-label>{{offerqty}}</q-item-label>-->
+<!--        </q-item-section>-->
+<!--      </q-item>-->
+<!--      <q-separator />-->
       <q-item clickable class="text-subtitle2">
         <q-item-section avatar>&nbsp;</q-item-section>
         <q-item-section>Total Items :</q-item-section>
@@ -90,9 +88,10 @@
     </q-card>
   </q-dialog>
 
-<!--    <div class="q-mt-sm">-->
-<!--      {{myproducts}}-->
-<!--    </div>-->
+    <div class="q-mt-sm">
+      {{myproducts}}
+    </div>
+
 
 
   </q-page>
@@ -133,9 +132,6 @@ export default {
       confirm.value = true
       myindex.value = index
     }
-    const onchnage = computed(()=>{
-
-    })
 
     let timeStamp
     let formattedString
@@ -178,16 +174,14 @@ export default {
 
     return{
       myproducts,
-      // myoffer,
       removeItem,
       confirm,
       confirmBox,
       confirmOrder,
-      // totaloffer,
       notes,
       positivemsg,
       offerqty
-      // MYOFFERS,
+
 
     }
   }

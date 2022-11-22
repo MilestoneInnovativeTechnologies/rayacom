@@ -16,7 +16,7 @@
     <q-card flat bordered
             class="my-card"
             v-for="(i, index) in getData" :key="i.id"
-            @click="selectedProducts(i.id, i.name, newobj[i.id].min_qty, newobj[i.id].offer_qty)">
+            @click="selectedProducts(i.id, i.name)">
 <!--            @click="showofferItem( i.id, i.name)">-->
 <!--           -->
 <!--            -->
@@ -131,6 +131,7 @@ export default {
       return oi;
     })
     console.log(newobj.value)
+    console.log(newobj.value['1000004'])
 
 
     const searchResult = computed(()=>{
@@ -219,16 +220,29 @@ export default {
     })
 
 
-    const selectedProducts = function(item, itemname, min_qty, offer_qty, foc){
+    const selectedProducts = function(item, itemname){
       var msg =''
+      var offer_qty = 0;
+      var min_qty =0;
+      var foc =0;
+
+      if(newobj.value[item]){
+        min_qty = newobj.value[item].min_qty;
+        offer_qty = newobj.value[item].offer_qty;
+      }
+
       var exists = myproducts.value.some(function(field) {
         return field.item === item;
       });
       if (!exists) {
+        foc =parseInt((1/min_qty)*offer_qty);
         myproducts.value.push({ item, itemname, min_qty, offer_qty, foc, quantity: 1 });
         msg = 'New item added'
       }else{
         myproducts.value.find(x => x.item === item).quantity+=1;
+        var qty=  myproducts.value.find(x => x.item === item).quantity;
+        foc=parseInt((qty/min_qty)*offer_qty);
+        myproducts.value.find(x => x.item === item).foc =foc;
         msg = 'Item quantity updated'
       }
       positivemsg(msg)
