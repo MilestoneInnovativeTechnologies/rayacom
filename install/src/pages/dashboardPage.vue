@@ -31,7 +31,7 @@
       <q-item-label header v-if="totalcount === 0">The best products is waiting to be order. So start shopping now.</q-item-label>
       <q-item-label header v-else>Dashboard</q-item-label>
       <q-item clickable v-ripple  v-for="(i, index) in getOrders" :key="i.id"
-              @click="showitems(i.id, i.date, i.status, i.items)">
+              @click="showitems(i.id, i.date, i.status, i.items, i.foc)">
         <q-item-section avatar top>
           <q-avatar icon="fact_check" color="deep-orange-10" text-color="white" />
         </q-item-section>
@@ -104,6 +104,9 @@
           <q-item-section top>
             <q-item-label class="q-mt-sm text-weight-medium text-center">Quantity</q-item-label>
           </q-item-section>
+          <q-item-section top>
+            <q-item-label class="q-mt-sm text-weight-medium text-center">FOC</q-item-label>
+          </q-item-section>
         </q-item>
         <q-separator/>
         <q-item v-for="(j, ind) in specificItems">
@@ -115,6 +118,9 @@
           </q-item-section>
           <q-item-section top>
             <q-item-label class="q-mt-sm flex-center text-center">{{ j.quantity }}</q-item-label>
+          </q-item-section>
+          <q-item-section top>
+            <q-item-label class="q-mt-sm flex-center text-center">{{ j.foc }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator/>

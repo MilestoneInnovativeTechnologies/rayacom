@@ -40,7 +40,7 @@
           <q-tooltip>Offered Item</q-tooltip>
           </q-icon>
           <q-item-label class="text-subtitle2" v-if="MYOFFERS.includes(i.id)">
-            Buy: {{newobj[i.id].min_qty}} , Get: {{newobj[i.id].offer_qty }}</q-item-label>
+            Buy: {{newobj[i.id].min_qty}} &nbsp; Get: {{newobj[i.id].offer_qty }}</q-item-label>
 <!--          <q-item-label class="text-subtitle2" v-if="MYOFFERS.includes(i.id)">-->
 <!--            Get: {{newobj[i.id].offer_qty }}</q-item-label>-->
         </div>
@@ -130,8 +130,8 @@ export default {
       }
       return oi;
     })
-    console.log(newobj.value)
-    console.log(newobj.value['1000004'])
+    // console.log(newobj.value)
+    // console.log(newobj.value['1000004'])
 
 
     const searchResult = computed(()=>{
@@ -247,7 +247,7 @@ export default {
       }
       positivemsg(msg)
     }
-    console.log(myproducts)
+    // console.log(myproducts)
 
     const positivemsg = function (msg){
       $q.notify({

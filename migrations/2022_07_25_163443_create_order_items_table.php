@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('order')->index();
             $table->bigInteger('item')->index();
             $table->unsignedInteger('quantity')->default(1);
+            $table->Integer('foc')->default(0);
             $table->unsignedInteger('quantity_modified')->default(1);
             $table->enum('status',['Confirmed','Packed','Dispatched','Delivered','Pending','Cancelled'])->default('Confirmed');
             $table->string('cancel_comment',256)->nullable();

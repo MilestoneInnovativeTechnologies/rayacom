@@ -27,6 +27,7 @@
             maxlength="4"
             style="max-width: 60px"
             v-model.number="myproducts[index].quantity"
+            @change="updateFoc(index)"
             text-align: right
             mask="#"
             fill-mask="0"
@@ -36,7 +37,7 @@
                     val => val > 0  || 'Please type a real number'
                     ]"
           />
-          <q-badge color="black" style="font-size: xx-small" v-if="i.min_qty>0">FOC: {{parseInt((i.quantity/i.min_qty)*i.offer_qty)}}</q-badge>
+          <q-badge color="black" style="font-size: xx-small" v-if="i.min_qty>0">FOC: {{parseInt(i.quantity/i.min_qty)*i.offer_qty}}</q-badge>
         </q-item-section>
 
 
@@ -88,9 +89,9 @@
     </q-card>
   </q-dialog>
 
-    <div class="q-mt-sm">
-      {{myproducts}}
-    </div>
+<!--    <div class="q-mt-sm">-->
+<!--      {{myproducts}}-->
+<!--    </div>-->
 
 
 
@@ -114,7 +115,7 @@ export default {
     const $route = useRoute()
     const router = useRouter()
 
-    console.log(history.state.products)
+    // console.log(history.state.products)
     // const myproducts = ref(JSON.parse($route.params.myproducts))
     const myproducts = ref(JSON.parse(history.state.products))
     const notes = ref('')
@@ -154,12 +155,20 @@ export default {
       }
     }
 
-    const offerqty = computed(()=>{
-      let sum = 0
-      myproducts.value.map(item => sum+= item['offer_qty'])
+    const updateFoc=function (index){
+      console.log(myproducts.value[index].min_qty, myproducts.value[index].quantity)
+      // i.quantity/i.min_qty)*i.offer_qty
+      var i=myproducts.value[index];
+      var foc= parseInt(i.quantity/i.min_qty)*i.offer_qty;
+      myproducts.value[index].foc=foc
+    }
 
-      return sum
-      })
+    // const offerqty = computed(()=>{
+    //   let sum = 0
+    //   myproducts.value.map(item => sum+= item['offer_qty'])
+    //
+    //   return sum
+    //   })
 
 
     const positivemsg = function (msg){
@@ -180,7 +189,9 @@ export default {
       confirmOrder,
       notes,
       positivemsg,
-      offerqty
+      updateFoc
+      // offerqty,
+      // onChange
 
 
     }
