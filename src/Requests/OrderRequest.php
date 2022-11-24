@@ -61,7 +61,7 @@ class  OrderRequest extends FormRequest
             $items[] = new OrderItem([
                 'item' => $item['item'],
                 'quantity' => $item['quantity'],
-                'foc' => $item['foc'],
+                'foc' => $item['foc'] ?: 0,
                 'quantity_modified' => $item['quantity'],
                 'status' => 'Confirmed',
                 'created_user' => $this->auth_user(),

@@ -148,6 +148,9 @@
           <q-item-section top>
             <q-item-label class="q-mt-sm text-weight-medium text-center">Quantity</q-item-label>
           </q-item-section>
+          <q-item-section top>
+            <q-item-label class="q-mt-sm text-weight-medium text-center">FOC</q-item-label>
+          </q-item-section>
         </q-item>
         <q-separator/>
         <q-item v-for="(j, ind) in specificItems">
@@ -159,6 +162,9 @@
           </q-item-section>
           <q-item-section top>
             <q-item-label class="q-mt-sm flex-center text-center">{{ j.quantity }}</q-item-label>
+          </q-item-section>
+          <q-item-section top>
+            <q-item-label class="q-mt-sm flex-center text-center" v-if="j.foc>0">{{ j.foc }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator/>
