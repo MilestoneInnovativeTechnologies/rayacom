@@ -105,7 +105,7 @@
             <q-item-label class="q-mt-sm text-weight-medium text-center">Quantity</q-item-label>
           </q-item-section>
           <q-item-section top>
-            <q-item-label class="q-mt-sm text-weight-medium text-center">FOC</q-item-label>
+            <q-item-label class="q-mt-sm text-weight-medium text-center" v-if="offerqty>0">FOC</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator/>
@@ -120,7 +120,7 @@
             <q-item-label class="q-mt-sm flex-center text-center">{{ j.quantity }}</q-item-label>
           </q-item-section>
           <q-item-section top>
-            <q-item-label class="q-mt-sm flex-center text-center" v-if="j.foc>0">{{ j.foc }}</q-item-label>
+            <q-item-label class="q-mt-sm flex-center text-center" v-if="j.foc>0">{{j.foc}}</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator/>
@@ -141,6 +141,10 @@
                 </q-card-actions>
       </q-card>
     </q-dialog>
+<!--    <div class="q-mt-sm">-->
+<!--      {{specificItems}}-->
+<!--    </div>-->
+
   </div>
   </q-page>
 </template>
@@ -219,9 +223,20 @@ export default {
       specificItems.value = items
       specificDate.value = adate
       specificStatus.value = status
-      // console.log(specificItems)
+      // console.log(items)
       card.value = true
+
+      // var TotalFoc = specificItems.value;
+      // console.log(TotalFoc)
     }
+
+    const offerqty = computed(()=>{
+      let sum = 0
+      specificItems.value.map(item => sum+= item['foc'])
+      return sum
+        })
+    console.log(offerqty)
+
 
     let page = ref(1)
     let currentPage= ref(1)
@@ -248,6 +263,7 @@ export default {
       specificDate,
       specificStatus,
       card,
+      offerqty
     }
 
   }
